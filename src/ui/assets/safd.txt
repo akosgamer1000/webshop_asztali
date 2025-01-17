@@ -1,0 +1,11 @@
+
+
+
+
+not login page
+
+
+user kezelés -> felhasználók listázása (részletek fül)
+
+egyetlen felhasználó -> adatok, azoknak módostása, törlés, kosár megtekintése
+termék lista -> adatok,azók modositása,törlés,hozzáadás
