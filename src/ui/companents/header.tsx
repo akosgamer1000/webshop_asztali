@@ -1,20 +1,18 @@
-import React from 'react';
 
-const Header: React.FC = () => {
-  return (
-    <header className="bg-white shadow">
-      <div className="px-6 py-4">
-        <div className="flex items-center justify-between">
-          <h2 className="text-xl font-semibold text-gray-800">Admin Panel</h2>
-          <div className="flex space-x-4">
-            <a href="#" className="text-sm text-gray-600 hover:text-gray-900">Home</a>
-            <a href="#" className="text-sm text-gray-600 hover:text-gray-900">About</a>
-            <a href="#" className="text-sm text-gray-600 hover:text-gray-900">Contact</a>
-          </div>
-        </div>
+import  "../style/basic.css";
+
+
+const Header: React.FC<{ toggleSidebar: () => void }> = ({ toggleSidebar }) => {
+    return (
+      <div className="bg-white p-4 shadow-md sticky top-0 z-50 flex items-center">
+        <button
+          className="md:hidden text-gray-800 text-2xl mr-4"
+          onClick={toggleSidebar}
+        >
+          ☰
+        </button>
+        <h1 className="text-xl font-bold text-center w-full">Admin Panel</h1>
       </div>
-    </header>
-  );
-};
-
-export default Header;
+    );
+  };
+  export default Header;

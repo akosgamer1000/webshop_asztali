@@ -1,53 +1,37 @@
-import React from 'react';
 
+import  "../style/basic.css";
 const Content: React.FC = () => {
-  return (
-    <main className="flex-1 overflow-auto p-6">
-      <div className="bg-white rounded-lg shadow p-6">
-        <h3 className="text-2xl font-semibold text-gray-800">Welcome to the Admin Dashboard</h3>
-        <p className="mt-2 text-gray-600">This is the main content area</p>
-        
-        <div className="mt-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          <div className="bg-blue-50 p-6 rounded-lg">
-            <h4 className="text-lg font-semibold text-blue-800">Users</h4>
-            <p className="mt-2 text-blue-600">Manage your users here</p>
-          </div>
-          
-          <div className="bg-green-50 p-6 rounded-lg">
-            <h4 className="text-lg font-semibold text-green-800">Analytics</h4>
-            <p className="mt-2 text-green-600">View your statistics</p>
-          </div>
-          
-          <div className="bg-purple-50 p-6 rounded-lg">
-            <h4 className="text-lg font-semibold text-purple-800">Settings</h4>
-            <p className="mt-2 text-purple-600">Configure your dashboard</p>
-          </div>
-        </div>
-
-        <div className="mt-8">
-          <h4 className="text-xl font-semibold text-gray-800 mb-4">Recent Activity</h4>
-          <div className="bg-gray-50 rounded-lg p-6">
-            <div className="space-y-4">
-              <div className="flex items-center justify-between">
-                <div className="flex items-center">
-                  <div className="w-2 h-2 bg-green-500 rounded-full mr-3"></div>
-                  <span className="text-gray-700">New user registration</span>
-                </div>
-                <span className="text-sm text-gray-500">5 minutes ago</span>
-              </div>
-              <div className="flex items-center justify-between">
-                <div className="flex items-center">
-                  <div className="w-2 h-2 bg-blue-500 rounded-full mr-3"></div>
-                  <span className="text-gray-700">System update completed</span>
-                </div>
-                <span className="text-sm text-gray-500">1 hour ago</span>
-              </div>
-            </div>
-          </div>
-        </div>
+    const data = [
+      { id: 1, name: "Laptop", category: "Electronics", price: "$999", stock: 25 },
+      { id: 2, name: "Smartphone", category: "Electronics", price: "$699", stock: 50 },
+      { id: 3, name: "Headphones", category: "Accessories", price: "$199", stock: 100 },
+    ];
+  
+    return (
+      <div className="overflow-x-auto mt-5">
+        <table className="w-full border-collapse min-w-[600px]">
+          <thead className="bg-gray-800 text-white">
+            <tr>
+              <th className="p-3 border">ID</th>
+              <th className="p-3 border">Name</th>
+              <th className="p-3 border">Category</th>
+              <th className="p-3 border">Price</th>
+              <th className="p-3 border">Stock</th>
+            </tr>
+          </thead>
+          <tbody>
+            {data.map((item) => (
+              <tr key={item.id} className="even:bg-gray-100">
+                <td className="p-3 border">{item.id}</td>
+                <td className="p-3 border">{item.name}</td>
+                <td className="p-3 border">{item.category}</td>
+                <td className="p-3 border">{item.price}</td>
+                <td className="p-3 border">{item.stock}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
       </div>
-    </main>
-  );
-};
-
-export default Content;
+    );
+  };
+  export default Content;
