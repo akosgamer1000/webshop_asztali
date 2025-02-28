@@ -1,5 +1,4 @@
-
-import  "../style/basic.css";
+import "../style/basic.css";
 
 const Sidebar: React.FC<{ toggleSidebar: () => void; isOpen: boolean }> = ({
   isOpen,
@@ -12,12 +11,33 @@ const Sidebar: React.FC<{ toggleSidebar: () => void; isOpen: boolean }> = ({
     >
       <h2 className="text-center text-xl font-bold mb-5">Admin</h2>
       <ul className="space-y-4">
-        <li className="p-3 rounded hover:bg-gray-700 cursor-pointer">Dashboard</li>
-        <li className="p-3 rounded hover:bg-gray-700 cursor-pointer">Users</li>
-        <li className="p-3 rounded hover:bg-gray-700 cursor-pointer">Settings</li>
+        <li>
+          <a
+            href="#/"
+            className="block p-3 rounded hover:bg-gray-700 cursor-pointer"
+          >
+            Product
+          </a>
+        </li>
+        <li>
+          <a
+            href="#/contact"
+            className="block p-3 rounded hover:bg-gray-700 cursor-pointer"
+          >
+            Orders
+          </a>
+        </li>
+        <li>
+          <a
+            href="#/about"
+            className="block p-3 rounded hover:bg-gray-700 cursor-pointer"
+          >
+            Settings
+          </a>
+        </li>
       </ul>
     </div>
   );
-
 };
+
 export default Sidebar;

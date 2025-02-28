@@ -5,11 +5,12 @@ app.on('ready',()=>{
     let mainWindow = new BrowserWindow({ 
         width: 1200, 
         height: 800,
+        minWidth: 1180, 
+        minHeight: 600, 
         webPreferences: {
             nodeIntegration: true,
             contextIsolation: false
         },
-        // Prevent white flash during load
         backgroundColor: '#242424' 
     })
     mainWindow.loadFile(path.join(app.getAppPath() + '/dist-react/index.html'))
