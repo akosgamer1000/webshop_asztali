@@ -12,7 +12,7 @@ import { login } from '../misch/store/authSlice';
 const PrivateRoute: React.FC<{ element: React.ReactElement }> = ({ element }) => {
   const isAuthenticated = useSelector((state: RootState) => !!state.auth.token);
   
-  // Add debugging to see authentication state
+
   console.log('Auth state in PrivateRoute:', { 
     isAuthenticated, 
     token: useSelector((state: RootState) => state.auth.token)
@@ -25,20 +25,20 @@ const Router: React.FC = () => {
   const dispatch = useAppDispatch();
   const isAuthenticated = useSelector((state: RootState) => !!state.auth.token);
   
-  // Check local storage on component mount to ensure auth state is restored
+ 
   useEffect(() => {
     const token = localStorage.getItem("token");
     
     console.log('Checking localStorage auth data:', { token });
     
     if (token) {
-      // Re-dispatch login action to ensure Redux state matches localStorage
+    
       dispatch(login({ token }));
       console.log('Restored auth state from localStorage');
     }
   }, [dispatch]);
   
-  // Debug auth status on router render
+  
   console.log('Current auth status:', { isAuthenticated });
   
   return (

@@ -14,11 +14,10 @@ const LoginContent: React.FC = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  
-  // Check if user is already authenticated
+
   const isAuthenticated = useSelector((state: RootState) => !!state.auth.token);
   
-  // Redirect if already authenticated
+
   useEffect(() => {
     if (isAuthenticated) {
       console.log('User already authenticated, redirecting to home');
@@ -50,19 +49,19 @@ const LoginContent: React.FC = () => {
       
       console.log('Login API response:', response.data);
       
-      // Check if response has the expected format
+     
       if (!response.data.access_token) {
         throw new Error('Invalid response format: missing token');
       }
       
-      // Dispatch login action with only the token
+    
       dispatch(login({
         token: response.data.access_token
       }));
       
       console.log('Login successful, navigating to home page');
       
-      // Add a small delay to ensure Redux state updates before navigation
+    
       setTimeout(() => {
         navigate('/');
       }, 100);
@@ -82,7 +81,7 @@ const LoginContent: React.FC = () => {
     }
   };
 
-  // Rest of component remains the same
+ 
   return (
     <div className="h-full flex items-center justify-center bg-gray-100">
       <div className="max-w-md w-full space-y-8 p-8 bg-white rounded-lg shadow-lg">
