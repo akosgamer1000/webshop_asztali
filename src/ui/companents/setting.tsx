@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import "../style/basic.css";
+import { useDispatch } from 'react-redux';
+import { logout } from '../misch/store/authSlice';
 
 interface SettingOption {
   id: number;
@@ -9,11 +11,13 @@ interface SettingOption {
 }
 
 const Setting: React.FC = () => {
+  const dispatch = useDispatch();
+  
   const [settings, setSettings] = useState<SettingOption[]>([
     {
       id: 1,
-      title: "Dark Mode",
-      description: "Enable dark theme across the application",
+      title: "Log Out",
+      description: "Sign out of your account",
       enabled: false
     },
     {
@@ -37,7 +41,13 @@ const Setting: React.FC = () => {
   ]);
 
   const toggleSetting = (id: number) => {
-    setSettings(settings.map(setting => 
+    if (id === 1) {
+      // Handle logout
+      dispatch(logout());
+      return;
+    }
+    
+    setSettings(settings.map(setting =>
       setting.id === id ? { ...setting, enabled: !setting.enabled } : setting
     ));
   };
@@ -58,23 +68,32 @@ const Setting: React.FC = () => {
                 <p className="text-sm text-gray-500">{setting.description}</p>
               </div>
               <div className="ml-4">
-                <button
-                  onClick={() => toggleSetting(setting.id)}
-                  className={`relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 ${
-                    setting.enabled ? 'bg-blue-600' : 'bg-gray-200'
-                  }`}
-                >
-                  <span
-                    className={`pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out ${
-                      setting.enabled ? 'translate-x-5' : 'translate-x-0'
+                {setting.id === 1 ? (
+                  <button
+                    onClick={() => toggleSetting(setting.id)}
+                    className="px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
+                  >
+                    Log Out
+                  </button>
+                ) : (
+                  <button
+                    onClick={() => toggleSetting(setting.id)}
+                    className={`relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 ${
+                      setting.enabled ? 'bg-blue-600' : 'bg-gray-200'
                     }`}
-                  />
-                </button>
+                  >
+                    <span
+                      className={`pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out ${
+                        setting.enabled ? 'translate-x-5' : 'translate-x-0'
+                      }`}
+                    />
+                  </button>
+                )}
               </div>
             </div>
           ))}
         </div>
-
+        
         <div className="p-6 bg-gray-50 border-t border-gray-200">
           <div className="flex justify-end space-x-3">
             <button className="px-4 py-2 border border-gray-300 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">

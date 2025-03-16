@@ -1,38 +1,74 @@
-import React, { useState, useEffect } from 'react';
-import Home from '../pages/Product';
-import About from '../pages/Settings';
-import Contact from '../pages/Orders';
+import React, { useEffect } from 'react';
+import { Routes, Route, Navigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import Product from '../pages/Product';
+import Settings from '../pages/Settings';
+import Order from '../pages/Orders';
+import Users from '../pages/User';
+import Login from '../pages/Login';
+import { RootState, useAppDispatch } from '../misch/Store';
+import { login } from '../misch/store/authSlice';
+
+const PrivateRoute: React.FC<{ element: React.ReactElement }> = ({ element }) => {
+  const isAuthenticated = useSelector((state: RootState) => !!state.auth.token);
+  
+  // Add debugging to see authentication state
+  console.log('Auth state in PrivateRoute:', { 
+    isAuthenticated, 
+    token: useSelector((state: RootState) => state.auth.token)
+  });
+  
+  return isAuthenticated ? element : <Navigate to="/login" />;
+};
 
 const Router: React.FC = () => {
-  const [route, setRoute] = useState(window.location.hash.substring(1));
-
+  const dispatch = useAppDispatch();
+  const isAuthenticated = useSelector((state: RootState) => !!state.auth.token);
+  
+  // Check local storage on component mount to ensure auth state is restored
   useEffect(() => {
-    const onHashChange = () => {
-      setRoute(window.location.hash.substring(1));
-    };
-
-    window.addEventListener('hashchange', onHashChange);
-
-    return () => {
-      window.removeEventListener('hashchange', onHashChange);
-    };
-  }, []);
-
-  let Component;
-  switch (route) {
-    case '/about':
-      Component = About;
-      break;
-    case '/contact':
-      Component = Contact;
-      break;
-    case '/':
-    default:
-      Component = Home;
-      break;
-  }
-
-  return <Component />;
+    const token = localStorage.getItem("token");
+    
+    console.log('Checking localStorage auth data:', { token });
+    
+    if (token) {
+      // Re-dispatch login action to ensure Redux state matches localStorage
+      dispatch(login({ token }));
+      console.log('Restored auth state from localStorage');
+    }
+  }, [dispatch]);
+  
+  // Debug auth status on router render
+  console.log('Current auth status:', { isAuthenticated });
+  
+  return (
+    <Routes>
+      <Route 
+        path="/login" 
+        element={isAuthenticated ? <Navigate to="/" /> : <Login />} 
+      />
+      <Route
+        path="/products"
+        element={<PrivateRoute element={<Product />} />}
+      />
+      <Route
+        path="/setting"
+        element={<PrivateRoute element={<Settings />} />}
+      />
+      <Route
+        path="/orders"
+        element={<PrivateRoute element={<Order />} />}
+      />
+      <Route
+        path="/users"
+        element={<PrivateRoute element={<Users />} />}
+      />
+      <Route
+        path="/"
+        element={<PrivateRoute element={<Product />} />}
+      />
+    </Routes>
+  );
 };
 
 export default Router;

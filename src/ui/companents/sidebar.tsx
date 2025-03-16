@@ -1,4 +1,5 @@
 import "../style/basic.css";
+import { Link } from 'react-router-dom';
 
 const Sidebar: React.FC<{ toggleSidebar: () => void; isOpen: boolean }> = ({
   isOpen,
@@ -12,28 +13,44 @@ const Sidebar: React.FC<{ toggleSidebar: () => void; isOpen: boolean }> = ({
       <h2 className="text-center text-xl font-bold mb-5">Admin</h2>
       <ul className="space-y-4">
         <li>
-          <a
-            href="#/"
+          <Link
+            to="/products"
             className="block p-3 rounded hover:bg-gray-700 cursor-pointer"
           >
             Product
-          </a>
+          </Link>
         </li>
         <li>
-          <a
-            href="#/contact"
+          <Link
+            to="/orders"
             className="block p-3 rounded hover:bg-gray-700 cursor-pointer"
           >
             Orders
-          </a>
+          </Link>
         </li>
         <li>
-          <a
-            href="#/about"
+          <Link
+            to="/setting"
             className="block p-3 rounded hover:bg-gray-700 cursor-pointer"
           >
             Settings
-          </a>
+          </Link>
+        </li>
+        <li>
+          <Link
+            to="/users"
+            className="block p-3 rounded hover:bg-gray-700 cursor-pointer"
+          >
+            users
+          </Link>
+        </li>
+        <li>
+          <Link
+            to="/login"
+            className="block p-3 rounded hover:bg-gray-700 cursor-pointer"
+          >
+            login
+          </Link>
         </li>
       </ul>
     </div>
