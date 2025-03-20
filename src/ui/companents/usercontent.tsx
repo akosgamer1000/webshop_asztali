@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import "../style/basic.css";
 import useUsers from "../hooks/useUsers";
+import { useNavigate } from "react-router-dom";
 
 
 
@@ -17,6 +18,12 @@ const UserContent: React.FC = () => {
   const handlePageChange = (pageNumber: number) => {
     setCurrentPage(pageNumber);
   };
+
+  const navigate = useNavigate();
+
+  function handleclick(id: string) {
+    navigate("/profile/" + id);
+  }
 
   return (
     <div className="overflow-x-auto mt-5">
@@ -45,8 +52,9 @@ const UserContent: React.FC = () => {
                   <td className="p-3 border">{user.email}</td>
                   <td className="p-3 border">{user.role}</td>
                   <td className="p-3 border">
-                    <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                    <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onClick={() => handleclick(user.id.toString())}>
                       View
+                    
                     </button>
                   </td>
                 </tr>
