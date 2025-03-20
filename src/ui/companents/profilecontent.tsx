@@ -1,15 +1,19 @@
 import React from 'react';
-//import { useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
+import useGetUserById from '../hooks/useGetuserbyid';
 
 const ProfileContent: React.FC = () => {
-  // const { id } = useParams();
+   const { id } = useParams();
+    if (!id) {
+        return <div>Invalid user ID</div>;
+    }
+    console.log(id)
+    const { user } = useGetUserById(Number.parseInt(id));
 
-  const userData = {
-    username: "JohnDoe",
-    email: "john.doe@example.com",
-    password: "••••••••",
-    role: "Admin"
-  };
+    if (!user) {
+        return <div>User not found</div>;
+    }
+  
 
   return (
     <div className="bg-white rounded-lg shadow-md p-6">
@@ -22,7 +26,7 @@ const ProfileContent: React.FC = () => {
           </label>
           <input
             type="text"
-            value={userData.username}
+            value={user.name}
             readOnly
             className="p-2 border border-gray-300 rounded-md bg-gray-50"
           />
@@ -34,7 +38,7 @@ const ProfileContent: React.FC = () => {
           </label>
           <input
             type="email"
-            value={userData.email}
+            value={user.email}
             readOnly
             className="p-2 border border-gray-300 rounded-md bg-gray-50"
           />
@@ -46,7 +50,7 @@ const ProfileContent: React.FC = () => {
           </label>
           <input
             type="text"
-            value={userData.role}
+            value={user.role}
             readOnly
             className="p-2 border border-gray-300 rounded-md bg-gray-50"
           />
@@ -59,7 +63,7 @@ const ProfileContent: React.FC = () => {
           <div className="flex gap-4">
             <input
               type="password"
-              value={userData.password}
+              value={user.password}
               readOnly
               className="p-2 border border-gray-300 rounded-md bg-gray-50 flex-grow"
             />

@@ -1,15 +1,18 @@
+import React from 'react';
 import "../style/basic.css";
 import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { useAppDispatch } from '../misch/Store';
 import { logout } from '../misch/store/authSlice';
 import type { RootState } from '../misch/Store';
+import useGetLogged from "../hooks/useGetlogged";
 
 const Sidebar: React.FC<{ toggleSidebar: () => void; isOpen: boolean }> = ({
   isOpen,
 }) => {
   const dispatch = useAppDispatch();
   const isAuthenticated = useSelector((state: RootState) => !!state.auth.token);
+  const { id, loading } = useGetLogged();
 
   const handleLogout = () => {
     dispatch(logout());
@@ -50,12 +53,14 @@ const Sidebar: React.FC<{ toggleSidebar: () => void; isOpen: boolean }> = ({
               </Link>
             </li>
             <li>
-              <Link
-                to="/profile/:1"
-                className="block p-3 rounded hover:bg-gray-700 cursor-pointer"
-              >
-                profile
-              </Link>
+              {!loading && id && (
+                <Link
+                  to={`/profile/${id}`}
+                  className="block p-3 rounded hover:bg-gray-700 cursor-pointer"
+                >
+                  Profile
+                </Link>
+              )}
             </li>
             <li>
               <Link
