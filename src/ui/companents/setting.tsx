@@ -15,12 +15,6 @@ const Setting: React.FC = () => {
   
   const [settings, setSettings] = useState<SettingOption[]>([
     {
-      id: 1,
-      title: "Log Out",
-      description: "Sign out of your account",
-      enabled: false
-    },
-    {
       id: 2,
       title: "Email Notifications",
       description: "Receive email notifications for new orders",
@@ -39,17 +33,39 @@ const Setting: React.FC = () => {
       enabled: false
     }
   ]);
+  
+  const [unsavedSettings, setUnsavedSettings] = useState<SettingOption[]>(settings);
+  const [hasChanges, setHasChanges] = useState(false);
 
   const toggleSetting = (id: number) => {
-    if (id === 1) {
-      // Handle logout
-      dispatch(logout());
-      return;
+    setUnsavedSettings(prevSettings =>
+      prevSettings.map(setting =>
+        setting.id === id ? { ...setting, enabled: !setting.enabled } : setting
+      )
+    );
+    setHasChanges(true);
+  };
+
+  const handleSave = async () => {
+    try {
+      // Here you would typically make an API call to save the settings
+      // await axiosInstance.put('/settings', unsavedSettings);
+      setSettings(unsavedSettings);
+      setHasChanges(false);
+      alert('Settings saved successfully!');
+    } catch (error) {
+      alert('Failed to save settings');
+      console.error('Error saving settings:', error);
     }
-    
-    setSettings(settings.map(setting =>
-      setting.id === id ? { ...setting, enabled: !setting.enabled } : setting
-    ));
+  };
+
+  const handleCancel = () => {
+    setUnsavedSettings(settings);
+    setHasChanges(false);
+  };
+
+  const handleLogout = () => {
+    dispatch(logout());
   };
 
   return (
@@ -61,47 +77,64 @@ const Setting: React.FC = () => {
         </div>
         
         <div className="divide-y divide-gray-200">
-          {settings.map((setting) => (
+          {unsavedSettings.map((setting) => (
             <div key={setting.id} className="p-6 flex items-center justify-between">
               <div className="flex-1">
                 <h3 className="text-lg font-medium text-gray-900">{setting.title}</h3>
                 <p className="text-sm text-gray-500">{setting.description}</p>
               </div>
               <div className="ml-4">
-                {setting.id === 1 ? (
-                  <button
-                    onClick={() => toggleSetting(setting.id)}
-                    className="px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
-                  >
-                    Log Out
-                  </button>
-                ) : (
-                  <button
-                    onClick={() => toggleSetting(setting.id)}
-                    className={`relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 ${
-                      setting.enabled ? 'bg-blue-600' : 'bg-gray-200'
+                <button
+                  onClick={() => toggleSetting(setting.id)}
+                  className={`relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 ${
+                    setting.enabled ? 'bg-blue-600' : 'bg-gray-200'
+                  }`}
+                >
+                  <span
+                    className={`pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out ${
+                      setting.enabled ? 'translate-x-5' : 'translate-x-0'
                     }`}
-                  >
-                    <span
-                      className={`pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out ${
-                        setting.enabled ? 'translate-x-5' : 'translate-x-0'
-                      }`}
-                    />
-                  </button>
-                )}
+                  />
+                </button>
               </div>
             </div>
           ))}
         </div>
         
         <div className="p-6 bg-gray-50 border-t border-gray-200">
-          <div className="flex justify-end space-x-3">
-            <button className="px-4 py-2 border border-gray-300 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
-              Cancel
-            </button>
-            <button className="px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
-              Save Changes
-            </button>
+          <div className="flex justify-between items-center">
+            <div className="flex space-x-3">
+              <button
+                onClick={handleLogout}
+                className="px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
+              >
+                Log Out
+              </button>
+            </div>
+            <div className="flex space-x-3">
+              <button 
+                onClick={handleCancel}
+                disabled={!hasChanges}
+                className={`px-4 py-2 border border-gray-300 rounded-md text-sm font-medium ${
+                  hasChanges 
+                    ? 'text-gray-700 hover:bg-gray-50' 
+                    : 'text-gray-400 cursor-not-allowed'
+                } focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500`}
+              >
+                Cancel
+              </button>
+              <button 
+                onClick={handleSave}
+                disabled={!hasChanges}
+                className={`px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white ${
+                  hasChanges 
+                    ? 'bg-blue-600 hover:bg-blue-700' 
+                    : 'bg-blue-400 cursor-not-allowed'
+                } focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500`}
+              >
+                Save Changes
+              </button>
+            </div>
           </div>
         </div>
       </div>
