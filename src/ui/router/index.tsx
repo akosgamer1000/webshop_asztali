@@ -10,7 +10,7 @@ import { RootState, useAppDispatch } from '../misch/Store';
 import { login } from '../misch/store/authSlice';
 import Ordertetails from '../pages/Orderdetails';
 import Productdetails from '../pages/Productdetails';
-
+import Profile from '../pages/Profile';
 const PrivateRoute: React.FC<{ element: React.ReactElement }> = ({ element }) => {
   const isAuthenticated = useSelector((state: RootState) => !!state.auth.token);
   
@@ -71,7 +71,7 @@ const Router: React.FC = () => {
       />
       <Route
         path="/profile/:id"
-        element={<PrivateRoute element={<Product />} />}
+        element={<PrivateRoute element={<Profile />} />}
       />
       <Route
         path="/orderdetails/:id"

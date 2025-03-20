@@ -51,6 +51,14 @@ const Sidebar: React.FC<{ toggleSidebar: () => void; isOpen: boolean }> = ({
             </li>
             <li>
               <Link
+                to="/profile/:1"
+                className="block p-3 rounded hover:bg-gray-700 cursor-pointer"
+              >
+                profile
+              </Link>
+            </li>
+            <li>
+              <Link
                 to="/setting"
                 className="block p-3 rounded hover:bg-gray-700 cursor-pointer"
               >
