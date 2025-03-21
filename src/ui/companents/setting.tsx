@@ -48,8 +48,7 @@ const Setting: React.FC = () => {
 
   const handleSave = async () => {
     try {
-      // Here you would typically make an API call to save the settings
-      // await axiosInstance.put('/settings', unsavedSettings);
+     
       setSettings(unsavedSettings);
       setHasChanges(false);
       alert('Settings saved successfully!');
