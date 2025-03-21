@@ -7,6 +7,9 @@ import { AxiosError } from 'axios';
 import { useSelector } from 'react-redux';
 import { RootState } from '../misch/Store';
 import { jwtDecode } from 'jwt-decode';
+interface roles{
+  role:string
+}
 const LoginContent: React.FC = () => {
   const emailRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
@@ -53,13 +56,16 @@ const LoginContent: React.FC = () => {
       if (!response.data.access_token) {
         throw new Error('Invalid response format: missing token');
       }
-      
+       const role=jwtDecode<roles>(response.data.access_token).role;
+      if(role!="admin" ){
+        throw new Error('please log in with an admin user')
+      }
     
       dispatch(login({
         token: response.data.access_token
       }));
       
-      console.log('Login successful, navigating to home page');
+   
       
     
       setTimeout(() => {
