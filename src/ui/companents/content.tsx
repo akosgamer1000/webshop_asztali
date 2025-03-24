@@ -1,16 +1,18 @@
 import React, { useState } from "react";
 import "../style/basic.css";
 import useProducts from "../hooks/useProducts";
+import { useNavigate } from "react-router-dom";
 
 
 
 const Content: React.FC = () => {
+  const navigate = useNavigate();
   const { products, loading, error } = useProducts();
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [itemsPerPage] = useState<number>(5);
 
   const handleView = (id: number) => {
-    console.log(`Viewing product with id: ${id}`);
+    navigate(`/products/${id}`);
   };
 
   const indexOfLastItem = currentPage * itemsPerPage;

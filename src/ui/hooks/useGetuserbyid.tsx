@@ -21,7 +21,7 @@ const useGetUserById = (userId: number) => {
 
       try {
         const response = await axiosInstance.get<User>(`/user/${userId}`);
-        console.log("uiser"+userId)
+    
         setUser(response.data);
         setError(null);
       } catch (err) {

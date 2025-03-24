@@ -4,7 +4,7 @@ import'../style/basic.css'
 import Sidebar from '../companents/sidebar';
 import Header from '../companents/header';
 
-import HomeContent from '../companents/homecontent';
+import Addusercon from '../companents/adduser';
 
 
 
@@ -16,8 +16,8 @@ const Dashboard: React.FC = () => {
         <div className="flex-1 ml-0 md:ml-64 transition-all">
           <Header toggleSidebar={() => setSidebarOpen(!sidebarOpen)} />
           <div className="p-5">
-            
-          <HomeContent></HomeContent>
+          <Addusercon></Addusercon>
+
           </div>
         </div>
       </div>

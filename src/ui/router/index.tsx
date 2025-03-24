@@ -12,6 +12,8 @@ import Ordertetails from '../pages/Orderdetails';
 import Productdetails from '../pages/Productdetails';
 import Profile from '../pages/Profile';
 import Userwiew from '../pages/userprof';
+import AddUser from '../pages/Adduserpage';
+
 const PrivateRoute: React.FC<{ element: React.ReactElement }> = ({ element }) => {
   const isAuthenticated = useSelector((state: RootState) => !!state.auth.token);
   
@@ -82,16 +84,15 @@ const Router: React.FC = () => {
         path="/orderdetails/:id"
         element={<PrivateRoute element={<Ordertetails />} />}
       />
-     <Route path="/productdetails" element={<PrivateRoute element={<Productdetails />} />}>
-        <Route path="processor/:id" element={<PrivateRoute element={<Productdetails />} />} />
-        <Route path="memory/:id" element={<PrivateRoute element={<Productdetails />} />} />
-        <Route path="harddrive/:id" element={<PrivateRoute element={<Productdetails />} />} />
-        <Route path="videocard/:id" element={<PrivateRoute element={<Productdetails />} />} />
-        <Route path="motherboard/:id" element={<PrivateRoute element={<Productdetails />} />} />
-        <Route path="cpucooler/:id" element={<PrivateRoute element={<Productdetails />} />} />
-        <Route path="powersupply/:id" element={<PrivateRoute element={<Productdetails />} />} />
-        <Route path="powerhouse/:id" element={<PrivateRoute element={<Productdetails />} />} />
-      </Route>
+     
+       <Route
+        path="/adduser"
+        element={<PrivateRoute element={<AddUser />} />}
+      />
+      <Route
+        path="/products/:id"
+        element={<PrivateRoute element={<Productdetails />} />}
+      />
     </Routes>
   );
 };

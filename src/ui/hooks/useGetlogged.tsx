@@ -23,7 +23,26 @@ const useGetLogged = () => {
         setError(null);
       } catch (err) {
         if (err instanceof AxiosError) {
-          setError(err.response?.status === 401 ? "Unauthorized" : "Failed to fetch user");
+          if (err.code === 'ERR_NETWORK') {
+            setError("Network error: Unable to connect to the server");
+          } else if (err.response) {
+            switch (err.response.status) {
+              case 401:
+                setError("Unauthorized: Please log in again");
+                break;
+              case 403:
+                setError("Forbidden: Access denied");
+                break;
+              case 404:
+                setError("User profile not found");
+                break;
+              case 500:
+                setError("Server error");
+                break;
+              default:
+                setError(`Error: ${err.response.status}`);
+            }
+          }
         } else {
           setError("An unexpected error occurred");
         }

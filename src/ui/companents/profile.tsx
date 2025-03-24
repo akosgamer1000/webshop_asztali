@@ -1,29 +1,78 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import useGetUserById from '../hooks/useGetuserbyid';
 import picture from '../profile.png'
+import usePatchUser from '../hooks/usePatchuser';
+
+
 const ProfileContent: React.FC = () => {
   const { id } = useParams();
   const [showPasswordChange, setShowPasswordChange] = useState(false);
   const [oldPassword, setOldPassword] = useState('');
   const [newPassword, setNewPassword] = useState('');
+  const [currentUser, setCurrentUser] = useState<any>(null);
+  const [passwordError, setPasswordError] = useState<string | null>(null);
+  const Patch = usePatchUser();
+  const { user, loading, error } = useGetUserById(Number.parseInt(id || '0'));
+
+  useEffect(() => {
+    if (user) {
+      setCurrentUser(user);
+    }
+  }, [user]);
 
   if (!id) {
     return <div>Invalid user ID</div>;
   }
 
-  const { user } = useGetUserById(Number.parseInt(id));
+  if (loading) {
+    return <div>Loading...</div>;
+  }
 
-  if (!user) {
+  if (error) {
+    return <div>Error: {error}</div>;
+  }
+
+  if (!currentUser) {
     return <div>User not found</div>;
   }
 
-  const handlePasswordChange = () => {
-    // TODO: Implement password change logic
-    console.log('Changing password:', oldPassword, newPassword);
-    setShowPasswordChange(false);
-    setOldPassword('');
-    setNewPassword('');
+  const handlePasswordChange = async () => {
+    try {
+      setPasswordError(null);
+      
+      if (!oldPassword || !newPassword) {
+        setPasswordError("Both fields are required");
+        return;
+      }
+
+      //if (await verifyArgon2Hash(oldPassword, currentUser.password) === false) {
+
+       // setPasswordError("Current password is incorrect");
+        
+       // return;
+    //  }
+
+      if (newPassword.length < 6) {
+        setPasswordError("New password must be at least 6 characters long");
+        return;
+      }
+      //setNewPassword(await generateArgon2Hash(newPassword));
+      await Patch.updateUser(Number.parseInt(id), { password: newPassword });
+      
+      if (Patch.error) {
+        setPasswordError(Patch.error);
+        return;
+      }
+
+      if (Patch.success) {
+        setShowPasswordChange(false);
+        setOldPassword('');
+        setNewPassword('');
+      }
+    } catch (err) {
+      setPasswordError("An unexpected error occurred");
+    }
   };
 
   return (
@@ -36,8 +85,8 @@ const ProfileContent: React.FC = () => {
             className="w-full h-full object-cover"
           />
         </div>
-        <h2 className="text-2xl font-semibold text-gray-800">{user.name}</h2>
-        <p className="text-gray-600 mt-2">{user.email}</p>
+        <h2 className="text-2xl font-semibold text-gray-800">{currentUser.name}</h2>
+        <p className="text-gray-600 mt-2">{currentUser.email}</p>
       </div>
 
       <div className="space-y-6">
@@ -52,6 +101,11 @@ const ProfileContent: React.FC = () => {
           </div>
         ) : (
           <div className="space-y-4">
+            {passwordError && (
+              <div className="text-red-500 text-sm font-medium text-center">
+                {passwordError}
+              </div>
+            )}
             <div className="flex flex-col">
               <label className="text-sm font-medium text-gray-600 mb-2">
                 Current Password
@@ -78,7 +132,12 @@ const ProfileContent: React.FC = () => {
             </div>
             <div className="flex justify-end space-x-4">
               <button
-                onClick={() => setShowPasswordChange(false)}
+                onClick={() => {
+                  setShowPasswordChange(false);
+                  setPasswordError(null);
+                  setOldPassword('');
+                  setNewPassword('');
+                }}
                 className="px-4 py-2 bg-gray-500 text-white rounded-md hover:bg-gray-600 transition-colors"
               >
                 Cancel
@@ -86,6 +145,7 @@ const ProfileContent: React.FC = () => {
               <button
                 onClick={handlePasswordChange}
                 className="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 transition-colors"
+                disabled={!oldPassword || !newPassword}
               >
                 Save Password
               </button>

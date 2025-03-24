@@ -92,6 +92,15 @@ const UserContent: React.FC = () => {
               Next
             </button>
           </div>
+
+          <div className="flex justify-center mt-6">
+            <button
+              onClick={() => navigate('/adduser')}
+              className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-6 rounded-lg transition-colors"
+            >
+              Add New User
+            </button>
+          </div>
         </>
       )}
     </div>

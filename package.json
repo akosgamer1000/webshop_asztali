@@ -16,10 +16,12 @@
     "dist:linux": "npm run transpile:electron && npm run build && electron-builder --linux --x64"
   },
   "dependencies": {
+    "2": "^3.0.0",
     "@ant-design/icons": "^5.6.1",
     "@reduxjs/toolkit": "^2.6.1",
     "@tailwindcss/vite": "^4.0.6",
     "antd": "^5.24.0",
+    "argon": "^2.0.21",
     "axios": "^1.8.3",
     "jwt-decode": "^4.0.0",
     "lucide-react": "^0.475.0",
