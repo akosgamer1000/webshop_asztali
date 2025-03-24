@@ -33,12 +33,12 @@ const Router: React.FC = () => {
  
   useEffect(() => {
     const token = localStorage.getItem("token");
-    
+    const userId = localStorage.getItem("userId");
     console.log('Checking localStorage auth data:', { token });
     
     if (token) {
     
-      dispatch(login({ token }));
+      dispatch(login({ token ,userId: userId ?? '' }));
       console.log('Restored auth state from localStorage');
     }
   }, [dispatch]);

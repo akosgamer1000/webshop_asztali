@@ -1,27 +1,26 @@
+
+
 import { useState } from 'react';
 import { AxiosError } from 'axios';
 import axiosInstance from '../misch/Axios';
 
-interface UserUpdateData {
-  username?: string;
-  email?: string;
-  password?: string;
-  role?:string
+interface CreateUserData {
+  name: string;
+  email: string;
+  password: string;
+  role: string;
 }
 
-const usePatchUser = () => {
+const useCreateUser = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
-  const [success, setSuccess] = useState<boolean>(false);
 
-  const updateUser = async (userId: number, updateData: UserUpdateData) => {
+  const createUser = async (userData: CreateUserData) => {
     setLoading(true);
-    setError(null);
-    setSuccess(false);
-
     try {
-      await axiosInstance.patch(`/users/${userId}`, updateData);
-      setSuccess(true);
+      await axiosInstance.post("/user", userData);
+      setError(null);
+      return true;
     } catch (err) {
       if (err instanceof AxiosError) {
         if (err.code === 'ERR_NETWORK') {
@@ -29,17 +28,11 @@ const usePatchUser = () => {
         } else if (err.response) {
           switch (err.response.status) {
             case 400:
-             setError("Invalid user data provided");
+              setError("Invalid user data provided");
               
               break;
-            case 401:
-              setError("Unauthorized: Please log in again");
-              break;
-            case 403:
-              setError("Forbidden: You don't have permission to update this user");
-              break;
-            case 404:
-              setError(`User with ID ${userId} not found`);
+            case 409:
+              setError("User already exists");
               break;
             case 500:
               setError("Server error");
@@ -51,13 +44,17 @@ const usePatchUser = () => {
       } else {
         setError("An unexpected error occurred");
       }
-      setSuccess(false);
+      return false;
     } finally {
       setLoading(false);
     }
   };
 
-  return { updateUser, loading, error, success };
+  return {
+    createUser,
+    loading,
+    error
+  };
 };
 
-export default usePatchUser;
+export default useCreateUser;

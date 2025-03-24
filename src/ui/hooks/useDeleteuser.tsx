@@ -2,44 +2,27 @@ import { useState } from 'react';
 import { AxiosError } from 'axios';
 import axiosInstance from '../misch/Axios';
 
-interface UserUpdateData {
-  username?: string;
-  email?: string;
-  password?: string;
-  role?:string
-}
-
-const usePatchUser = () => {
+const useDeleteUser = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
-  const [success, setSuccess] = useState<boolean>(false);
 
-  const updateUser = async (userId: number, updateData: UserUpdateData) => {
+  const deleteUser = async (userId: number) => {
     setLoading(true);
-    setError(null);
-    setSuccess(false);
-
     try {
-      await axiosInstance.patch(`/users/${userId}`, updateData);
-      setSuccess(true);
+      await axiosInstance.delete(`/user/${userId}`);
+      setError(null);
+      return true;
     } catch (err) {
       if (err instanceof AxiosError) {
         if (err.code === 'ERR_NETWORK') {
           setError("Network error: Unable to connect to the server");
         } else if (err.response) {
           switch (err.response.status) {
-            case 400:
-             setError("Invalid user data provided");
-              
-              break;
-            case 401:
-              setError("Unauthorized: Please log in again");
+            case 404:
+              setError("User not found");
               break;
             case 403:
-              setError("Forbidden: You don't have permission to update this user");
-              break;
-            case 404:
-              setError(`User with ID ${userId} not found`);
+              setError("Not authorized to delete this user");
               break;
             case 500:
               setError("Server error");
@@ -51,13 +34,17 @@ const usePatchUser = () => {
       } else {
         setError("An unexpected error occurred");
       }
-      setSuccess(false);
+      return false;
     } finally {
       setLoading(false);
     }
   };
 
-  return { updateUser, loading, error, success };
+  return {
+    deleteUser,
+    loading,
+    error
+  };
 };
 
-export default usePatchUser;
+export default useDeleteUser;
