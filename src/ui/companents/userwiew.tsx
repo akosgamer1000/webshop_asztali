@@ -48,12 +48,14 @@ const ProfileContent: React.FC = () => {
           <label className="text-sm font-medium text-gray-600 mb-2">
             Role
           </label>
-          <input
-            type="text"
+          <select
             value={user.role}
-            readOnly
+           
             className="p-2 border border-gray-300 rounded-md bg-gray-50"
-          />
+          >
+            <option value="user">User</option>
+            <option value="admin">Administrator</option>
+          </select>
         </div>
 
         <div className="flex flex-col">

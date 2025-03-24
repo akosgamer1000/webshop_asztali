@@ -12,7 +12,7 @@ const Sidebar: React.FC<{ toggleSidebar: () => void; isOpen: boolean }> = ({
 }) => {
   const dispatch = useAppDispatch();
   const isAuthenticated = useSelector((state: RootState) => !!state.auth.token);
-  const { id, loading } = useGetLogged();
+  const { id } = useGetLogged(); 
 
   const handleLogout = () => {
     dispatch(logout());
@@ -53,14 +53,13 @@ const Sidebar: React.FC<{ toggleSidebar: () => void; isOpen: boolean }> = ({
               </Link>
             </li>
             <li>
-              {!loading && id && (
-                <Link
-                  to={`/profile/${id}`}
-                  className="block p-3 rounded hover:bg-gray-700 cursor-pointer"
-                >
-                  Profile
-                </Link>
-              )}
+              
+              <Link
+                to={`/profile/${id || ''}`}
+                className="block p-3 rounded hover:bg-gray-700 cursor-pointer"
+              >
+                Profile
+              </Link>
             </li>
             <li>
               <Link
