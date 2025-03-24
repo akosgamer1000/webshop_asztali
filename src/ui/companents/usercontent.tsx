@@ -22,7 +22,7 @@ const UserContent: React.FC = () => {
   const navigate = useNavigate();
 
   function handleclick(id: string) {
-    navigate("/profile/" + id);
+    navigate("/user/" + id);
   }
 
   return (

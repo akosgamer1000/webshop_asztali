@@ -11,6 +11,7 @@ import { login } from '../misch/store/authSlice';
 import Ordertetails from '../pages/Orderdetails';
 import Productdetails from '../pages/Productdetails';
 import Profile from '../pages/Profile';
+import Userwiew from '../pages/userprof';
 const PrivateRoute: React.FC<{ element: React.ReactElement }> = ({ element }) => {
   const isAuthenticated = useSelector((state: RootState) => !!state.auth.token);
   
@@ -68,6 +69,10 @@ const Router: React.FC = () => {
       <Route
         path="/"
         element={<PrivateRoute element={<Product />} />}
+      />
+      <Route
+        path="/user/:id"
+        element={<PrivateRoute element={<Userwiew />} />}
       />
       <Route
         path="/profile/:id"
