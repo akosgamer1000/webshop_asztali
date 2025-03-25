@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 
-import'../style/basic.css'
-import Sidebar from '../companents/sidebar';
-import Header from '../companents/header';
-import Details from'../companents/productdetailscontent';
+import'../../style/basic.css'
+import Sidebar from '../../companents/sidebar';
+import Header from '../../companents/header';
+import Details from'../../companents/product/productdetailscontent';
 
 const Dashboard: React.FC = () => {
     const [sidebarOpen, setSidebarOpen] = useState(false);

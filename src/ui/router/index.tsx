@@ -1,18 +1,18 @@
 import React, { useEffect } from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import Product from '../pages/Product';
+import Product from '../pages/product/Product';
 import Settings from '../pages/Settings';
-import Order from '../pages/Orders';
-import Users from '../pages/User';
-import Login from '../pages/Login';
+import Order from '../pages/order/Orders';
+import Users from '../pages/user/User';
+import Login from '../pages/login/Login';
 import { RootState, useAppDispatch } from '../misch/Store';
 import { login } from '../misch/store/authSlice';
-import Ordertetails from '../pages/Orderdetails';
-import Productdetails from '../pages/Productdetails';
+import Ordertetails from '../pages/order/Orderdetails';
+import Productdetails from '../pages/product/Productdetails';
 import Profile from '../pages/Profile';
-import Userwiew from '../pages/userprof';
-import AddUser from '../pages/Adduserpage';
+import Userwiew from '../pages/user/userprof';
+import AddUser from '../pages/user/Adduserpage';
 
 const PrivateRoute: React.FC<{ element: React.ReactElement }> = ({ element }) => {
   const isAuthenticated = useSelector((state: RootState) => !!state.auth.token);

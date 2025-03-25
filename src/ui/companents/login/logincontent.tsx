@@ -1,11 +1,11 @@
 import React, { useRef, useState, useEffect } from 'react';
-import { useAppDispatch } from '../misch/Store';
-import { login } from '../misch/store/authSlice';
+import { useAppDispatch } from '../../misch/Store';
+import { login } from '../../misch/store/authSlice';
 import { useNavigate } from 'react-router-dom';
-import axios from '../misch/Axios';
+import axios from '../../misch/Axios';
 import { AxiosError } from 'axios';
 import { useSelector } from 'react-redux';
-import { RootState } from '../misch/Store';
+import { RootState } from '../../misch/Store';
 import { jwtDecode } from 'jwt-decode';
 interface roles{
   role:string

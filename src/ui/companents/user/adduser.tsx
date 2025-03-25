@@ -1,6 +1,6 @@
 import React, { useRef, FormEvent, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import useCreateUser from '../hooks/useCreateUser';
+import useCreateUser from '../../hooks/useCreateUser';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
 
 interface UserFormData {

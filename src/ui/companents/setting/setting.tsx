@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import "../style/basic.css";
+import'../../style/basic.css'
 import { useDispatch } from 'react-redux';
-import { logout } from '../misch/store/authSlice';
+import { logout } from '../../misch/store/authSlice';
 
 interface SettingOption {
   id: number;

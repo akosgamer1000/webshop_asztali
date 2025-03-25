@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import '../style/basic.css'
 import Sidebar from '../companents/sidebar';
 import Header from '../companents/header';
-import Setting from '../companents/setting';
+import Setting from '../companents/setting/setting';
 
 const Dashboard: React.FC = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);

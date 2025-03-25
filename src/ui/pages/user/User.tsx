@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 
-import'../style/basic.css'
-import Sidebar from '../companents/sidebar';
-import Header from '../companents/header';
-import LoginContent from '../companents/logincontent';
+import'../../style/basic.css'
+import Sidebar from '../../companents/sidebar';
+import Header from '../../companents/header';
+import UserContent from '../../companents/user/usercontent';
+
 
 
 const Dashboard: React.FC = () => {
@@ -12,9 +13,10 @@ const Dashboard: React.FC = () => {
       <div className="flex min-h-screen bg-gray-100">
         <Sidebar toggleSidebar={() => setSidebarOpen(!sidebarOpen)} isOpen={sidebarOpen} />
         <div className="flex-1 ml-0 md:ml-64 transition-all">
-          <Header toggleSidebar={() => setSidebarOpen(!sidebarOpen)} />
+        <Header toggleSidebar={() => setSidebarOpen(!sidebarOpen)} />
           <div className="p-5">
-          <LoginContent></LoginContent>
+            
+          <UserContent />
           </div>
         </div>
       </div>

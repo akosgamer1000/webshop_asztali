@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 
-import'../style/basic.css'
-import Sidebar from '../companents/sidebar';
-import Header from '../companents/header';
-import Content from '../companents/content';
+import'../../style/basic.css'
+import Sidebar from '../../companents/sidebar';
+import Header from '../../companents/header';
+import Content from '../../companents/product/productcontent';
 
 
 

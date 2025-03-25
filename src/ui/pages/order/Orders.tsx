@@ -1,11 +1,9 @@
 import React, { useState } from 'react';
 
-import'../style/basic.css'
-import Sidebar from '../companents/sidebar';
-import Header from '../companents/header';
-import UserContent from '../companents/usercontent';
-
-
+import'../../style/basic.css'
+import Sidebar from '../../companents/sidebar';
+import Header from '../../companents/header';
+import OrderContent from '../../companents/order/Ordercontent';
 
 const Dashboard: React.FC = () => {
     const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -13,10 +11,9 @@ const Dashboard: React.FC = () => {
       <div className="flex min-h-screen bg-gray-100">
         <Sidebar toggleSidebar={() => setSidebarOpen(!sidebarOpen)} isOpen={sidebarOpen} />
         <div className="flex-1 ml-0 md:ml-64 transition-all">
-        <Header toggleSidebar={() => setSidebarOpen(!sidebarOpen)} />
+          <Header toggleSidebar={() => setSidebarOpen(!sidebarOpen)} />
           <div className="p-5">
-            
-          <UserContent />
+            <OrderContent />
           </div>
         </div>
       </div>

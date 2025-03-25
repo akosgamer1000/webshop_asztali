@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import'../style/basic.css'
 import Sidebar from '../companents/sidebar';
 import Header from '../companents/header';
-import Profilecontent from '../companents/profile';
+import Profilecontent from '../companents/profile/profile';
 
 const Dashboard: React.FC = () => {
     const [sidebarOpen, setSidebarOpen] = useState(false);

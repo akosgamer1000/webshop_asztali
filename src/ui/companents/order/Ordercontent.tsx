@@ -1,35 +1,26 @@
-import React, { useState } from "react";
-import "../style/basic.css";
-import useUsers from "../hooks/useUsers";
-import { useNavigate } from "react-router-dom";
+import React, { useState } from 'react';
+import'../../style/basic.css'
+import useOrders from '../../hooks/useOrders';
 
 
 
-const UserContent: React.FC = () => {
-  const { users, loading, error } = useUsers();
+const OrderContent: React.FC = () => {
+  const { orders, loading, error } = useOrders();
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [itemsPerPage] = useState<number>(5);
 
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = users.slice(indexOfFirstItem, indexOfLastItem);
-  const totalPages = Math.ceil(users.length / itemsPerPage);
+  const currentItems = orders.slice(indexOfFirstItem, indexOfLastItem);
+  const totalPages = Math.ceil(orders.length / itemsPerPage);
 
   const handlePageChange = (pageNumber: number) => {
     setCurrentPage(pageNumber);
   };
 
-  const navigate = useNavigate();
-
-  function handleclick(id: string) {
-    navigate("/user/" + id);
-  }
-
   return (
     <div className="overflow-x-auto mt-5">
-      <h2 className="text-xl font-bold mb-3">User List</h2>
-
-      {loading && <p>Loading users...</p>}
+      {loading && <p>Loading orders...</p>}
       {error && <p className="text-red-500">{error}</p>}
 
       {!loading && !error && (
@@ -37,24 +28,26 @@ const UserContent: React.FC = () => {
           <table className="w-full border-collapse min-w-[600px]">
             <thead className="bg-gray-800 text-white">
               <tr>
-                <th className="p-3 border">ID</th>
-                <th className="p-3 border">Name</th>
-                <th className="p-3 border">Email</th>
-                <th className="p-3 border">Role</th>
+                <th className="p-3 border">Order ID</th>
+                <th className="p-3 border">User ID</th>
+                <th className="p-3 border">Total Price</th>
+                <th className="p-3 border">Created At</th>
                 <th className="p-3 border">Actions</th>
               </tr>
             </thead>
             <tbody>
-              {currentItems.map((user) => (
-                <tr key={user.id} className="even:bg-gray-100">
-                  <td className="p-3 border">{user.id}</td>
-                  <td className="p-3 border">{user.name}</td>
-                  <td className="p-3 border">{user.email}</td>
-                  <td className="p-3 border">{user.role}</td>
+              {currentItems.map((order) => (
+                <tr key={order.id} className="even:bg-gray-100">
+                  <td className="p-3 border">{order.id}</td>
+                  <td className="p-3 border">{order.userId}</td>
+                  <td className="p-3 border">${order.totalPrice.toFixed(2)}</td>
+                  <td className="p-3 border">{new Date(order.createdAt).toLocaleString()}</td>
                   <td className="p-3 border">
-                    <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onClick={() => handleclick(user.id.toString())}>
-                      View
-                    
+                    <button 
+                      onClick={() => console.log('Order details:', order)}
+                      className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-2"
+                    >
+                      View Details
                     </button>
                   </td>
                 </tr>
@@ -62,7 +55,7 @@ const UserContent: React.FC = () => {
             </tbody>
           </table>
 
-       
+          
           <div className="flex justify-center gap-2 mt-4">
             <button
               onClick={() => handlePageChange(currentPage - 1)}
@@ -92,19 +85,10 @@ const UserContent: React.FC = () => {
               Next
             </button>
           </div>
-
-          <div className="flex justify-center mt-6">
-            <button
-              onClick={() => navigate('/adduser')}
-              className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-6 rounded-lg transition-colors"
-            >
-              Add New User
-            </button>
-          </div>
         </>
       )}
     </div>
   );
 };
 
-export default UserContent;
+export default OrderContent;

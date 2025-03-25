@@ -1,7 +1,7 @@
 import  { useEffect, useState} from 'react';
 import { useParams } from 'react-router-dom';
-import useGetProductById from '../hooks/useGetProductById';
-import usePatchOneProduct from '../hooks/usePatchoneproduct';
+import useGetProductById from '../../hooks/useGetProductById';
+import usePatchOneProduct from '../../hooks/usePatchoneproduct';
 
 type ProductType = 'PROCESSOR' | 'MOTHERBOARD' | 'VIDEOCARD' | 'MEMORY' | 'HARDDRIVE' | 'POWERSUPPLY' | 'POWERHOUSE' | 'CPUCOOLER';
 

@@ -6,7 +6,12 @@ interface UserUpdateData {
   username?: string;
   email?: string;
   password?: string;
-  role?:string
+  role?: string;
+}
+
+interface UpdateUserResult {
+  success: boolean;
+  error?: string;
 }
 
 const usePatchUser = () => {
@@ -14,44 +19,47 @@ const usePatchUser = () => {
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<boolean>(false);
 
-  const updateUser = async (userId: number, updateData: UserUpdateData) => {
+  const updateUser = async (userId: number, updateData: UserUpdateData): Promise<UpdateUserResult> => {
     setLoading(true);
     setError(null);
     setSuccess(false);
 
     try {
-      await axiosInstance.patch(`/users/${userId}`, updateData);
+      await axiosInstance.patch(`/user/${userId}`, updateData);
       setSuccess(true);
+      return { success: true };
     } catch (err) {
+      let errorMessage = "An unexpected error occurred";
+      
       if (err instanceof AxiosError) {
         if (err.code === 'ERR_NETWORK') {
-          setError("Network error: Unable to connect to the server");
+          errorMessage = "Network error: Unable to connect to the server";
         } else if (err.response) {
           switch (err.response.status) {
             case 400:
-             setError("Invalid user data provided");
-              
+              errorMessage = "Invalid user data provided";
               break;
             case 401:
-              setError("Unauthorized: Please log in again");
+              errorMessage = "Unauthorized: Please log in again";
               break;
             case 403:
-              setError("Forbidden: You don't have permission to update this user");
+              errorMessage = "Forbidden: You don't have permission to update this user";
               break;
             case 404:
-              setError(`User with ID ${userId} not found`);
+              errorMessage = `User with ID ${userId} not found`;
               break;
             case 500:
-              setError("Server error");
+              errorMessage = "Server error";
               break;
             default:
-              setError(`Error: ${err.response.status}`);
+              errorMessage = `Error: ${err.response.status}`;
           }
         }
-      } else {
-        setError("An unexpected error occurred");
       }
+      
+      setError(errorMessage);
       setSuccess(false);
+      return { success: false, error: errorMessage };
     } finally {
       setLoading(false);
     }

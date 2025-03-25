@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import "../style/basic.css";
-import useProducts from "../hooks/useProducts";
+import'../../style/basic.css'
+import useProducts from "../../hooks/useProducts";
 import { useNavigate } from "react-router-dom";
 
 

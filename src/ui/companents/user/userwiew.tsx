@@ -1,9 +1,9 @@
 import React from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import useGetUserById from '../hooks/useGetuserbyid';
-import useDeleteUser from '../hooks/useDeleteuser';
+import useGetUserById from '../../hooks/useGetuserbyid';
+import useDeleteUser from '../../hooks/useDeleteuser';
 import { useSelector } from 'react-redux';
-import { selectUserId } from '../misch/store/authSlice';
+import { selectUserId } from '../../misch/store/authSlice';
 
 const ProfileContent: React.FC = () => {
     const { id } = useParams();

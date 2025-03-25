@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import useGetUserById from '../hooks/useGetuserbyid';
-import picture from '../profile.png'
-import usePatchUser from '../hooks/usePatchuser';
+import useGetUserById from '../../hooks/useGetuserbyid';
+import picture from '../../profile.png'
 
 
 const ProfileContent: React.FC = () => {
@@ -12,8 +11,23 @@ const ProfileContent: React.FC = () => {
   const [newPassword, setNewPassword] = useState('');
   const [currentUser, setCurrentUser] = useState<any>(null);
   const [passwordError, setPasswordError] = useState<string | null>(null);
-  const Patch = usePatchUser();
+ 
   const { user, loading, error } = useGetUserById(Number.parseInt(id || '0'));
+
+  const validatePassword = (password: string): string | null => {
+    if (password.length < 8) {
+      return "Password must be at least 8 characters long";
+    }
+
+    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+    if (!passwordRegex.test(password)) {
+      return "Password must include lowercase, uppercase, number, and special character";
+    }
+
+    return null;
+  };
+
+ 
 
   useEffect(() => {
     if (user) {
@@ -40,38 +54,44 @@ const ProfileContent: React.FC = () => {
   const handlePasswordChange = async () => {
     try {
       setPasswordError(null);
-      
-      if (!oldPassword || !newPassword) {
+       console.log("I am here")
+      if (oldPassword === "" && newPassword === "") {
         setPasswordError("Both fields are required");
         return;
       }
-
-      //if (await verifyArgon2Hash(oldPassword, currentUser.password) === false) {
-
-       // setPasswordError("Current password is incorrect");
-        
-       // return;
-    //  }
-
-      if (newPassword.length < 6) {
-        setPasswordError("New password must be at least 6 characters long");
-        return;
-      }
-      //setNewPassword(await generateArgon2Hash(newPassword));
-      await Patch.updateUser(Number.parseInt(id), { password: newPassword });
+  
       
-      if (Patch.error) {
-        setPasswordError(Patch.error);
+      if (oldPassword === "" || newPassword === "") {
+        setPasswordError("Both fields are required");
         return;
       }
-
-      if (Patch.success) {
+  
+    
+   
+    
+  
+      const passwordValidationError = validatePassword(newPassword);
+      if (passwordValidationError) {
+        setPasswordError(passwordValidationError);
+        return;
+      }
+  
+      try {
+       
+        
+  
+    
+  
         setShowPasswordChange(false);
         setOldPassword('');
         setNewPassword('');
+      } catch (hashError) {
+        console.error('Hashing error:', hashError);
+        setPasswordError("Failed to hash password");
       }
     } catch (err) {
-      setPasswordError("An unexpected error occurred");
+      console.error(err);
+      setPasswordError("An unexpected error occurred during password change");
     }
   };
 
@@ -80,7 +100,7 @@ const ProfileContent: React.FC = () => {
       <div className="flex flex-col items-center mb-8">
         <div className="w-32 h-32 rounded-full overflow-hidden mb-4 border-2 border-gray-200">
           <img
-            src={ picture} 
+            src={picture} 
             alt="Profile"
             className="w-full h-full object-cover"
           />
