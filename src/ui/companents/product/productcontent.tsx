@@ -93,6 +93,17 @@ const Content: React.FC = () => {
               Next
             </button>
           </div>
+
+        
+          <div className="flex justify-center mt-8">
+            <button
+              onClick={() => navigate('/addProduct/select')}
+              className="bg-green-500 hover:bg-green-600 text-white font-bold py-3 px-6 rounded-lg shadow-lg  flex items-center"
+            >
+              
+              Add New Product
+            </button>
+          </div>
         </>
       )}
     </div>

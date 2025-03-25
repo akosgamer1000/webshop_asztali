@@ -13,6 +13,17 @@ import Productdetails from '../pages/product/Productdetails';
 import Profile from '../pages/Profile';
 import Userwiew from '../pages/user/userprof';
 import AddUser from '../pages/user/Adduserpage';
+import Frame from '../pages/product/ProductCreatio';
+import ProductChoice from '../companents/product/productChoice';
+import Addcpucoller from '../companents/product/adds/cpuColler'
+
+import AddProcessor from '../companents/product/adds/processor';
+import AddMemory from '../companents/product/adds/memory';
+import AddHardDrive from '../companents/product/adds/harddrive';
+import AddVideoCard from '../companents/product/adds/videocard';
+import AddMotherboard from '../companents/product/adds/motherboard';
+import AddPowerSupply from '../companents/product/adds/powersupply';
+import AddPowerhouse from '../companents/product/adds/powerhouse';
 
 const PrivateRoute: React.FC<{ element: React.ReactElement }> = ({ element }) => {
   const isAuthenticated = useSelector((state: RootState) => !!state.auth.token);
@@ -92,9 +103,31 @@ const Router: React.FC = () => {
       <Route
         path="/products/:id"
         element={<PrivateRoute element={<Productdetails />} />}
-      />
+      /> 
+      <Route path="/addProduct" element={<PrivateRoute element={<Frame />} />}>
+        <Route path='select' element={<ProductChoice></ProductChoice>}></Route>
+        <Route path="processor" element={<AddProcessor  />} />
+        <Route path="cpucooler" element={<Addcpucoller />} />
+      
+
+        <Route path="memory" element={<AddMemory />} />
+        <Route path="harddrive" element={<AddHardDrive />} />
+        <Route path="videocard" element={<AddVideoCard />} />
+        <Route path="motherboard" element={<AddMotherboard />} />
+         <Route path="powersupply" element={<AddPowerSupply />} />
+        <Route path="powerhouse" element={<AddPowerhouse />} />
+     
+      </Route>
     </Routes>
   );
 };
 
 export default Router;
+
+//<Route path="processor" element={<addProcc />} />
+//<Route path="memory" element={<AddMemory />} />
+//<Route path="harddrive" element={<AddHardDrive />} />
+//<Route path="videocard" element={<AddVideoCard />} />
+//<Route path="motherboard" element={<AddMotherboard />} />
+// <Route path="powersupply" element={<AddPowerSupply />} />
+//   <Route path="powerhouse" element={<AddPowerhouse />} />

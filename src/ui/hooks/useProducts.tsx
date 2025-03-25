@@ -19,6 +19,7 @@ const useProducts = () => {
     const fetchProducts = async () => {
       try {
         const response = await axiosInstance.get<ProductData[]>("/product");
+        
         setProducts(response.data);
         setError(null);
       } catch (err) {
