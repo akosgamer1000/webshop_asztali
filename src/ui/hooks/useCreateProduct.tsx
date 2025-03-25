@@ -58,22 +58,24 @@ interface VideoCard extends BaseProduct {
   size: string;
 }
 
+// Motherboard interface
 interface Motherboard extends BaseProduct {
-    cpuSocket: string;
-    chipset: string;
-    memoryType: string;
-    processorSeller: string;
-    graphicCard: string;
-    hdmi: boolean;
-    sataConnectors: number;
-    pciConnectors: number;
-    usbPorts: number;
-    memorySockets: number;
-    integratedSound: boolean;
-    bluetooth: boolean;
-    wireless: boolean;
-    sizeStandard: string;
-  }
+  cpuSocket: string;
+  chipset: string;
+  memoryType: string;
+  processorSeller: string;
+  graphicCard: string;
+  hdmi: boolean;
+  sataConnectors: number;
+  pciConnectors: number;
+  usbPorts: number;
+  memorySockets: number;
+  integratedSound: boolean;
+  bluetooth: boolean;
+  wireless: boolean;
+  sizeStandard: string;
+}
+
 
 interface CPUCooler extends BaseProduct {
   fanSpeed: number;
@@ -82,18 +84,21 @@ interface CPUCooler extends BaseProduct {
   frequency: number;
 }
 
+
 interface PowerSupply extends BaseProduct {
-    performance: number;
-    fourPinConnector: boolean;
-    sixPinVGA: boolean;
-    size: string;
-  }
+  performance: number;
+  fourPinConnector: boolean;
+  sixPinVGA: boolean;
+  size: string;
+}
+
 
 interface Powerhouse extends BaseProduct {
   motherboardType: string;
   fans: number;
   size: string;
 }
+
 
 type ProductType = 
   | Processor 
@@ -114,7 +119,7 @@ const useCreateProduct = () => {
 
     const { type, name, price, couantity, ...specificFields } = productData;
     
-    // Base product data
+    
     const baseProduct = {
       name,
       type,
@@ -122,7 +127,7 @@ const useCreateProduct = () => {
       couantity
     };
 
-    // Create a mapping to handle all product types
+ 
     const productTypeMapping: { [key: string]: string } = {
       'PROCESSOR': 'Processor',
       'MEMORY': 'Memory',
@@ -134,13 +139,25 @@ const useCreateProduct = () => {
       'POWERHOUSE': 'Powerhouse'
     };
 
-    // Get the exact key name from the mapping
     const productTypeKey = productTypeMapping[type] || type;
 
-    // Create the final formatted data
+
+    const isCPUCooler = (obj: any): obj is CPUCooler => 
+      type === 'CPUCOOLER' && 'basetype' in obj;
+
+
+    const formattedSpecificFields = isCPUCooler(specificFields)
+      ? { 
+          ...specificFields,
+          type: specificFields.basetype,
+          basetype: undefined
+        }
+      : specificFields;
+
+  
     const formattedData = {
       ...baseProduct,
-      [productTypeKey]: specificFields
+      [productTypeKey]: formattedSpecificFields
     };
 
     console.log('Formatted Product Data:', formattedData);
