@@ -8,8 +8,10 @@ const AddMemory: React.FC = () => {
 
   // Create refs for form inputs
   const nameRef = useRef<HTMLInputElement>(null);
+  const manufacturerRef = useRef<HTMLInputElement>(null);
   const priceRef = useRef<HTMLInputElement>(null);
   const quantityRef = useRef<HTMLInputElement>(null);
+  const imgSrcRef = useRef<HTMLInputElement>(null);
   const memoryCapacityRef = useRef<HTMLInputElement>(null);
   const memoryTypeRef = useRef<HTMLInputElement>(null);
   const installedMemoryRef = useRef<HTMLInputElement>(null);
@@ -21,9 +23,11 @@ const AddMemory: React.FC = () => {
     
     const formData = {
       name: nameRef.current?.value || '',
+      manufacturer: manufacturerRef.current?.value || '',
       type: 'MEMORY' as const,
       price: Number(priceRef.current?.value) || 0,
       couantity: Number(quantityRef.current?.value) || 0,
+      imgSrc: imgSrcRef.current?.value || '',
       memoryCapacity: Number(memoryCapacityRef.current?.value) || 0,
       memoryType: memoryTypeRef.current?.value || '',
       installedMemory: Number(installedMemoryRef.current?.value) || 0,
@@ -64,6 +68,16 @@ const AddMemory: React.FC = () => {
             </div>
 
             <div>
+              <label className="block text-gray-700 mb-2">Manufacturer:</label>
+              <input
+                type="text"
+                ref={manufacturerRef}
+                className="w-full p-2 border rounded-lg"
+                required
+              />
+            </div>
+
+            <div>
               <label className="block text-gray-700 mb-2">Price:</label>
               <input
                 type="number"
@@ -83,6 +97,16 @@ const AddMemory: React.FC = () => {
                 className="w-full p-2 border rounded-lg"
                 required
                 min="0"
+              />
+            </div>
+
+            <div>
+              <label className="block text-gray-700 mb-2">Image URL:</label>
+              <input
+                type="url"
+                ref={imgSrcRef}
+                className="w-full p-2 border rounded-lg"
+                required
               />
             </div>
 

@@ -8,8 +8,10 @@ const AddProcessor: React.FC = () => {
 
   // Create refs for form inputs
   const nameRef = useRef<HTMLInputElement>(null);
+  const manufacturerRef = useRef<HTMLInputElement>(null);
   const priceRef = useRef<HTMLInputElement>(null);
   const quantityRef = useRef<HTMLInputElement>(null);
+  const imgSrcRef = useRef<HTMLInputElement>(null);
   const coreNumberRef = useRef<HTMLInputElement>(null);
   const baseFrequencyRef = useRef<HTMLInputElement>(null);
   const turboBoostFrequencyRef = useRef<HTMLInputElement>(null);
@@ -25,9 +27,11 @@ const AddProcessor: React.FC = () => {
     
     const formData = {
       name: nameRef.current?.value || '',
+      manufacturer: manufacturerRef.current?.value || '',
       type: 'PROCESSOR' as const,
       price: Number(priceRef.current?.value) || 0,
       couantity: Number(quantityRef.current?.value) || 0,
+      imgSrc: imgSrcRef.current?.value || '',
       coreNumber: Number(coreNumberRef.current?.value) || 0,
       baseFrequency: Number(baseFrequencyRef.current?.value) || 0,
       turboBoostFrequency: Number(turboBoostFrequencyRef.current?.value) || 0,
@@ -72,6 +76,16 @@ const AddProcessor: React.FC = () => {
             </div>
 
             <div>
+              <label className="block text-gray-700 mb-2">Manufacturer:</label>
+              <input
+                type="text"
+                ref={manufacturerRef}
+                className="w-full p-2 border rounded-lg"
+                required
+              />
+            </div>
+
+            <div>
               <label className="block text-gray-700 mb-2">Price:</label>
               <input
                 type="number"
@@ -91,6 +105,16 @@ const AddProcessor: React.FC = () => {
                 className="w-full p-2 border rounded-lg"
                 required
                 min="0"
+              />
+            </div>
+
+            <div>
+              <label className="block text-gray-700 mb-2">Image URL:</label>
+              <input
+                type="url"
+                ref={imgSrcRef}
+                className="w-full p-2 border rounded-lg"
+                required
               />
             </div>
 

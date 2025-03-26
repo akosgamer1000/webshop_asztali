@@ -60,10 +60,10 @@ const LoginContent: React.FC = () => {
       if(role!="admin" ){
         throw new Error('please log in with an admin user')
       }
-      console.log(jwtDecode<{sub:string}>(response.data.access_token).sub)
+      console.log(jwtDecode<{id:string}>(response.data.access_token).id)
       dispatch(login({
         token: response.data.access_token,
-        userId:jwtDecode<{sub:string}>(response.data.access_token).sub
+        userId:jwtDecode<{id:string}>(response.data.access_token).id
         
       }));
       

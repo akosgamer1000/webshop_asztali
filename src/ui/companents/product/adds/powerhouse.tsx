@@ -8,8 +8,10 @@ const AddPowerhouse: React.FC = () => {
 
   // Create refs for form inputs
   const nameRef = useRef<HTMLInputElement>(null);
+  const manufacturerRef = useRef<HTMLInputElement>(null);
   const priceRef = useRef<HTMLInputElement>(null);
   const quantityRef = useRef<HTMLInputElement>(null);
+  const imgSrcRef = useRef<HTMLInputElement>(null);
   const motherboardTypeRef = useRef<HTMLInputElement>(null);
   const fansRef = useRef<HTMLInputElement>(null);
   const sizeRef = useRef<HTMLInputElement>(null);
@@ -19,9 +21,11 @@ const AddPowerhouse: React.FC = () => {
     
     const formData = {
       name: nameRef.current?.value || '',
+      manufacturer: manufacturerRef.current?.value || '',
       type: 'POWERHOUSE' as const,
       price: Number(priceRef.current?.value) || 0,
       couantity: Number(quantityRef.current?.value) || 0,
+      imgSrc: imgSrcRef.current?.value || '',
       motherboardType: motherboardTypeRef.current?.value || '',
       fans: Number(fansRef.current?.value) || 0,
       size: sizeRef.current?.value || ''
@@ -60,6 +64,16 @@ const AddPowerhouse: React.FC = () => {
             </div>
 
             <div>
+              <label className="block text-gray-700 mb-2">Manufacturer:</label>
+              <input
+                type="text"
+                ref={manufacturerRef}
+                className="w-full p-2 border rounded-lg"
+                required
+              />
+            </div>
+
+            <div>
               <label className="block text-gray-700 mb-2">Price:</label>
               <input
                 type="number"
@@ -79,6 +93,16 @@ const AddPowerhouse: React.FC = () => {
                 className="w-full p-2 border rounded-lg"
                 required
                 min="0"
+              />
+            </div>
+
+            <div>
+              <label className="block text-gray-700 mb-2">Image URL:</label>
+              <input
+                type="url"
+                ref={imgSrcRef}
+                className="w-full p-2 border rounded-lg"
+                required
               />
             </div>
           </div>

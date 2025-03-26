@@ -3,7 +3,7 @@ import { AxiosError } from 'axios';
 import axiosInstance from '../misch/Axios';
 
 interface User {
-  sub: number;
+  id: number;
   username: string;
   role: string;
   iat: number;
@@ -19,7 +19,7 @@ const useGetLogged = () => {
     const fetchLoggedUser = async () => {
       try {
         const response = await axiosInstance.get<User>("/auth/profile");
-        setId(response.data.sub);
+        setId(response.data.id);
         setError(null);
       } catch (err) {
         if (err instanceof AxiosError) {

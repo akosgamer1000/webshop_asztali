@@ -8,8 +8,10 @@ const AddCPUCooler: React.FC = () => {
 
   // Create refs for form inputs
   const nameRef = useRef<HTMLInputElement>(null);
+  const manufacturerRef = useRef<HTMLInputElement>(null);
   const priceRef = useRef<HTMLInputElement>(null);
   const quantityRef = useRef<HTMLInputElement>(null);
+  const imgSrcRef = useRef<HTMLInputElement>(null);
   const fanSpeedRef = useRef<HTMLInputElement>(null);
   const typeRef = useRef<HTMLInputElement>(null);
   const airflowRef = useRef<HTMLInputElement>(null);
@@ -20,9 +22,11 @@ const AddCPUCooler: React.FC = () => {
     
     const formData = {
       name: nameRef.current?.value || '',
+      manufacturer: manufacturerRef.current?.value || '',
       type: 'CPUCOOLER' as const,
       price: Number(priceRef.current?.value) || 0,
       couantity: Number(quantityRef.current?.value) || 0,
+      imgSrc: imgSrcRef.current?.value || '',
       fanSpeed: Number(fanSpeedRef.current?.value) || 0,
       basetype: typeRef.current?.value || '',
       airflow: Number(airflowRef.current?.value) || 0,
@@ -62,6 +66,16 @@ const AddCPUCooler: React.FC = () => {
             </div>
 
             <div>
+              <label className="block text-gray-700 mb-2">Manufacturer:</label>
+              <input
+                type="text"
+                ref={manufacturerRef}
+                className="w-full p-2 border rounded-lg"
+                required
+              />
+            </div>
+
+            <div>
               <label className="block text-gray-700 mb-2">Price:</label>
               <input
                 type="number"
@@ -81,6 +95,16 @@ const AddCPUCooler: React.FC = () => {
                 className="w-full p-2 border rounded-lg"
                 required
                 min="0"
+              />
+            </div>
+
+            <div>
+              <label className="block text-gray-700 mb-2">Image URL:</label>
+              <input
+                type="url"
+                ref={imgSrcRef}
+                className="w-full p-2 border rounded-lg"
+                required
               />
             </div>
           </div>

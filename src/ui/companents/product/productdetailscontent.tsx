@@ -8,9 +8,11 @@ type ProductType = 'PROCESSOR' | 'MOTHERBOARD' | 'VIDEOCARD' | 'MEMORY' | 'HARDD
 interface Product {
   id: number;
   name: string;
+  manufacturer:string;
   type: ProductType;
   price: number;
-  quantity: number;
+  couantity: number;
+  imgSrc: string;
   [key: string]: any;
 }
 
@@ -67,7 +69,7 @@ const ProductDetailsContent: React.FC = () => {
    
     for (const [key, value] of Object.entries(product)) {
    
-      if (['id', 'name', 'type', 'price', 'couantity'].includes(key) || !value) {
+      if (['id', 'name','manufacturer', 'type', 'price', 'couantity'].includes(key) || !value) {
         continue;
       }
       
@@ -123,6 +125,7 @@ const ProductDetailsContent: React.FC = () => {
       <h2 className="text-2xl font-semibold text-gray-800 mb-6">{product.name}</h2>
       
       <div className="grid grid-cols-2 gap-4 mb-6">
+        {renderField('Manufacturer', product.manufacturer)}
         {renderField('Price', `$${currentPrice.toFixed(2)}`)}
         {renderField('Stock', `${product.quantity || product.couantity || 0} units`)}
         {renderField('Product Type', formatLabel(product.type))}

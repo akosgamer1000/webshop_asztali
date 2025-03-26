@@ -5,9 +5,11 @@ import axiosInstance from '../misch/Axios';
 // Base product interface
 interface BaseProduct {
   name: string;
+  manufacturer: string;
   type: 'PROCESSOR' | 'MEMORY' | 'HARDDRIVE' | 'VIDEOCARD' | 'MOTHERBOARD' | 'CPUCOOLER' | 'POWERSUPPLY' | 'POWERHOUSE';
   price: number;
   couantity: number;
+  imgSrc: string;
 }
 
 // Processor interface
@@ -117,17 +119,18 @@ const useCreateProduct = () => {
   const formatProductData = (productData: ProductType) => {
     console.log('Original Product Data:', productData);
 
-    const { type, name, price, couantity, ...specificFields } = productData;
+    const { type, name, manufacturer, price, couantity, imgSrc, ...specificFields } = productData;
     
-    
+   
     const baseProduct = {
       name,
+      manufacturer,
       type,
       price,
-      couantity
+      couantity,
+      imgSrc
     };
 
- 
     const productTypeMapping: { [key: string]: string } = {
       'PROCESSOR': 'Processor',
       'MEMORY': 'Memory',

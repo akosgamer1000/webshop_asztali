@@ -21,15 +21,19 @@ const AddVideoCard: React.FC = () => {
   const suggestedPowerRef = useRef<HTMLInputElement>(null);
   const displayPortRef = useRef<HTMLInputElement>(null);
   const sizeRef = useRef<HTMLInputElement>(null);
+  const manufacturerRef = useRef<HTMLInputElement>(null);
+  const imgSrcRef = useRef<HTMLInputElement>(null);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
     const formData = {
       name: nameRef.current?.value || '',
+      manufacturer: manufacturerRef.current?.value || '',
       type: 'VIDEOCARD' as const,
       price: Number(priceRef.current?.value) || 0,
       couantity: Number(quantityRef.current?.value) || 0,
+      imgSrc: imgSrcRef.current?.value || '',
       videoChipset: videoChipsetRef.current?.value || '',
       producer: producerRef.current?.value || '',
       cpuSocket: cpuSocketRef.current?.value || '',
@@ -76,6 +80,16 @@ const AddVideoCard: React.FC = () => {
             </div>
 
             <div>
+              <label className="block text-gray-700 mb-2">Manufacturer:</label>
+              <input
+                type="text"
+                ref={manufacturerRef}
+                className="w-full p-2 border rounded-lg"
+                required
+              />
+            </div>
+
+            <div>
               <label className="block text-gray-700 mb-2">Price:</label>
               <input
                 type="number"
@@ -95,6 +109,16 @@ const AddVideoCard: React.FC = () => {
                 className="w-full p-2 border rounded-lg"
                 required
                 min="0"
+              />
+            </div>
+
+            <div>
+              <label className="block text-gray-700 mb-2">Image URL:</label>
+              <input
+                type="url"
+                ref={imgSrcRef}
+                className="w-full p-2 border rounded-lg"
+                required
               />
             </div>
 

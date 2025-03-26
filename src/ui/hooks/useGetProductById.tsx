@@ -5,9 +5,11 @@ import axiosInstance from '../misch/Axios';
 interface Product {
   id: number;
   name: string;
+  manufacturer: string;
   type: string;
   price: number;
-  quantity: number;
+  couantity: number;
+  imgSrc: string;
   [key: string]: any;
 }
 
