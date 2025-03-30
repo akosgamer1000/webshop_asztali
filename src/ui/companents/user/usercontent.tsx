@@ -1,25 +1,27 @@
 import React, { useState } from "react";
 import "../../style/basic.css";
 import useUsers from "../../hooks/useUsers";
-import { useNavigate } from "react-router-dom";
-
-
+import { useNavigate } from "react-router-dom"; 
 
 const UserContent: React.FC = () => {
   const { users, loading, error } = useUsers();
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [itemsPerPage] = useState<number>(5);
+  const [searchTerm, setSearchTerm] = useState<string>('');
+  const navigate = useNavigate();
+
+  const filteredUsers = users.filter(user =>
+    user.name.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = users.slice(indexOfFirstItem, indexOfLastItem);
-  const totalPages = Math.ceil(users.length / itemsPerPage);
+  const currentItems = filteredUsers.slice(indexOfFirstItem, indexOfLastItem);
+  const totalPages = Math.ceil(filteredUsers.length / itemsPerPage);
 
   const handlePageChange = (pageNumber: number) => {
     setCurrentPage(pageNumber);
   };
-
-  const navigate = useNavigate();
 
   function handleclick(id: string) {
     navigate("/user/" + id);
@@ -54,7 +56,6 @@ const UserContent: React.FC = () => {
                   <td className="p-3 border">
                     <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onClick={() => handleclick(user.id.toString())}>
                       View
-                    
                     </button>
                   </td>
                 </tr>
@@ -62,7 +63,6 @@ const UserContent: React.FC = () => {
             </tbody>
           </table>
 
-       
           <div className="flex justify-center gap-2 mt-4">
             <button
               onClick={() => handlePageChange(currentPage - 1)}
@@ -91,6 +91,16 @@ const UserContent: React.FC = () => {
             >
               Next
             </button>
+          </div>
+
+          <div className="flex justify-center gap-2 mt-4">
+            <input
+              type="text"
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              className="w-1/3 px-4 py-2 border rounded"
+              placeholder="Search by name"
+            />
           </div>
 
           <div className="flex justify-center mt-6">

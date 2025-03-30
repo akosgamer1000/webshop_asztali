@@ -12,6 +12,7 @@ const Content: React.FC = () => {
   const [isEditing, setIsEditing] = useState(false);
   const [percentage, setPercentage] = useState('');
   const [isUpdating, setIsUpdating] = useState(false);
+  const [searchTerm, setSearchTerm] = useState<string>('');
   const patchProduct = usePatchOneProduct();
 
   useEffect(() => {
@@ -42,10 +43,15 @@ const Content: React.FC = () => {
     navigate(`/products/${id}`);
   };
 
+  const filteredProducts = products.filter(product =>
+    product.name.toLowerCase().includes(searchTerm.toLowerCase()) 
+   
+  );
+
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = products.slice(indexOfFirstItem, indexOfLastItem);
-  const totalPages = Math.ceil(products.length / itemsPerPage);
+  const currentItems = filteredProducts.slice(indexOfFirstItem, indexOfLastItem);
+  const totalPages = Math.ceil(filteredProducts.length / itemsPerPage);
 
   const handlePageChange = (pageNumber: number) => {
     setCurrentPage(pageNumber);
@@ -121,6 +127,16 @@ const Content: React.FC = () => {
             >
               Next
             </button>
+          </div>
+
+          <div className="flex justify-center gap-2 mt-4">
+            <input
+              type="text"
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              className="w-1/3 px-4 py-2 border rounded"
+              placeholder="Search by name"
+            />
           </div>
 
         

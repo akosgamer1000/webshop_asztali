@@ -1,12 +1,14 @@
 import React, { useRef, FormEvent, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import useCreateUser from '../../hooks/useCreateUser';
+import useUsers from '../../hooks/useUsers';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
 
 interface UserFormData {
     name: string;
     email: string;
     password: string;
+    address: string;
     role: string;
 }
 
@@ -14,6 +16,7 @@ interface ValidationErrors {
     name?: string;
     email?: string;
     password?: string;
+    address?: string;
     role?: string;
     form?: string;
 }
@@ -23,16 +26,18 @@ const AddUser: React.FC = () => {
     const nameRef = useRef<HTMLInputElement>(null);
     const emailRef = useRef<HTMLInputElement>(null);
     const passwordRef = useRef<HTMLInputElement>(null);
+    const addressRef = useRef<HTMLInputElement>(null); 
     const roleRef = useRef<HTMLSelectElement>(null);
     const create = useCreateUser();
+    const { refetch } = useUsers();
     
     const [errors, setErrors] = useState<ValidationErrors>({});
     const [showPassword, setShowPassword] = useState(false);
+    const [isSubmitting, setIsSubmitting] = useState(false);
 
     const validateForm = (): ValidationErrors => {
         const newErrors: ValidationErrors = {};
 
-     
         if (!nameRef.current?.value) {
             newErrors.name = "Name field must be filled!";
         }
@@ -45,9 +50,8 @@ const AddUser: React.FC = () => {
             newErrors.email = "Invalid email format!";
         }
 
-      
         const passwordValue = passwordRef.current?.value || '';
-        const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+        const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&/.-])[A-Za-z\d@$!%*?&/.-]{8,}$/;
         if (!passwordValue) {
             newErrors.password = "Password field must be filled!";
         } else if (!passwordRegex.test(passwordValue)) {
@@ -64,32 +68,37 @@ const AddUser: React.FC = () => {
     const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         
-    
         const validationErrors = validateForm();
         
-       
         if (Object.keys(validationErrors).length > 0) {
             setErrors(validationErrors);
             return;
         }
 
-      
         setErrors({});
+        setIsSubmitting(true);
 
         const formData: UserFormData = {
             name: nameRef.current?.value || '',
             email: emailRef.current?.value || '',
             password: passwordRef.current?.value || '',
+            address: addressRef.current?.value || '', 
             role: roleRef.current?.value || 'user'
         };
 
         try {
-            create.createUser(formData);
+            await create.createUser(formData);
+            
+          
+            await refetch();
+            
+           
             navigate('/users');
         } catch (error) {
             console.error('Error creating user:', error);
-            
             setErrors(prevErrors => ({...prevErrors, form: 'Failed to create user'}));
+        } finally {
+            setIsSubmitting(false);
         }
     };
 
@@ -163,6 +172,24 @@ const AddUser: React.FC = () => {
 
                 <div className="flex flex-col">
                     <label className="text-sm font-medium text-gray-600 mb-2">
+                        Address
+                    </label>
+                    <input
+                        type="text"
+                        ref={addressRef}
+                        className={`p-2 border rounded-md focus:outline-none focus:ring-2 ${
+                            errors.address 
+                                ? 'border-red-500 focus:ring-red-500' 
+                                : 'border-gray-300 focus:ring-blue-500'
+                        }`}
+                    />
+                    {errors.address && (
+                        <p className="text-red-500 text-sm mt-1">{errors.address}</p>
+                    )}
+                </div>
+
+                <div className="flex flex-col">
+                    <label className="text-sm font-medium text-gray-600 mb-2">
                         Role
                     </label>
                     <select
@@ -190,9 +217,14 @@ const AddUser: React.FC = () => {
                 <div className="flex justify-end pt-4">
                     <button
                         type="submit"
-                        className="px-6 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 transition-colors"
+                        disabled={isSubmitting}
+                        className={`px-6 py-2 ${
+                            isSubmitting 
+                                ? 'bg-gray-400 cursor-not-allowed' 
+                                : 'bg-green-600 hover:bg-green-700'
+                        } text-white rounded-md transition-colors`}
                     >
-                        Add User
+                        {isSubmitting ? 'Adding...' : 'Add User'}
                     </button>
                 </div>
             </form>

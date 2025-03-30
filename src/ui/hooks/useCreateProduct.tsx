@@ -189,6 +189,9 @@ const useCreateProduct = () => {
             case 400:
               setError("Invalid product data");
               break;
+              case 401:
+                
+                break
             case 500:
               setError("Server error");
               break;

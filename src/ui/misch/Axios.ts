@@ -3,9 +3,14 @@ import store from './Store';
 
 const url = "http://localhost:3000";
 
-// Create an Axios instance with the base URL
+
 const axiosInstance = axios.create({
-  baseURL: url
+  baseURL: url,
+
+  headers: {
+    'Cache-Control': 'no-cache',
+    'Pragma': 'no-cache'
+  }
 });
 
 
@@ -14,7 +19,30 @@ axiosInstance.interceptors.request.use((config) => {
   if (token) {
     config.headers['Authorization'] = 'Bearer ' + token;
   }
+  
+
+  if (config.method === 'get') {
+    config.params = {
+      ...config.params,
+      _t: new Date().getTime()
+    };
+  }
+  
   return config;
+}, (error) => {
+  return Promise.reject(error);
 });
+
+
+axiosInstance.interceptors.response.use(
+  (response) => {
+    return response;
+  },
+  (error) => {
+
+    console.error('API Error:', error);
+    return Promise.reject(error);
+  }
+);
 
 export default axiosInstance;
