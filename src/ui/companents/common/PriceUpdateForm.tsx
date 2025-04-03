@@ -44,7 +44,7 @@ const PriceUpdateForm: React.FC<PriceUpdateFormProps> = ({ onUpdate, onCancel })
           value={percentage}
           onChange={(e) => {
             const value = e.target.value;
-            // Allow empty string or values between -90 and 1000
+         
             if (value === '' || (parseFloat(value) >= -90 && parseFloat(value) <= 1000)) {
               setPercentage(value);
             }

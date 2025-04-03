@@ -32,7 +32,7 @@ function DataTable<T>({
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [searchTerm, setSearchTerm] = useState<string>('');
 
-  // Reset to first page when search term changes
+
   React.useEffect(() => {
     setCurrentPage(1);
   }, [searchTerm]);
