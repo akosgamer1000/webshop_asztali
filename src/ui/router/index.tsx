@@ -16,6 +16,7 @@ import AddUser from '../pages/user/Adduserpage';
 import Frame from '../pages/product/ProductCreatio';
 import ProductChoice from '../companents/product/productChoice';
 import Addcpucoller from '../companents/product/adds/cpuColler'
+import MainLayout from '../companents/layout/MainLayout';
 
 import AddProcessor from '../companents/product/adds/processor';
 import AddMemory from '../companents/product/adds/memory';
@@ -28,7 +29,6 @@ import AddPowerhouse from '../companents/product/adds/powerhouse';
 const PrivateRoute: React.FC<{ element: React.ReactElement }> = ({ element }) => {
   const isAuthenticated = useSelector((state: RootState) => !!state.auth.token);
   
-
   console.log('Auth state in PrivateRoute:', { 
     isAuthenticated, 
     token: useSelector((state: RootState) => state.auth.token)
@@ -41,82 +41,52 @@ const Router: React.FC = () => {
   const dispatch = useAppDispatch();
   const isAuthenticated = useSelector((state: RootState) => !!state.auth.token);
   
- 
   useEffect(() => {
     const token = localStorage.getItem("token");
     const userId = localStorage.getItem("userId");
     console.log('Checking localStorage auth data:', { token });
     
     if (token) {
-    
-      dispatch(login({ token ,userId: userId ?? '' }));
+      dispatch(login({ token, userId: userId ?? '' }));
       console.log('Restored auth state from localStorage');
     }
   }, [dispatch]);
-  
   
   console.log('Current auth status:', { isAuthenticated });
   
   return (
     <Routes>
-      <Route 
-        path="/login" 
-        element={isAuthenticated ? <Navigate to="/" /> : <Login />} 
-      />
-      <Route
-        path="/products"
-        element={<PrivateRoute element={<Product />} />}
-      />
-      <Route
-        path="/setting"
-        element={<PrivateRoute element={<Settings />} />}
-      />
-      <Route
-        path="/orders"
-        element={<PrivateRoute element={<Order />} />}
-      />
-      <Route
-        path="/users"
-        element={<PrivateRoute element={<Users />} />}
-      />
-      <Route
-        path="/"
-        element={<PrivateRoute element={<Product />} />}
-      />
-      <Route
-        path="/user/:id"
-        element={<PrivateRoute element={<Userwiew />} />}
-      />
-      <Route
-        path="/profile/:id"
-        element={<PrivateRoute element={<Profile />} />}
-      />
-      <Route
-        path="/orderdetails/:id"
-        element={<PrivateRoute element={<Ordertetails />} />}
-      />
-     
-       <Route
-        path="/adduser"
-        element={<PrivateRoute element={<AddUser />} />}
-      />
-      <Route
-        path="/products/:id"
-        element={<PrivateRoute element={<Productdetails />} />}
-      /> 
-      <Route path="/addProduct" element={<PrivateRoute element={<Frame />} />}>
-        <Route path='select' element={<ProductChoice></ProductChoice>}></Route>
-        <Route path="processor" element={<AddProcessor  />} />
-        <Route path="cpucooler" element={<Addcpucoller />} />
-      
-
-        <Route path="memory" element={<AddMemory />} />
-        <Route path="harddrive" element={<AddHardDrive />} />
-        <Route path="videocard" element={<AddVideoCard />} />
-        <Route path="motherboard" element={<AddMotherboard />} />
-         <Route path="powersupply" element={<AddPowerSupply />} />
-        <Route path="powerhouse" element={<AddPowerhouse />} />
-     
+      <Route element={<MainLayout />}>
+        <Route 
+          path="/login" 
+          element={isAuthenticated ? <Navigate to="/" /> : <Login />} 
+        />
+        
+        
+        <Route element={<PrivateRoute element={<React.Fragment />} />}>
+          <Route path="/" element={<Product />} />
+          <Route path="/products" element={<Product />} />
+          <Route path="/setting" element={<Settings />} />
+          <Route path="/orders" element={<Order />} />
+          <Route path="/users" element={<Users />} />
+          <Route path="/user/:id" element={<Userwiew />} />
+          <Route path="/profile/:id" element={<Profile />} />
+          <Route path="/orderdetails/:id" element={<Ordertetails />} />
+          <Route path="/adduser" element={<AddUser />} />
+          <Route path="/products/:id" element={<Productdetails />} />
+          
+          <Route path="/addProduct" element={<Frame />}>
+            <Route path="select" element={<ProductChoice />} />
+            <Route path="processor" element={<AddProcessor />} />
+            <Route path="cpucooler" element={<Addcpucoller />} />
+            <Route path="memory" element={<AddMemory />} />
+            <Route path="harddrive" element={<AddHardDrive />} />
+            <Route path="videocard" element={<AddVideoCard />} />
+            <Route path="motherboard" element={<AddMotherboard />} />
+            <Route path="powersupply" element={<AddPowerSupply />} />
+            <Route path="powerhouse" element={<AddPowerhouse />} />
+          </Route>
+        </Route>
       </Route>
     </Routes>
   );

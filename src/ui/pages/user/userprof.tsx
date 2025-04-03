@@ -1,27 +1,8 @@
-import React, { useState } from 'react';
+import React from 'react';
+import UserView from '../../companents/user/userwiew';
 
-import'../../style/basic.css'
-import Sidebar from '../../companents/sidebar';
-import Header from '../../companents/header';
+const Userwiew: React.FC = () => {
+  return <UserView />;
+};
 
-import Usercontent from '../../companents/user/userwiew';
-const Dashboard: React.FC = () => {
-    const [sidebarOpen, setSidebarOpen] = useState(false);
-    return (
-      <div className="flex min-h-screen bg-gray-100">
-        <Sidebar toggleSidebar={() => setSidebarOpen(!sidebarOpen)} isOpen={sidebarOpen} />
-        <div className="flex-1 ml-0 md:ml-64 transition-all">
-          <Header toggleSidebar={() => setSidebarOpen(!sidebarOpen)} />
-          <div className="p-5">
-          <Usercontent></Usercontent>
-          </div>
-        </div>
-      </div>
-    );
-  };
-  
-  const App: React.FC = () => {
-    return <Dashboard />;
-  };
-
-export default App;
+export default Userwiew;

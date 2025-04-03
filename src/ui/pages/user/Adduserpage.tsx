@@ -1,31 +1,8 @@
-import React, { useState } from 'react';
+import React from 'react';
+import AddUserContent from '../../companents/user/adduser';
 
-import'../../style/basic.css'
-import Sidebar from '../../companents/sidebar';
-import Header from '../../companents/header';
+const AddUser: React.FC = () => {
+  return <AddUserContent />;
+};
 
-import Addusercon from '../../companents/user/adduser';
-
-
-
-const Dashboard: React.FC = () => {
-    const [sidebarOpen, setSidebarOpen] = useState(false);
-    return (
-      <div className="flex min-h-screen bg-gray-100">
-        <Sidebar toggleSidebar={() => setSidebarOpen(!sidebarOpen)} isOpen={sidebarOpen} />
-        <div className="flex-1 ml-0 md:ml-64 transition-all">
-          <Header toggleSidebar={() => setSidebarOpen(!sidebarOpen)} />
-          <div className="p-5">
-          <Addusercon></Addusercon>
-
-          </div>
-        </div>
-      </div>
-    );
-  };
-  
-  const App: React.FC = () => {
-    return <Dashboard />;
-  };
-
-export default App;
+export default AddUser;
