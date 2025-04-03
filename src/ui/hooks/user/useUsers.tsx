@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
 import axios, { AxiosError } from 'axios';
-import axiosInstance from '../misch/Axios';
+import axiosInstance from '../../misch/Axios';
 
 interface UserData {
   id: number;

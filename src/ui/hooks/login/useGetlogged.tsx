@@ -1,24 +1,25 @@
 import { useState, useEffect } from 'react';
 import { AxiosError } from 'axios';
-import axiosInstance from '../misch/Axios';
+import axiosInstance from '../../misch/Axios';
 
-interface OrderData {
+interface User {
   id: number;
-  userId: number;
-  totalPrice: number;
-  createdAt: string;
+  username: string;
+  role: string;
+  iat: number;
+  exp: number;
 }
 
-const useOrders = () => {
-  const [orders, setOrders] = useState<OrderData[]>([]);
+const useGetLogged = () => {
+  const [id, setId] = useState<number | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    const fetchOrders = async () => {
+    const fetchLoggedUser = async () => {
       try {
-        const response = await axiosInstance.get<OrderData[]>("/order");
-        setOrders(response.data);
+        const response = await axiosInstance.get<User>("/auth/profile");
+        setId(response.data.id);
         setError(null);
       } catch (err) {
         if (err instanceof AxiosError) {
@@ -26,8 +27,14 @@ const useOrders = () => {
             setError("Network error: Unable to connect to the server");
           } else if (err.response) {
             switch (err.response.status) {
+              case 401:
+                setError("Unauthorized: Please log in again");
+                break;
+              case 403:
+                setError("Forbidden: Access denied");
+                break;
               case 404:
-                setError("Orders not found");
+                setError("User profile not found");
                 break;
               case 500:
                 setError("Server error");
@@ -39,15 +46,16 @@ const useOrders = () => {
         } else {
           setError("An unexpected error occurred");
         }
+        setId(null);
       } finally {
         setLoading(false);
       }
     };
 
-    fetchOrders();
+    fetchLoggedUser();
   }, []);
 
-  return { orders, loading, error };
+  return { id, loading, error };
 };
 
-export default useOrders;
+export default useGetLogged;

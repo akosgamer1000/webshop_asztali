@@ -1,11 +1,12 @@
 import { useState, useEffect } from 'react';
 import { AxiosError } from 'axios';
-import axiosInstance from '../misch/Axios';
+import axiosInstance from '../../misch/Axios';
 
 interface User {
     id: number;
     name: string;
     email: string;
+    address: string;
     password: string;
     role: string;
 }

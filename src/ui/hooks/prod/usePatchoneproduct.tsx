@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { AxiosError } from 'axios';
-import axiosInstance from '../misch/Axios';
+import axiosInstance from '../../misch/Axios';
 
 
 
@@ -16,7 +16,7 @@ const usePatchOneProduct = () => {
 
     try {
       const response = await axiosInstance.patch(
-        `/product/${productId}`,
+        `/products/${productId}`,
         { price: newPrice }
       );
 

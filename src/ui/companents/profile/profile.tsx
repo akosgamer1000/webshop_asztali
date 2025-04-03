@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import useGetUserById from '../../hooks/useGetuserbyid';
+import useGetUserById from '../../hooks/login/useGetuserbyid';
+import useChangePassword from '../../hooks/user/useChangePassword';
 import picture from '../../profile.png'
 
 
@@ -11,15 +12,16 @@ const ProfileContent: React.FC = () => {
   const [newPassword, setNewPassword] = useState('');
   const [currentUser, setCurrentUser] = useState<any>(null);
   const [passwordError, setPasswordError] = useState<string | null>(null);
- 
+  
   const { user, loading, error } = useGetUserById(Number.parseInt(id || '0'));
+  const { changePassword } = useChangePassword();
 
   const validatePassword = (password: string): string | null => {
     if (password.length < 8) {
       return "Password must be at least 8 characters long";
     }
 
-    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&/.-])[A-Za-z\d@$!%*?&/.-]{8,}$/;
     if (!passwordRegex.test(password)) {
       return "Password must include lowercase, uppercase, number, and special character";
     }
@@ -52,46 +54,21 @@ const ProfileContent: React.FC = () => {
   }
 
   const handlePasswordChange = async () => {
+
+    const validationError = validatePassword(newPassword);
+    if (validationError) {
+      setPasswordError(validationError);
+      return;
+    }
+
     try {
+      await changePassword(oldPassword, newPassword);
+      setShowPasswordChange(false);
+      setOldPassword('');
+      setNewPassword('');
       setPasswordError(null);
-       console.log("I am here")
-      if (oldPassword === "" && newPassword === "") {
-        setPasswordError("Both fields are required");
-        return;
-      }
-  
-      
-      if (oldPassword === "" || newPassword === "") {
-        setPasswordError("Both fields are required");
-        return;
-      }
-  
-    
-   
-    
-  
-      const passwordValidationError = validatePassword(newPassword);
-      if (passwordValidationError) {
-        setPasswordError(passwordValidationError);
-        return;
-      }
-  
-      try {
-       
-        
-  
-    
-  
-        setShowPasswordChange(false);
-        setOldPassword('');
-        setNewPassword('');
-      } catch (hashError) {
-        console.error('Hashing error:', hashError);
-        setPasswordError("Failed to hash password");
-      }
-    } catch (err) {
-      console.error(err);
-      setPasswordError("An unexpected error occurred during password change");
+    } catch (error) {
+     
     }
   };
 

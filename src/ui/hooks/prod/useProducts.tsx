@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
 import { AxiosError } from 'axios';
-import axiosInstance from '../misch/Axios';
+import axiosInstance from '../../misch/Axios';
 
 interface ProductData {
   id: number;
@@ -20,7 +20,7 @@ const useProducts = () => {
   const fetchProducts = useCallback(async () => {
     setLoading(true);
     try {
-      const response = await axiosInstance.get<ProductData[]>("/product");
+      const response = await axiosInstance.get<ProductData[]>("/products");
       
       setProducts(response.data);
       setError(null);

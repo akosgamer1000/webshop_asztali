@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import '../../style/basic.css'
-import useProducts from "../../hooks/useProducts";
+import useProducts from "../../hooks/prod/useProducts";
 import { useNavigate } from "react-router-dom";
-import usePatchOneProduct from '../../hooks/usePatchoneproduct';
+import usePatchOneProduct from '../../hooks/prod/usePatchoneproduct';
 
 const Content: React.FC = () => {
   const navigate = useNavigate();
@@ -12,7 +12,9 @@ const Content: React.FC = () => {
   const [isEditing, setIsEditing] = useState(false);
   const [percentage, setPercentage] = useState('');
   const [isUpdating, setIsUpdating] = useState(false);
+  const [isUpdatingPrices, setIsUpdatingPrices] = useState(false);
   const [searchTerm, setSearchTerm] = useState<string>('');
+  const [updateError, setUpdateError] = useState<string | null>(null);
   const patchProduct = usePatchOneProduct();
 
   useEffect(() => {
@@ -21,21 +23,39 @@ const Content: React.FC = () => {
       setIsUpdating(false);
       setIsEditing(false);
       setPercentage('');
+      setUpdateError(null);
     }
   }, [isUpdating, refetch]);
+
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [searchTerm]);
 
   const handleBulkPriceUpdate = async () => {
     const percentageValue = parseFloat(percentage);
     if (!isNaN(percentageValue)) {
-      try {
-        for (const product of products) {
-          const newPrice = product.price * (1 + percentageValue / 100);
-          await patchProduct.updateProductPrice(product.id, newPrice);
+      const confirmMessage = percentageValue >= 0 
+        ? `Are you sure you want to increase all prices by ${percentageValue}%?`
+        : `Are you sure you want to decrease all prices by ${Math.abs(percentageValue)}%?`;
+        
+      if (window.confirm(confirmMessage)) {
+        try {
+          setIsUpdatingPrices(true);
+          setUpdateError(null);
+          for (const product of products) {
+            const newPrice = product.price * (1 + percentageValue / 100);
+            await patchProduct.updateProductPrice(product.id, newPrice);
+          }
+          setIsUpdating(true);
+        } catch (error) {
+          console.error('Failed to update prices:', error);
+          setUpdateError('Failed to update prices. Please try again.');
+        } finally {
+          setIsUpdatingPrices(false);
         }
-        setIsUpdating(true);
-      } catch (error) {
-        console.error('Failed to update prices:', error);
       }
+    } else {
+      setUpdateError('Please enter a valid percentage value');
     }
   };
 
@@ -43,9 +63,13 @@ const Content: React.FC = () => {
     navigate(`/products/${id}`);
   };
 
-  const filteredProducts = products.filter(product =>
-    product.name.toLowerCase().includes(searchTerm.toLowerCase()) 
-   
+  const filteredProducts = useMemo(() => 
+    products.filter(product =>
+      product.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      product.manufacturer.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      product.type.toLowerCase().includes(searchTerm.toLowerCase())
+    ),
+    [products, searchTerm]
   );
 
   const indexOfLastItem = currentPage * itemsPerPage;
@@ -69,7 +93,7 @@ const Content: React.FC = () => {
               <tr>
                 <th className="p-3 border">ID</th>
                 <th className="p-3 border">Name</th>
-                <th className="p-3 border">manufacturer</th>
+                <th className="p-3 border">Manufacturer</th>
                 <th className="p-3 border">Type</th>
                 <th className="p-3 border">Price ($)</th>
                 <th className="p-3 border">Quantity</th>
@@ -98,7 +122,6 @@ const Content: React.FC = () => {
             </tbody>
           </table>
 
-          
           <div className="flex justify-center gap-2 mt-4">
             <button
               onClick={() => handlePageChange(currentPage - 1)}
@@ -135,11 +158,10 @@ const Content: React.FC = () => {
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
               className="w-1/3 px-4 py-2 border rounded"
-              placeholder="Search by name"
+              placeholder="Search by name, manufacturer or type"
             />
           </div>
 
-        
           <div className="flex flex-col items-center gap-4 mt-8">
             <button
               onClick={() => navigate('/addProduct/select')}
@@ -149,26 +171,41 @@ const Content: React.FC = () => {
             </button>
 
             {isEditing ? (
-              <div className="flex items-center gap-2 mt-4">
-                <input
-                  type="number"
-                  value={percentage}
-                  onChange={(e) => setPercentage(e.target.value)}
-                  className="w-20 px-2 py-1 border rounded"
-                  placeholder="%"
-                />
-                <button
-                  onClick={handleBulkPriceUpdate}
-                  className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition-colors"
-                >
-                  Update All Prices
-                </button>
-                <button
-                  onClick={() => setIsEditing(false)}
-                  className="bg-gray-300 text-gray-700 px-4 py-2 rounded hover:bg-gray-400 transition-colors"
-                >
-                  Cancel
-                </button>
+              <div className="flex flex-col items-center gap-2 mt-4">
+                <div className="flex items-center gap-2">
+                  <input
+                    type="number"
+                    value={percentage}
+                    onChange={(e) => {
+                      const value = e.target.value;
+                      
+                      if (value === '' || (parseFloat(value) >= -90 && parseFloat(value) <= 1000)) {
+                        setPercentage(value);
+                      }
+                    }}
+                    className="w-20 px-2 py-1 border rounded"
+                    placeholder="%"
+                  />
+                  <button
+                    onClick={handleBulkPriceUpdate}
+                    disabled={isUpdatingPrices}
+                    className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition-colors disabled:bg-blue-300"
+                  >
+                    {isUpdatingPrices ? 'Updating...' : 'Update All Prices'}
+                  </button>
+                  <button
+                    onClick={() => {
+                      setIsEditing(false);
+                      setUpdateError(null);
+                    }}
+                    className="bg-gray-300 text-gray-700 px-4 py-2 rounded hover:bg-gray-400 transition-colors"
+                  >
+                    Cancel
+                  </button>
+                </div>
+                {updateError && (
+                  <div className="text-red-500 mt-2">{updateError}</div>
+                )}
               </div>
             ) : (
               <button

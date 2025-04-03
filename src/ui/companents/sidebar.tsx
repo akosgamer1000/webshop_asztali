@@ -5,7 +5,7 @@ import { useSelector } from 'react-redux';
 import { useAppDispatch } from '../misch/Store';
 import { logout } from '../misch/store/authSlice';
 import type { RootState } from '../misch/Store';
-import useGetLogged from "../hooks/useGetlogged";
+import useGetLogged from "../hooks/login/useGetlogged";
 
 const Sidebar: React.FC<{ toggleSidebar: () => void; isOpen: boolean }> = ({
   isOpen,

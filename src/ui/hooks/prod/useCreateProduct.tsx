@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { AxiosError } from 'axios';
-import axiosInstance from '../misch/Axios';
+import axiosInstance from '../../misch/Axios';
 
 // Base product interface
 interface BaseProduct {
@@ -175,7 +175,7 @@ const useCreateProduct = () => {
       const formattedData = formatProductData(productData);
       console.log('Sending Product Data:', formattedData);
       
-      const response = await axiosInstance.post('/product', formattedData);
+      const response = await axiosInstance.post('/products', formattedData);
       return response.data;
     } catch (err) {
       console.error('Product Creation Error:', err);

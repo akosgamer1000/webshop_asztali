@@ -1,6 +1,6 @@
 import React, { useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
-import useCreateProduct from '../../../hooks/useCreateProduct';
+import useCreateProduct from '../../../hooks/prod/useCreateProduct';
 
 const AddCPUCooler: React.FC = () => {
   const navigate = useNavigate();

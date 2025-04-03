@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import'../../style/basic.css'
 import Sidebar from '../../companents/sidebar';
 import Header from '../../companents/header';
+import OrderView from '../../companents/order/OrderView';
 
 
 const Dashboard: React.FC = () => {
@@ -13,7 +14,7 @@ const Dashboard: React.FC = () => {
         <div className="flex-1 ml-0 md:ml-64 transition-all">
           <Header toggleSidebar={() => setSidebarOpen(!sidebarOpen)} />
           <div className="p-5">
-            
+          <OrderView></OrderView>
           </div>
         </div>
       </div>

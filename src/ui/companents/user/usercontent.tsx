@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "../../style/basic.css";
-import useUsers from "../../hooks/useUsers";
+import useUsers from "../../hooks/user/useUsers";
 import { useNavigate } from "react-router-dom"; 
 
 const UserContent: React.FC = () => {
@@ -9,6 +9,11 @@ const UserContent: React.FC = () => {
   const [itemsPerPage] = useState<number>(5);
   const [searchTerm, setSearchTerm] = useState<string>('');
   const navigate = useNavigate();
+
+
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [searchTerm]);
 
   const filteredUsers = users.filter(user =>
     user.name.toLowerCase().includes(searchTerm.toLowerCase())

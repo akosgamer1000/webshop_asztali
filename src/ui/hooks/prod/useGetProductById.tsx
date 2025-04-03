@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { AxiosError } from 'axios';
-import axiosInstance from '../misch/Axios';
+import axiosInstance from '../../misch/Axios';
 
 interface Product {
   id: number;
@@ -21,7 +21,7 @@ const useGetProductById = <T extends Product>(productId: number) => {
   const fetchProduct = async () => {
     setLoading(true);
     try {
-      const response = await axiosInstance.get<T>(`/product/${productId}`);
+      const response = await axiosInstance.get<T>(`/products/${productId}`);
       setProduct(response.data);
       setError(null);
     } catch (err) {

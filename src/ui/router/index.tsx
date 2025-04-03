@@ -123,11 +123,3 @@ const Router: React.FC = () => {
 };
 
 export default Router;
-
-//<Route path="processor" element={<addProcc />} />
-//<Route path="memory" element={<AddMemory />} />
-//<Route path="harddrive" element={<AddHardDrive />} />
-//<Route path="videocard" element={<AddVideoCard />} />
-//<Route path="motherboard" element={<AddMotherboard />} />
-// <Route path="powersupply" element={<AddPowerSupply />} />
-//   <Route path="powerhouse" element={<AddPowerhouse />} />

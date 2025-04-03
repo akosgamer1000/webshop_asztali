@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { AxiosError } from 'axios';
-import axiosInstance from '../misch/Axios';
+import axiosInstance from '../../misch/Axios';
 
 interface UserUpdateData {
   username?: string;

@@ -1,17 +1,27 @@
-import { useState } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { AxiosError } from 'axios';
-import axiosInstance from '../misch/Axios';
+import axiosInstance from '../../misch/Axios';
 
-const useDeleteUser = () => {
-  const [loading, setLoading] = useState<boolean>(false);
+interface OrderData {
+  id: number;
+  email: string;
+  address: string;
+  status: string;
+  totalPrice: number;
+  createdAt: string;
+}
+
+const useOrders = () => {
+  const [orders, setOrders] = useState<OrderData[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
-  const deleteUser = async (userId: number) => {
+  const fetchOrders = useCallback(async () => {
     setLoading(true);
     try {
-      await axiosInstance.delete(`/user/${userId}`);
+      const response = await axiosInstance.get<OrderData[]>("/order");
+      setOrders(response.data);
       setError(null);
-      return true;
     } catch (err) {
       if (err instanceof AxiosError) {
         if (err.code === 'ERR_NETWORK') {
@@ -19,10 +29,7 @@ const useDeleteUser = () => {
         } else if (err.response) {
           switch (err.response.status) {
             case 404:
-              setError("User not found");
-              break;
-            case 403:
-              setError("Not authorized to delete this user");
+              setError("Orders not found");
               break;
             case 500:
               setError("Server error");
@@ -34,17 +41,21 @@ const useDeleteUser = () => {
       } else {
         setError("An unexpected error occurred");
       }
-      return false;
     } finally {
       setLoading(false);
     }
-  };
+  }, []);
 
-  return {
-    deleteUser,
-    loading,
-    error
+  useEffect(() => {
+    fetchOrders();
+  }, [fetchOrders]);
+
+  return { 
+    orders, 
+    loading, 
+    error,
+    refetch: fetchOrders 
   };
 };
 
-export default useDeleteUser;
+export default useOrders;

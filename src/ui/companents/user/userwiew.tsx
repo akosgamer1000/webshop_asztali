@@ -1,7 +1,7 @@
 import React from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import useGetUserById from '../../hooks/useGetuserbyid';
-import useDeleteUser from '../../hooks/useDeleteuser';
+import useGetUserById from '../../hooks/login/useGetuserbyid';
+import useDeleteUser from '../../hooks/user/useDeleteuser';
 import { useSelector } from 'react-redux';
 import { selectUserId } from '../../misch/store/authSlice';
 
@@ -20,9 +20,10 @@ const ProfileContent: React.FC = () => {
         return <div>User not found</div>;
     }
 
-    const isOwnProfile = loggedInUserId === id;
-
+    const isOwnProfile = Boolean(id && loggedInUserId && Number(id) === Number(loggedInUserId));
+   
     const handleDelete = async () => {
+       
         if (isOwnProfile) {
             return; 
         }
@@ -43,58 +44,27 @@ const ProfileContent: React.FC = () => {
             
             <div className="space-y-6">
                 <div className="flex flex-col">
-                    <label className="text-sm font-medium text-gray-600 mb-2">
-                        Username
-                    </label>
-                    <input
-                        type="text"
-                        value={user.name}
-                        readOnly
-                        className="p-2 border border-gray-300 rounded-md bg-gray-50"
-                    />
+                    <span className="text-sm font-medium text-gray-600">Username</span>
+                    <span className="p-2 text-gray-800">{user.name}</span>
+                    <div className="h-px bg-gray-200"></div>
                 </div>
 
                 <div className="flex flex-col">
-                    <label className="text-sm font-medium text-gray-600 mb-2">
-                        Email Address
-                    </label>
-                    <input
-                        type="email"
-                        value={user.email}
-                        readOnly
-                        className="p-2 border border-gray-300 rounded-md bg-gray-50"
-                    />
+                    <span className="text-sm font-medium text-gray-600">Email Address</span>
+                    <span className="p-2 text-gray-800">{user.email}</span>
+                    <div className="h-px bg-gray-200"></div>
                 </div>
 
                 <div className="flex flex-col">
-                    <label className="text-sm font-medium text-gray-600 mb-2">
-                        Role
-                    </label>
-                    <select
-                        value={user.role}
-                    
-                        className="p-2 border border-gray-300 rounded-md bg-gray-50"
-                    >
-                        <option value="user">User</option>
-                        <option value="admin">Administrator</option>
-                    </select>
+                    <span className="text-sm font-medium text-gray-600">Address</span>
+                    <span className="p-2 text-gray-800">{user.address || 'No address provided'}</span>
+                    <div className="h-px bg-gray-200"></div>
                 </div>
 
                 <div className="flex flex-col">
-                    <label className="text-sm font-medium text-gray-600 mb-2">
-                        Password
-                    </label>
-                    <div className="flex gap-4">
-                        <input
-                            type="password"
-                            value={user.password}
-                            readOnly
-                            className="p-2 border border-gray-300 rounded-md bg-gray-50 flex-grow"
-                        />
-                        <button className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors">
-                            Change Password
-                        </button>
-                    </div>
+                    <span className="text-sm font-medium text-gray-600">Role</span>
+                    <span className="p-2 text-gray-800 capitalize">{user.role}</span>
+                    <div className="h-px bg-gray-200"></div>
                 </div>
 
                 <div className="flex justify-end gap-4 pt-4">
@@ -109,9 +79,6 @@ const ProfileContent: React.FC = () => {
                         title={isOwnProfile ? "You cannot delete your own profile" : "Delete User"}
                     >
                         Delete User
-                    </button>
-                    <button className="px-6 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 transition-colors">
-                        Edit Profile
                     </button>
                 </div>
             </div>
