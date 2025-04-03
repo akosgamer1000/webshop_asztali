@@ -18,10 +18,12 @@ const useChangePassword = () => {
         setError(null);
 
         try {
-            const response = await axiosInstance.post<ChangePasswordResponse>('/auth/change-password', {
-                oldPassword,
-                newPassword
-            });
+            const payload = {
+                oldPassword: oldPassword,
+                newPassword: newPassword
+            };
+            
+            const response = await axiosInstance.patch<ChangePasswordResponse>('/auth/changePassword', payload);
 
             return response.data;
         } catch (err) {
