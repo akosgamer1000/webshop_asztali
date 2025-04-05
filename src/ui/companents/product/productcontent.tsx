@@ -10,7 +10,7 @@ interface Product {
   manufacturer: string;
   type: string;
   price: number;
-  couantity: number; // Original property name preserved
+  couantity: number; 
 }
 
 const Content: React.FC = () => {
@@ -39,7 +39,7 @@ const Content: React.FC = () => {
   };
 
   const handleEditClick = () => {
-    // Force reset the component state
+   
     setIsEditing(false);
     setPercentage('');
     setUpdateError(null);
@@ -53,10 +53,9 @@ const Content: React.FC = () => {
     });
   };
 
-  // Effect to focus input when editing starts
   useEffect(() => {
     if (isEditing && !isUpdating && inputRef.current) {
-      // Delay focus slightly to ensure the DOM is ready
+   
       const timer = setTimeout(() => {
         if (inputRef.current) {
           inputRef.current.focus();
@@ -91,13 +90,12 @@ const Content: React.FC = () => {
       let processed = 0;
       let successful = 0;
       
-      // This function will update a single product and then schedule itself to run again
+    
       const processNextProduct = () => {
         if (processed >= productArray.length) {
-          // All products processed, finish up
+         
           setUpdateError("All updates complete. Refreshing data...");
-          
-          // Use setTimeout to ensure UI doesn't freeze during refetch
+       
           setTimeout(async () => {
             try {
               await refetch();
@@ -135,13 +133,12 @@ const Content: React.FC = () => {
           
           // Display the updated progress
           setUpdateError(`Updated ${successful} of ${processed} products (${productArray.length} total)`);
-          
-          // Schedule the next product update with a small delay
+      
           setTimeout(processNextProduct, 50);
         }, 50);
       };
       
-      // Start the process
+  
       processNextProduct();
       
     } catch (error) {
@@ -161,7 +158,7 @@ const Content: React.FC = () => {
       accessor: (item: Product) => `$${item.price.toFixed(2)}`,
       width: '15%'
     },
-    { header: 'Quantity', accessor: 'couantity', width: '15%' }  // Original property name preserved
+    { header: 'Quantity', accessor: 'couantity', width: '15%' }  
   ];
 
   return (

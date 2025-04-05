@@ -1,41 +1,23 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import'../../style/basic.css'
 import { useDispatch } from 'react-redux';
 import { logout } from '../../misch/store/authSlice';
-
-interface SettingOption {
-  id: number;
-  title: string;
-  description: string;
-  enabled: boolean;
-}
+import { SettingOption, saveSettings, selectSettings } from '../../misch/store/settingsSlice';
+import { useAppSelector } from '../../misch/Store';
 
 const Setting: React.FC = () => {
   const dispatch = useDispatch();
+  const reduxSettings = useAppSelector(selectSettings);
   
-  const [settings, setSettings] = useState<SettingOption[]>([
-    {
-      id: 2,
-      title: "Email Notifications",
-      description: "Receive email notifications for new orders",
-      enabled: true
-    },
-    {
-      id: 3,
-      title: "Auto Save",
-      description: "Automatically save changes to products",
-      enabled: true
-    },
-    {
-      id: 4,
-      title: "Analytics",
-      description: "Collect anonymous usage data",
-      enabled: false
-    }
-  ]);
-  
+  const [settings, setSettings] = useState<SettingOption[]>(reduxSettings || []);
   const [unsavedSettings, setUnsavedSettings] = useState<SettingOption[]>(settings);
   const [hasChanges, setHasChanges] = useState(false);
+
+ 
+  useEffect(() => {
+    setSettings(reduxSettings);
+    setUnsavedSettings(reduxSettings);
+  }, [reduxSettings]);
 
   const toggleSetting = (id: number) => {
     setUnsavedSettings(prevSettings =>
@@ -49,6 +31,7 @@ const Setting: React.FC = () => {
   const handleSave = async () => {
     try {
      
+      dispatch(saveSettings(unsavedSettings));
       setSettings(unsavedSettings);
       setHasChanges(false);
       alert('Settings saved successfully!');
