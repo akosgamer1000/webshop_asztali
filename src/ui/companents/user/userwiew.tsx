@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import useGetUserById from '../../hooks/login/useGetuserbyid';
 import useDeleteUser from '../../hooks/user/useDeleteuser';
@@ -9,15 +9,25 @@ const ProfileContent: React.FC = () => {
     const { id } = useParams();
     const navigate = useNavigate();
     const deleteuser = useDeleteUser();
+    const [deleteError, setDeleteError] = useState<string | null>(null);
     const loggedInUserId = useSelector(selectUserId);
+    
     if (!id) {
-        return <div>Invalid user ID</div>;
+        return <div className="text-xl text-red-600 text-center p-6">Invalid user ID</div>;
     }
   
-    const { user } = useGetUserById(Number.parseInt(id));
+    const { user, loading, error } = useGetUserById(Number.parseInt(id));
+
+    if (loading) {
+        return <div className="text-center p-6">Loading...</div>;
+    }
+
+    if (error) {
+        return <div className="text-xl text-red-600 text-center p-6">{error}</div>;
+    }
 
     if (!user) {
-        return <div>User not found</div>;
+        return <div className="text-xl text-red-600 text-center p-6">User not found</div>;
     }
 
     const isOwnProfile = Boolean(id && loggedInUserId && Number(id) === Number(loggedInUserId));
@@ -25,22 +35,40 @@ const ProfileContent: React.FC = () => {
     const handleDelete = async () => {
        
         if (isOwnProfile) {
+            setDeleteError("You cannot delete your own account");
             return; 
         }
         
         if (window.confirm('Are you sure you want to delete this user?')) {
             try {
-                await deleteuser.deleteUser(Number(id));
-                navigate('/users');
+                const success = await deleteuser.deleteUser(Number(id));
+                if (success) {
+                    navigate('/users');
+                } else {
+                    setDeleteError(deleteuser.error || "Failed to delete user");
+                }
             } catch (error) {
                 console.error('Error deleting user:', error);
+                setDeleteError("An unexpected error occurred while deleting the user");
             }
         }
     };
 
     return (
         <div className="bg-white rounded-lg shadow-md p-6">
-            <h2 className="text-2xl font-semibold text-gray-800 mb-6">Profile Information</h2>
+            <h2 className="text-2xl font-semibold text-gray-800 mb-6">User Profile</h2>
+            
+            {deleteError && (
+                <div className="mb-4 bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded">
+                    {deleteError}
+                </div>
+            )}
+            
+            {deleteuser.error && (
+                <div className="mb-4 bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded">
+                    {deleteuser.error}
+                </div>
+            )}
             
             <div className="space-y-6">
                 <div className="flex flex-col">

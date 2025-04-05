@@ -63,19 +63,19 @@ const ProfileContent: React.FC = () => {
   }, [passwordChangeSuccess]);
 
   if (!id) {
-    return <div>Invalid user ID</div>;
+    return <div className="text-xl text-red-600 text-center p-6">Invalid user ID</div>;
   }
 
   if (loading) {
-    return <div>Loading...</div>;
+    return <div className="text-center p-6">Loading...</div>;
   }
 
   if (error) {
-    return <div>Error: {error}</div>;
+    return <div className="text-xl text-red-600 text-center p-6">{error}</div>;
   }
 
   if (!currentUser) {
-    return <div>User not found</div>;
+    return <div className="text-xl text-red-600 text-center p-6">User not found</div>;
   }
 
   const handlePasswordChange = async () => {

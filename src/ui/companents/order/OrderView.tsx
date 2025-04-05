@@ -18,7 +18,7 @@ const OrderView: React.FC = () => {
     }
 
     if (error || !order) {
-        return <div>Order not found</div>;
+        return <div className="text-xl text-red-600 text-center p-6">{error || "Order not found"}</div>;
     }
 
     return (

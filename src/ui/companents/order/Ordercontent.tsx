@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import '../../style/basic.css'
 import useOrders from '../../hooks/order/useOrders';
 import usePatchOrder from '../../hooks/order/usePatchOrder';
@@ -9,14 +9,17 @@ const OrderContent: React.FC = () => {
   const { orders, loading, error, refetch } = useOrders();
   const { updateOrder } = usePatchOrder();
   const navigate = useNavigate();
+  const [statusUpdateError, setStatusUpdateError] = useState<string | null>(null);
 
   const handleStatusChange = async (orderId: number, currentStatus: string) => {
     const newStatus = currentStatus === 'Pending' ? 'Completed' : 'Pending';
+    setStatusUpdateError(null);
     try {
       await updateOrder(orderId, { status: newStatus });
       await refetch(); 
     } catch (error) {
       console.error('Failed to update order status:', error);
+      setStatusUpdateError(`Failed to update order status: ${error instanceof Error ? error.message : 'Unknown error'}`);
     }
   };
 
@@ -70,6 +73,11 @@ const OrderContent: React.FC = () => {
 
   return (
     <div className="mt-5">
+      {statusUpdateError && (
+        <div className="mb-4 bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded">
+          {statusUpdateError}
+        </div>
+      )}
       <DataTable
         data={orders}
         columns={columns}

@@ -147,32 +147,35 @@ const ProductDetailsContent: React.FC = () => {
       
       <div className="mt-6 text-right flex justify-end items-center gap-4">
         {isEditing ? (
-          <div className="flex items-center gap-2">
-            <input
-              type="number"
-              value={percentage}
-              onChange={(e) => setPercentage(e.target.value)}
-              className={`w-20 px-2 py-1 border rounded ${isUpdating ? 'opacity-50 pointer-events-none' : ''}`}
-              placeholder="%"
-              disabled={isUpdating}
-            />
-            <button
-              onClick={() => handlePriceUpdate(parseFloat(percentage))}
-              disabled={isUpdating}
-              className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition-colors disabled:bg-blue-300"
-            >
-              {isUpdating ? 'Updating...' : 'Update Price'}
-            </button>
-            <button
-              onClick={() => {
-                setCurrentPrice(product.price);
-                setIsEditing(false);
-              }}
-              className="bg-gray-300 text-gray-700 px-4 py-2 rounded hover:bg-gray-400 transition-colors"
-            >
-              Cancel
-            </button>
-            {error && <div className="text-red-500 mt-2">{error}</div>}
+          <div className="flex flex-col gap-2">
+            <div className="flex items-center gap-2">
+              <input
+                type="number"
+                value={percentage}
+                onChange={(e) => setPercentage(e.target.value)}
+                className={`w-20 px-2 py-1 border rounded ${isUpdating ? 'opacity-50 pointer-events-none' : ''}`}
+                placeholder="%"
+                disabled={isUpdating}
+              />
+              <button
+                onClick={() => handlePriceUpdate(parseFloat(percentage))}
+                disabled={isUpdating}
+                className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition-colors disabled:bg-blue-300"
+              >
+                {isUpdating ? 'Updating...' : 'Update Price'}
+              </button>
+              <button
+                onClick={() => {
+                  setCurrentPrice(product.price);
+                  setIsEditing(false);
+                  setError(null);
+                }}
+                className="bg-gray-300 text-gray-700 px-4 py-2 rounded hover:bg-gray-400 transition-colors"
+              >
+                Cancel
+              </button>
+            </div>
+            {error && <div className="text-red-500 text-sm mt-2">{error}</div>}
           </div>
         ) : (
           <button
