@@ -1,11 +1,14 @@
 import { useState } from 'react';
-import { AxiosError } from 'axios';
+import axios, { AxiosError } from 'axios';
 import axiosInstance from '../../misch/Axios';
+import { useAppDispatch } from '../../misch/Store';
+import { logout } from '../../misch/store/authSlice';
 
 interface UserUpdateData {
-  username?: string;
+  name?: string;
   email?: string;
   password?: string;
+  address?: string;
   role?: string;
 }
 
@@ -18,54 +21,56 @@ const usePatchUser = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<boolean>(false);
+  const dispatch = useAppDispatch();
 
-  const updateUser = async (userId: number, updateData: UserUpdateData): Promise<UpdateUserResult> => {
+  const updateUser = async (userId: number, userData: UserUpdateData): Promise<UpdateUserResult> => {
     setLoading(true);
     setError(null);
     setSuccess(false);
 
     try {
-      await axiosInstance.patch(`/user/${userId}`, updateData);
+      await axiosInstance.patch(`/user/${userId}`, userData);
       setSuccess(true);
       return { success: true };
     } catch (err) {
-      let errorMessage = "An unexpected error occurred";
-      
-      if (err instanceof AxiosError) {
-        if (err.code === 'ERR_NETWORK') {
-          errorMessage = "Network error: Unable to connect to the server";
-        } else if (err.response) {
-          switch (err.response.status) {
-            case 400:
-              errorMessage = "Invalid user data provided";
-              break;
+      if (axios.isAxiosError(err)) {
+        const error = err as AxiosError;
+        if (error.code === 'ERR_NETWORK') {
+          setError("Network error: Unable to connect to the server");
+        } else if (error.response) {
+          switch (error.response.status) {
             case 401:
-              errorMessage = "Unauthorized: Please log in again";
-              break;
-            case 403:
-              errorMessage = "Forbidden: You don't have permission to update this user";
+              setError("Unauthorized: Please log in again");
+              dispatch(logout());
               break;
             case 404:
-              errorMessage = `User with ID ${userId} not found`;
+              setError(`User with ID ${userId} not found`);
+              break;
+            case 400:
+              setError("Invalid user data");
               break;
             case 500:
-              errorMessage = "Server error";
+              setError("Server error");
               break;
             default:
-              errorMessage = `Error: ${err.response.status}`;
+              setError(`Error: ${error.response.status}`);
           }
         }
+      } else {
+        setError("An unexpected error occurred");
       }
-      
-      setError(errorMessage);
-      setSuccess(false);
-      return { success: false, error: errorMessage };
+      return { success: false, error: error || undefined };
     } finally {
       setLoading(false);
     }
   };
 
-  return { updateUser, loading, error, success };
+  return {
+    updateUser,
+    loading,
+    error,
+    success
+  };
 };
 
 export default usePatchUser;

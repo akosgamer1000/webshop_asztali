@@ -62,7 +62,10 @@ const ProfileContent: React.FC = () => {
     }
 
     try {
-      await changePassword(oldPassword, newPassword);
+      await changePassword( {
+        oldPassword,
+        newPassword
+      });
       setShowPasswordChange(false);
       setOldPassword('');
       setNewPassword('');

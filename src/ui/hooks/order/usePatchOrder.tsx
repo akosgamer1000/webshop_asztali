@@ -1,58 +1,68 @@
 import { useState } from 'react';
-import { AxiosError } from 'axios';
+import axios, { AxiosError } from 'axios';
 import axiosInstance from '../../misch/Axios';
+import { useAppDispatch } from '../../misch/Store';
+import { logout } from '../../misch/store/authSlice';
 
-interface PatchOrderResponse {
-  success: boolean;
-  message: string;
+interface OrderUpdateData {
+  status?: string;
+ 
 }
 
 const usePatchOrder = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<boolean>(false);
+  const dispatch = useAppDispatch();
 
-  const patchOrder = async (orderId: number, newStatus: string) => {
+  const updateOrder = async (orderId: number, orderData: OrderUpdateData) => {
     setLoading(true);
     setError(null);
     setSuccess(false);
 
     try {
-      const response = await axiosInstance.patch<PatchOrderResponse>( `/order/${orderId}`,
-        { status: newStatus }
-      );
-      
+      const response = await axiosInstance.patch(`/orders/${orderId}`, orderData);
       setSuccess(true);
       return response.data;
     } catch (err) {
-      if (err instanceof AxiosError) {
-        if (err.code === 'ERR_NETWORK') {
+      if (axios.isAxiosError(err)) {
+        const error = err as AxiosError;
+        if (error.code === 'ERR_NETWORK') {
           setError("Network error: Unable to connect to the server");
-        } else if (err.response) {
-          switch (err.response.status) {
+        } else if (error.response) {
+          switch (error.response.status) {
+            case 401:
+              setError("Unauthorized: Please log in again");
+              dispatch(logout());
+              break;
             case 404:
-              setError("Order not found");
+              setError(`Order with ID ${orderId} not found`);
               break;
             case 400:
-              setError("Invalid status update request");
+              setError("Invalid order data");
               break;
             case 500:
               setError("Server error");
               break;
             default:
-              setError(`Error: ${err.response.status}`);
+              setError(`Error: ${error.response.status}`);
           }
         }
       } else {
         setError("An unexpected error occurred");
       }
-      throw err;
+      return null;
     } finally {
       setLoading(false);
     }
   };
 
-  return { patchOrder, loading, error, success };
+  return {
+    updateOrder,
+    loading,
+    error,
+    success
+  };
 };
 
 export default usePatchOrder;

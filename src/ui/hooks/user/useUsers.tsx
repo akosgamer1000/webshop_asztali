@@ -1,6 +1,8 @@
 import { useState, useEffect, useCallback } from 'react';
 import axios, { AxiosError } from 'axios';
 import axiosInstance from '../../misch/Axios';
+import { useAppDispatch } from '../../misch/Store';
+import { logout } from '../../misch/store/authSlice';
 
 interface UserData {
   id: number;
@@ -15,6 +17,7 @@ const useUsers = () => {
   const [users, setUsers] = useState<UserData[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
+  const dispatch = useAppDispatch();
 
   const fetchUsers = useCallback(async () => {
     console.log("Fetching users...");
@@ -30,6 +33,10 @@ const useUsers = () => {
           setError("Network error: Unable to connect to the server. Please check if the server is running.");
         } else if (error.response) {
           switch (error.response.status) {
+            case 401:
+              setError("Unauthorized: Please log in again");
+              dispatch(logout());
+              break;
             case 404:
               setError("API endpoint not found. Please check the server configuration.");
               break;
@@ -50,7 +57,7 @@ const useUsers = () => {
     } finally {
       setLoading(false);
     }
-  }, []);
+  }, [dispatch]);
 
   useEffect(() => {
     fetchUsers();

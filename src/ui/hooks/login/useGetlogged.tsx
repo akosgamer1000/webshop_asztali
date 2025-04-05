@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react';
 import { AxiosError } from 'axios';
 import axiosInstance from '../../misch/Axios';
+import { useAppDispatch } from '../../misch/Store';
+import { logout } from '../../misch/store/authSlice';
 
 interface User {
   id: number;
@@ -14,7 +16,7 @@ const useGetLogged = () => {
   const [id, setId] = useState<number | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
-
+  const dispatch = useAppDispatch();
   useEffect(() => {
     const fetchLoggedUser = async () => {
       try {
@@ -29,6 +31,7 @@ const useGetLogged = () => {
             switch (err.response.status) {
               case 401:
                 setError("Unauthorized: Please log in again");
+                dispatch(logout());
                 break;
               case 403:
                 setError("Forbidden: Access denied");

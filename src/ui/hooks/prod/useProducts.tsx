@@ -1,6 +1,8 @@
 import { useState, useEffect, useCallback } from 'react';
 import { AxiosError } from 'axios';
 import axiosInstance from '../../misch/Axios';
+import { useAppDispatch } from '../../misch/Store';
+import { logout } from '../../misch/store/authSlice';
 
 interface ProductData {
   id: number;
@@ -16,6 +18,7 @@ const useProducts = () => {
   const [products, setProducts] = useState<ProductData[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
+  const dispatch = useAppDispatch();
 
   const fetchProducts = useCallback(async () => {
     setLoading(true);
@@ -30,6 +33,10 @@ const useProducts = () => {
           setError("Network error: Unable to connect to the server");
         } else if (err.response) {
           switch (err.response.status) {
+            case 401:
+              setError("Unauthorized: Please log in again");
+              dispatch(logout());
+              break;
             case 404:
               setError("Products not found");
               break;
@@ -46,7 +53,7 @@ const useProducts = () => {
     } finally {
       setLoading(false);
     }
-  }, []);
+  }, [dispatch]);
 
   useEffect(() => {
     fetchProducts();

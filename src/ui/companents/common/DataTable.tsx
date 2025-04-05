@@ -77,7 +77,7 @@ function DataTable<T>({
   }
 
   return (
-    <div className="overflow-x-auto">
+    <div className="w-full overflow-x-auto">
       {searchFields.length > 0 && (
         <div className="mb-4">
           <input
@@ -90,13 +90,13 @@ function DataTable<T>({
         </div>
       )}
 
-      <table className="w-full border-collapse min-w-[600px]">
+      <table className="w-full border-collapse">
         <thead className="bg-gray-800 text-white">
           <tr>
             {columns.map((column, index) => (
               <th 
                 key={index} 
-                className="p-3 border text-left"
+                className="p-2 sm:p-3 border text-left text-sm sm:text-base"
                 style={{ width: column.width }}
               >
                 {column.header}
@@ -109,7 +109,7 @@ function DataTable<T>({
             <tr>
               <td 
                 colSpan={columns.length} 
-                className="p-4 text-center text-gray-500"
+                className="p-2 sm:p-4 text-center text-gray-500 text-sm sm:text-base"
               >
                 No items found
               </td>
@@ -123,7 +123,7 @@ function DataTable<T>({
                 style={{ cursor: onRowClick ? 'pointer' : 'default' }}
               >
                 {columns.map((column, index) => (
-                  <td key={index} className="p-3 border">
+                  <td key={index} className="p-2 sm:p-3 border text-sm sm:text-base">
                     {getCellValue(item, column)}
                   </td>
                 ))}
@@ -134,11 +134,11 @@ function DataTable<T>({
       </table>
 
       {totalPages > 1 && (
-        <div className="flex justify-center gap-2 mt-4">
+        <div className="flex flex-wrap justify-center gap-1 sm:gap-2 mt-4">
           <button
             onClick={() => handlePageChange(currentPage - 1)}
             disabled={currentPage === 1}
-            className="px-4 py-2 rounded bg-gray-200 disabled:opacity-50"
+            className="px-2 sm:px-4 py-1 sm:py-2 text-sm sm:text-base rounded bg-gray-200 disabled:opacity-50"
           >
             Previous
           </button>
@@ -147,7 +147,7 @@ function DataTable<T>({
             <button
               key={index + 1}
               onClick={() => handlePageChange(index + 1)}
-              className={`px-4 py-2 rounded ${
+              className={`px-2 sm:px-4 py-1 sm:py-2 text-sm sm:text-base rounded ${
                 currentPage === index + 1
                   ? 'bg-blue-500 text-white'
                   : 'bg-gray-200'
@@ -160,7 +160,7 @@ function DataTable<T>({
           <button
             onClick={() => handlePageChange(currentPage + 1)}
             disabled={currentPage === totalPages}
-            className="px-4 py-2 rounded bg-gray-200 disabled:opacity-50"
+            className="px-2 sm:px-4 py-1 sm:py-2 text-sm sm:text-base rounded bg-gray-200 disabled:opacity-50"
           >
             Next
           </button>

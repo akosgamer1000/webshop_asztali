@@ -1,20 +1,22 @@
 import { useState, useEffect, useCallback } from 'react';
-import { AxiosError } from 'axios';
+import axios, { AxiosError } from 'axios';
 import axiosInstance from '../../misch/Axios';
+import { useAppDispatch } from '../../misch/Store';
+import { logout } from '../../misch/store/authSlice';
 
 interface OrderData {
   id: number;
-  email: string;
-  address: string;
+  userId: number;
   status: string;
-  totalPrice: number;
   createdAt: string;
+ 
 }
 
 const useOrders = () => {
   const [orders, setOrders] = useState<OrderData[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
+  const dispatch = useAppDispatch();
 
   const fetchOrders = useCallback(async () => {
     setLoading(true);
@@ -23,11 +25,16 @@ const useOrders = () => {
       setOrders(response.data);
       setError(null);
     } catch (err) {
-      if (err instanceof AxiosError) {
-        if (err.code === 'ERR_NETWORK') {
+      if (axios.isAxiosError(err)) {
+        const error = err as AxiosError;
+        if (error.code === 'ERR_NETWORK') {
           setError("Network error: Unable to connect to the server");
-        } else if (err.response) {
-          switch (err.response.status) {
+        } else if (error.response) {
+          switch (error.response.status) {
+            case 401:
+              setError("Unauthorized: Please log in again");
+              dispatch(logout());
+              break;
             case 404:
               setError("Orders not found");
               break;
@@ -35,7 +42,7 @@ const useOrders = () => {
               setError("Server error");
               break;
             default:
-              setError(`Error: ${err.response.status}`);
+              setError(`Error: ${error.response.status}`);
           }
         }
       } else {
@@ -44,18 +51,13 @@ const useOrders = () => {
     } finally {
       setLoading(false);
     }
-  }, []);
+  }, [dispatch]);
 
   useEffect(() => {
     fetchOrders();
   }, [fetchOrders]);
 
-  return { 
-    orders, 
-    loading, 
-    error,
-    refetch: fetchOrders 
-  };
+  return { orders, loading, error, refetch: fetchOrders };
 };
 
 export default useOrders;

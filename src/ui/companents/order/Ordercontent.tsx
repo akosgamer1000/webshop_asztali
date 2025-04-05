@@ -7,13 +7,13 @@ import DataTable, { Column } from '../common/DataTable';
 
 const OrderContent: React.FC = () => {
   const { orders, loading, error, refetch } = useOrders();
-  const { patchOrder } = usePatchOrder();
+  const { updateOrder } = usePatchOrder();
   const navigate = useNavigate();
 
   const handleStatusChange = async (orderId: number, currentStatus: string) => {
     const newStatus = currentStatus === 'Pending' ? 'Completed' : 'Pending';
     try {
-      await patchOrder(orderId, newStatus);
+      await updateOrder(orderId, { status: newStatus });
       await refetch(); 
     } catch (error) {
       console.error('Failed to update order status:', error);
@@ -76,8 +76,8 @@ const OrderContent: React.FC = () => {
         keyField="id"
         loading={loading}
         error={error}
-        searchPlaceholder="Search by Order ID, Email, or Status"
-        searchFields={['id', 'email', 'status']}
+        searchPlaceholder="Search by Order ID or Status"
+        searchFields={['id', 'status']}
         onRowClick={handleViewDetails}
         itemsPerPage={5}
       />

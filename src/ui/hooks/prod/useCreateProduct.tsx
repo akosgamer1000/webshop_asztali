@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import { AxiosError } from 'axios';
 import axiosInstance from '../../misch/Axios';
+import { useAppDispatch } from '../../misch/Store';
+import { logout } from '../../misch/store/authSlice';
 
 // Base product interface
 interface BaseProduct {
@@ -115,6 +117,7 @@ type ProductType =
 const useCreateProduct = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
+  const dispatch = useAppDispatch();
 
   const formatProductData = (productData: ProductType) => {
     console.log('Original Product Data:', productData);
@@ -189,9 +192,10 @@ const useCreateProduct = () => {
             case 400:
               setError("Invalid product data");
               break;
-              case 401:
-                
-                break
+            case 401:
+              setError("Unauthorized: Please log in again");
+              dispatch(logout());
+              break;
             case 500:
               setError("Server error");
               break;

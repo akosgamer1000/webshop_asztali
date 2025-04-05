@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react';
 import { AxiosError } from 'axios';
 import axiosInstance from '../../misch/Axios';
+import { useAppDispatch } from '../../misch/Store';
+import { logout } from '../../misch/store/authSlice';
 
 interface Product {
   id: number;
@@ -17,6 +19,7 @@ const useGetProductById = <T extends Product>(productId: number) => {
   const [product, setProduct] = useState<T | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
+  const dispatch = useAppDispatch();
 
   const fetchProduct = async () => {
     setLoading(true);
@@ -30,6 +33,10 @@ const useGetProductById = <T extends Product>(productId: number) => {
           setError("Network error: Unable to connect to the server");
         } else if (err.response) {
           switch (err.response.status) {
+            case 401:
+              setError("Unauthorized: Please log in again");
+              dispatch(logout());
+              break;
             case 404:
               setError(`Product with ID ${productId} not found`);
               break;

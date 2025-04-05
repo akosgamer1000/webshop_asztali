@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom';
 import useGetProductById from '../../hooks/prod/useGetProductById';
 import usePatchOneProduct from '../../hooks/prod/usePatchoneproduct';
 
+
 type ProductType = 'PROCESSOR' | 'MOTHERBOARD' | 'VIDEOCARD' | 'MEMORY' | 'HARDDRIVE' | 'POWERSUPPLY' | 'POWERHOUSE' | 'CPUCOOLER';
 
 interface Product {
@@ -19,12 +20,16 @@ interface Product {
 const ProductDetailsContent: React.FC = () => {
   const { id } = useParams();
   const cleanId = id?.split(':')[0];
-  const { product, loading, error, refetch } = useGetProductById<Product>(Number(cleanId));
+  const { product, loading, error: fetchError, refetch } = useGetProductById<Product>(Number(cleanId));
   const patchProduct = usePatchOneProduct(); 
 
   const [isEditing, setIsEditing] = useState(false);
-  const [percentage, setPercentage] = useState('');
+
   const [currentPrice, setCurrentPrice] = useState<number>(0);
+
+  const [percentage, setPercentage] = useState<string>('');
+  const [isUpdating, setIsUpdating] = useState<boolean>(false);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     if (product) {
@@ -33,7 +38,7 @@ const ProductDetailsContent: React.FC = () => {
   }, [product]);
 
   if (loading) return <div className="text-xl text-center p-10">Loading...</div>;
-  if (error || !product) return <div className="text-xl text-red-600 text-center p-10">Error loading product</div>;
+  if (fetchError || !product) return <div className="text-xl text-red-600 text-center p-10">Error loading product</div>;
 
   const renderField = (label: string, value: any) => (
     <div className="flex flex-col">
@@ -104,21 +109,25 @@ const ProductDetailsContent: React.FC = () => {
     );
   };
 
-  const handlePriceUpdate = async () => {
-    const percentageValue = parseFloat(percentage);
-    if (!isNaN(percentageValue) && product) {
+  const handlePriceUpdate = async (percentageValue: number) => {
+    setIsUpdating(true);
+    if (product) {
       const newPrice = product.price * (1 + percentageValue / 100);
       try {
         await patchProduct.updateProductPrice(product.id, newPrice);
         setCurrentPrice(newPrice);
         await refetch();
         setIsEditing(false);
-        setPercentage('');
       } catch (error) {
         console.error('Failed to update price:', error);
+        setError('Failed to update price. Please try again.');
+      } finally {
+        setIsUpdating(false);
       }
     }
   };
+
+
 
   return (
     <div className="bg-white rounded-lg shadow-md p-6 max-w-4xl mx-auto mt-6">
@@ -143,21 +152,27 @@ const ProductDetailsContent: React.FC = () => {
               type="number"
               value={percentage}
               onChange={(e) => setPercentage(e.target.value)}
-              className="w-20 px-2 py-1 border rounded"
+              className={`w-20 px-2 py-1 border rounded ${isUpdating ? 'opacity-50 pointer-events-none' : ''}`}
               placeholder="%"
+              disabled={isUpdating}
             />
             <button
-              onClick={handlePriceUpdate}
-              className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 transition-colors"
+              onClick={() => handlePriceUpdate(parseFloat(percentage))}
+              disabled={isUpdating}
+              className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition-colors disabled:bg-blue-300"
             >
-              Update
+              {isUpdating ? 'Updating...' : 'Update Price'}
             </button>
             <button
-              onClick={() => setIsEditing(false)}
+              onClick={() => {
+                setCurrentPrice(product.price);
+                setIsEditing(false);
+              }}
               className="bg-gray-300 text-gray-700 px-4 py-2 rounded hover:bg-gray-400 transition-colors"
             >
               Cancel
             </button>
+            {error && <div className="text-red-500 mt-2">{error}</div>}
           </div>
         ) : (
           <button

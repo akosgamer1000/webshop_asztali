@@ -1,34 +1,43 @@
 import { useState } from 'react';
-import { AxiosError } from 'axios';
+import axios, { AxiosError } from 'axios';
 import axiosInstance from '../../misch/Axios';
+import { useAppDispatch } from '../../misch/Store';
+import { logout } from '../../misch/store/authSlice';
 
 const useDeleteUser = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
+  const [success, setSuccess] = useState<boolean>(false);
+  const dispatch = useAppDispatch();
 
   const deleteUser = async (userId: number) => {
     setLoading(true);
+    setError(null);
+    setSuccess(false);
+
     try {
       await axiosInstance.delete(`/user/${userId}`);
-      setError(null);
+      setSuccess(true);
       return true;
     } catch (err) {
-      if (err instanceof AxiosError) {
-        if (err.code === 'ERR_NETWORK') {
+      if (axios.isAxiosError(err)) {
+        const error = err as AxiosError;
+        if (error.code === 'ERR_NETWORK') {
           setError("Network error: Unable to connect to the server");
-        } else if (err.response) {
-          switch (err.response.status) {
-            case 404:
-              setError("User not found");
+        } else if (error.response) {
+          switch (error.response.status) {
+            case 401:
+              setError("Unauthorized: Please log in again");
+              dispatch(logout());
               break;
-            case 403:
-              setError("Not authorized to delete this user");
+            case 404:
+              setError(`User with ID ${userId} not found`);
               break;
             case 500:
               setError("Server error");
               break;
             default:
-              setError(`Error: ${err.response.status}`);
+              setError(`Error: ${error.response.status}`);
           }
         }
       } else {
@@ -40,11 +49,7 @@ const useDeleteUser = () => {
     }
   };
 
-  return {
-    deleteUser,
-    loading,
-    error
-  };
+  return { deleteUser, loading, error, success };
 };
 
 export default useDeleteUser;
