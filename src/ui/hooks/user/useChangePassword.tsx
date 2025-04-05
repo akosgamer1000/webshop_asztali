@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import axios, { AxiosError } from 'axios';
 import axiosInstance from '../../misch/Axios';
-import { useAppDispatch } from '../../misch/Store';
-import { logout } from '../../misch/store/authSlice';
+
+
 
 interface ChangePasswordData {
   oldPassword: string;
@@ -13,12 +13,13 @@ const useChangePassword = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<boolean>(false);
-  const dispatch = useAppDispatch();
 
   const changePassword = async (passwordData: ChangePasswordData) => {
     setLoading(true);
     setError(null);
     setSuccess(false);
+    
+    console.log('Sending password change request:', JSON.stringify(passwordData));
 
     try {
       const response = await axiosInstance.patch('/auth/changePassword', passwordData);
@@ -27,19 +28,30 @@ const useChangePassword = () => {
     } catch (err) {
       if (axios.isAxiosError(err)) {
         const error = err as AxiosError;
+        console.error('Password change error details:', {
+          status: error.response?.status,
+          data: error.response?.data,
+          message: error.message
+        });
+        
         if (error.code === 'ERR_NETWORK') {
           setError("Network error: Unable to connect to the server");
         } else if (error.response) {
           switch (error.response.status) {
             case 401:
-              setError("Unauthorized: Please log in again");
-              dispatch(logout());
+              setError("wrong old password")
               break;
+           
             case 404:
               setError("User not found");
               break;
             case 400:
-              setError("Invalid password data");
+              const errorData = error.response.data as { message?: string };
+              if (errorData.message) {
+                setError(`Bad request: ${errorData.message}`);
+              } else {
+                setError("Invalid password data");
+              }
               break;
             case 403:
               setError("Incorrect old password");
@@ -52,6 +64,7 @@ const useChangePassword = () => {
           }
         }
       } else {
+        console.error('Non-Axios error:', err);
         setError("An unexpected error occurred");
       }
       return null;

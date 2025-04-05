@@ -12,9 +12,10 @@ const ProfileContent: React.FC = () => {
   const [newPassword, setNewPassword] = useState('');
   const [currentUser, setCurrentUser] = useState<any>(null);
   const [passwordError, setPasswordError] = useState<string | null>(null);
+  const [successMessage, setSuccessMessage] = useState<string | null>(null);
   
   const { user, loading, error } = useGetUserById(Number.parseInt(id || '0'));
-  const { changePassword } = useChangePassword();
+  const { changePassword, loading: passwordLoading, error: passwordChangeError, success: passwordChangeSuccess } = useChangePassword();
 
   const validatePassword = (password: string): string | null => {
     if (password.length < 8) {
@@ -29,13 +30,37 @@ const ProfileContent: React.FC = () => {
     return null;
   };
 
- 
-
   useEffect(() => {
     if (user) {
       setCurrentUser(user);
     }
   }, [user]);
+
+ 
+  useEffect(() => {
+    if (passwordChangeError) {
+      setPasswordError(passwordChangeError);
+      setSuccessMessage(null);
+    }
+  }, [passwordChangeError]);
+
+ 
+  useEffect(() => {
+    if (passwordChangeSuccess) {
+      setShowPasswordChange(false);
+      setOldPassword('');
+      setNewPassword('');
+      setPasswordError(null);
+      setSuccessMessage("Password updated successfully!");
+      
+     
+      const timer = setTimeout(() => {
+        setSuccessMessage(null);
+      }, 5000);
+      
+      return () => clearTimeout(timer);
+    }
+  }, [passwordChangeSuccess]);
 
   if (!id) {
     return <div>Invalid user ID</div>;
@@ -54,24 +79,22 @@ const ProfileContent: React.FC = () => {
   }
 
   const handlePasswordChange = async () => {
-
     const validationError = validatePassword(newPassword);
     if (validationError) {
       setPasswordError(validationError);
+      setSuccessMessage(null);
       return;
     }
 
     try {
-      await changePassword( {
+      await changePassword({
         oldPassword,
         newPassword
       });
-      setShowPasswordChange(false);
-      setOldPassword('');
-      setNewPassword('');
-      setPasswordError(null);
+  
     } catch (error) {
      
+      console.error("Password change error:", error);
     }
   };
 
@@ -89,11 +112,20 @@ const ProfileContent: React.FC = () => {
         <p className="text-gray-600 mt-2">{currentUser.email}</p>
       </div>
 
+      {successMessage && (
+        <div className="mb-6 p-3 bg-green-100 border border-green-400 text-green-700 rounded text-center">
+          {successMessage}
+        </div>
+      )}
+
       <div className="space-y-6">
         {!showPasswordChange ? (
           <div className="flex justify-center">
             <button
-              onClick={() => setShowPasswordChange(true)}
+              onClick={() => {
+                setShowPasswordChange(true);
+                setSuccessMessage(null);
+              }}
               className="px-6 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors"
             >
               Change Password
@@ -145,9 +177,9 @@ const ProfileContent: React.FC = () => {
               <button
                 onClick={handlePasswordChange}
                 className="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 transition-colors"
-                disabled={!oldPassword || !newPassword}
+                disabled={!oldPassword || !newPassword || passwordLoading}
               >
-                Save Password
+                {passwordLoading ? 'Saving...' : 'Save Password'}
               </button>
             </div>
           </div>
