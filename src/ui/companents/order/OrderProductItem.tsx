@@ -1,15 +1,36 @@
+/**
+ * Order Product Item Component
+ * 
+ * A component that displays a product item within an order, showing its name and quantity.
+ * Features:
+ * - Fetches product details using a custom hook
+ * - Displays loading and error states
+ * - Clickable item that triggers product details view
+ * - Responsive layout with hover effects
+ */
+
 import React from 'react';
 import useGetProductById from '../../hooks/prod/useGetProductById';
 
+/**
+ * Props interface for the OrderProductItem component
+ */
 interface OrderProductItemProps {
-    productId: number;
-    quantity: number;
-    onProductClick: (productId: number) => void;
+    productId: number;                              // ID of the product to display
+    quantity: number;                               // Quantity of the product in the order
+    onProductClick: (productId: number) => void;    // Callback when product is clicked
 }
 
+/**
+ * Component that renders a product item within an order
+ * @param {OrderProductItemProps} props - Component properties
+ * @returns {JSX.Element} A product item with name and quantity
+ */
 const OrderProductItem: React.FC<OrderProductItemProps> = ({ productId, quantity, onProductClick }) => {
+    // Fetch product details using custom hook
     const { product, loading, error } = useGetProductById(productId);
 
+    // Loading state
     if (loading) {
         return (
             <div className="p-2 border rounded">
@@ -21,6 +42,7 @@ const OrderProductItem: React.FC<OrderProductItemProps> = ({ productId, quantity
         );
     }
 
+    // Error state
     if (error) {
         return (
             <div className="p-2 border rounded border-red-200 bg-red-50">
@@ -32,6 +54,7 @@ const OrderProductItem: React.FC<OrderProductItemProps> = ({ productId, quantity
         );
     }
 
+    // Render product item
     return (
         <div 
             onClick={() => onProductClick(productId)}

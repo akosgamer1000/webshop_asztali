@@ -1,23 +1,62 @@
+/**
+ * Data Table Component
+ * 
+ * A reusable table component for displaying and managing tabular data.
+ * Features:
+ * - Pagination
+ * - Search functionality
+ * - Customizable columns
+ * - Loading and error states
+ * - Row click handling
+ * - Responsive design
+ */
+
 import React, { useState, useMemo } from 'react';
 
+/**
+ * Column configuration interface
+ * @template T - Type of the data items
+ * @property {string} header - The text to display in the column header
+ * @property {keyof T | ((item: T) => React.ReactNode)} accessor - Function to access the data or key to access the property
+ * @property {string} [width] - Optional width for the column
+ */
 export interface Column<T> {
-  header: string;
-  accessor: keyof T | ((item: T) => React.ReactNode);
-  width?: string;
+  header: string;                                    // Column header text
+  accessor: keyof T | ((item: T) => React.ReactNode); // Data accessor or custom render function
+  width?: string;                                   // Optional column width
 }
 
+/**
+ * Props interface for the DataTable component
+ * @template T - Type of the data items
+ * @property {T[]} data - Array of data items to display in the table
+ * @property {Column<T>[]} columns - Configuration for each column
+ * @property {keyof T} keyField - Field to use as unique identifier for each row
+ * @property {boolean} [loading] - Whether the table is in a loading state
+ * @property {string | null} [error] - Error message to display if any
+ * @property {string} [searchPlaceholder] - Placeholder text for the search input
+ * @property {(keyof T)[]} [searchFields] - Fields to search in when filtering
+ * @property {(item: T) => void} [onRowClick] - Callback when a row is clicked
+ * @property {number} [itemsPerPage] - Number of items to display per page
+ */
 interface DataTableProps<T> {
-  data: T[];
-  columns: Column<T>[];
-  keyField: keyof T;
-  loading?: boolean;
-  error?: string | null;
-  searchPlaceholder?: string;
-  searchFields?: (keyof T)[];
-  onRowClick?: (item: T) => void;
-  itemsPerPage?: number;
+  data: T[];                                        // Array of data items
+  columns: Column<T>[];                             // Column configurations
+  keyField: keyof T;                                // Field to use as row key
+  loading?: boolean;                                 // Loading state
+  error?: string | null;                            // Error message
+  searchPlaceholder?: string;                       // Search input placeholder
+  searchFields?: (keyof T)[];                       // Fields to search in
+  onRowClick?: (item: T) => void;                  // Row click handler
+  itemsPerPage?: number;                            // Items per page
 }
 
+/**
+ * Generic data table component for displaying and managing tabular data
+ * @template T - Type of the data items
+ * @param {DataTableProps<T>} props - Component properties
+ * @returns {JSX.Element} A data table with pagination and search
+ */
 function DataTable<T>({
   data,
   columns,
@@ -29,14 +68,20 @@ function DataTable<T>({
   onRowClick,
   itemsPerPage = 5
 }: DataTableProps<T>) {
-  const [currentPage, setCurrentPage] = useState<number>(1);
-  const [searchTerm, setSearchTerm] = useState<string>('');
+  // State for pagination and search
+  const [currentPage, setCurrentPage] = useState<number>(1);  // Current page number
+  const [searchTerm, setSearchTerm] = useState<string>('');   // Current search term
 
-
+  // Reset to first page when search term changes
   React.useEffect(() => {
     setCurrentPage(1);
   }, [searchTerm]);
 
+  /**
+   * Filter data based on search term
+   * Memoized to prevent unnecessary recalculations
+   * @returns {T[]} Filtered array of data items
+   */
   const filteredData = useMemo(() => {
     if (!searchTerm || searchFields.length === 0) return data;
     
@@ -50,34 +95,47 @@ function DataTable<T>({
     });
   }, [data, searchTerm, searchFields]);
 
-  const totalPages = Math.ceil(filteredData.length / itemsPerPage);
-  const indexOfLastItem = currentPage * itemsPerPage;
-  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = filteredData.slice(indexOfFirstItem, indexOfLastItem);
+  // Calculate pagination values
+  const totalPages = Math.ceil(filteredData.length / itemsPerPage);  // Total number of pages
+  const indexOfLastItem = currentPage * itemsPerPage;                // Index of last item on current page
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;           // Index of first item on current page
+  const currentItems = filteredData.slice(indexOfFirstItem, indexOfLastItem);  // Items for current page
 
+  /**
+   * Handle page change
+   * @param {number} pageNumber - New page number to navigate to
+   */
   const handlePageChange = (pageNumber: number) => {
     setCurrentPage(pageNumber);
   };
 
+  /**
+   * Get cell value based on column configuration
+   * @param {T} item - Data item for the row
+   * @param {Column<T>} column - Column configuration
+   * @returns {React.ReactNode} Content to display in the cell
+   */
   const getCellValue = (item: T, column: Column<T>) => {
     if (typeof column.accessor === 'function') {
       return column.accessor(item);
     }
     
-    
     return String(item[column.accessor] ?? '');
   };
 
+  // Display loading state
   if (loading) {
     return <div className="text-center p-6">Loading...</div>;
   }
 
+  // Display error state
   if (error) {
     return <div className="text-red-500 text-center p-6">{error}</div>;
   }
 
   return (
     <div className="w-full overflow-x-auto">
+      {/* Search input - only shown if searchFields are provided */}
       {searchFields.length > 0 && (
         <div className="mb-4">
           <input
@@ -90,7 +148,9 @@ function DataTable<T>({
         </div>
       )}
 
+      {/* Data table */}
       <table className="w-full border-collapse">
+        {/* Table header */}
         <thead className="bg-gray-800 text-white">
           <tr>
             {columns.map((column, index) => (
@@ -104,8 +164,11 @@ function DataTable<T>({
             ))}
           </tr>
         </thead>
+        
+        {/* Table body */}
         <tbody>
           {currentItems.length === 0 ? (
+            // Empty state message
             <tr>
               <td 
                 colSpan={columns.length} 
@@ -115,6 +178,7 @@ function DataTable<T>({
               </td>
             </tr>
           ) : (
+            // Data rows
             currentItems.map(item => (
               <tr 
                 key={String(item[keyField])} 
@@ -133,8 +197,10 @@ function DataTable<T>({
         </tbody>
       </table>
 
+      {/* Pagination controls - only shown if there are multiple pages */}
       {totalPages > 1 && (
         <div className="flex flex-wrap justify-center gap-1 sm:gap-2 mt-4">
+          {/* Previous page button */}
           <button
             onClick={() => handlePageChange(currentPage - 1)}
             disabled={currentPage === 1}
@@ -143,6 +209,7 @@ function DataTable<T>({
             Previous
           </button>
           
+          {/* Page number buttons */}
           {[...Array(totalPages)].map((_, index) => (
             <button
               key={index + 1}
@@ -157,6 +224,7 @@ function DataTable<T>({
             </button>
           ))}
           
+          {/* Next page button */}
           <button
             onClick={() => handlePageChange(currentPage + 1)}
             disabled={currentPage === totalPages}

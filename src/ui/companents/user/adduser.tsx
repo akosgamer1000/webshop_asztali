@@ -1,9 +1,34 @@
+/**
+ * Add User Component
+ * 
+ * A React component that provides a form for creating new users.
+ * It includes form validation, password visibility toggle, and error handling.
+ * 
+ * Features:
+ * - Create new users with required information
+ * - Form validation for all fields
+ * - Password strength requirements
+ * - Password visibility toggle
+ * - Role selection (user/admin)
+ * - Error handling and display
+ * - Loading state management
+ */
+
 import React, { useRef, FormEvent, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import useCreateUser from '../../hooks/user/useCreateUser';
 import useUsers from '../../hooks/user/useUsers';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
 
+/**
+ * Interface representing the user form data
+ * @interface UserFormData
+ * @property {string} name - User's name
+ * @property {string} email - User's email address
+ * @property {string} password - User's password
+ * @property {string} address - User's address
+ * @property {string} role - User's role (user/admin)
+ */
 interface UserFormData {
     name: string;
     email: string;
@@ -12,6 +37,16 @@ interface UserFormData {
     role: string;
 }
 
+/**
+ * Interface representing form validation errors
+ * @interface ValidationErrors
+ * @property {string} [name] - Error message for name field
+ * @property {string} [email] - Error message for email field
+ * @property {string} [password] - Error message for password field
+ * @property {string} [address] - Error message for address field
+ * @property {string} [role] - Error message for role field
+ * @property {string} [form] - General form error message
+ */
 interface ValidationErrors {
     name?: string;
     email?: string;
@@ -21,7 +56,25 @@ interface ValidationErrors {
     form?: string;
 }
 
+/**
+ * Add User Component
+ * 
+ * This component provides a form for creating new users with validation
+ * and error handling. It uses the useCreateUser hook for user creation
+ * and the useUsers hook for refreshing the user list.
+ * 
+ * The component includes:
+ * - Form validation for all fields
+ * - Password strength requirements
+ * - Password visibility toggle
+ * - Role selection
+ * - Error handling and display
+ * - Loading state management
+ * 
+ * @returns {JSX.Element} The rendered add user form
+ */
 const AddUser: React.FC = () => {
+    // Initialize hooks and refs
     const navigate = useNavigate();
     const nameRef = useRef<HTMLInputElement>(null);
     const emailRef = useRef<HTMLInputElement>(null);
@@ -31,10 +84,23 @@ const AddUser: React.FC = () => {
     const create = useCreateUser();
     const { refetch } = useUsers();
     
+    // State management
     const [errors, setErrors] = useState<ValidationErrors>({});
     const [showPassword, setShowPassword] = useState(false);
     const [isSubmitting, setIsSubmitting] = useState(false);
 
+    /**
+     * Validate form fields
+     * 
+     * This function validates all form fields and returns any validation errors.
+     * It checks:
+     * - Required fields
+     * - Email format
+     * - Password strength
+     * - Role selection
+     * 
+     * @returns {ValidationErrors} Object containing any validation errors
+     */
     const validateForm = (): ValidationErrors => {
         const newErrors: ValidationErrors = {};
 
@@ -65,6 +131,18 @@ const AddUser: React.FC = () => {
         return newErrors;
     };
 
+    /**
+     * Handle form submission
+     * 
+     * This function handles the form submission process:
+     * 1. Validates the form
+     * 2. Creates the user if validation passes
+     * 3. Refreshes the user list
+     * 4. Navigates to the users page
+     * 5. Handles any errors that occur
+     * 
+     * @param {FormEvent<HTMLFormElement>} e - Form submission event
+     */
     const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         
@@ -88,11 +166,7 @@ const AddUser: React.FC = () => {
 
         try {
             await create.createUser(formData);
-            
-          
             await refetch();
-            
-           
             navigate('/users');
         } catch (error) {
             console.error('Error creating user:', error);
@@ -107,6 +181,7 @@ const AddUser: React.FC = () => {
             <h2 className="text-2xl font-semibold text-gray-800 mb-6">Add New User</h2>
 
             <form onSubmit={handleSubmit} className="space-y-6">
+                {/* Name field */}
                 <div className="flex flex-col">
                     <label className="text-sm font-medium text-gray-600 mb-2">
                         Name
@@ -125,6 +200,7 @@ const AddUser: React.FC = () => {
                     )}
                 </div>
 
+                {/* Email field */}
                 <div className="flex flex-col">
                     <label className="text-sm font-medium text-gray-600 mb-2">
                         Email Address
@@ -143,6 +219,7 @@ const AddUser: React.FC = () => {
                     )}
                 </div>
 
+                {/* Password field with visibility toggle */}
                 <div className="flex flex-col">
                     <label className="text-sm font-medium text-gray-600 mb-2">
                         Password
@@ -170,6 +247,7 @@ const AddUser: React.FC = () => {
                     )}
                 </div>
 
+                {/* Address field */}
                 <div className="flex flex-col">
                     <label className="text-sm font-medium text-gray-600 mb-2">
                         Address
@@ -188,6 +266,7 @@ const AddUser: React.FC = () => {
                     )}
                 </div>
 
+                {/* Role selection */}
                 <div className="flex flex-col">
                     <label className="text-sm font-medium text-gray-600 mb-2">
                         Role
@@ -208,12 +287,14 @@ const AddUser: React.FC = () => {
                     )}
                 </div>
 
+                {/* Form error message */}
                 {errors.form && (
                     <div className="text-red-500 text-sm mb-4">
                         {errors.form}
                     </div>
                 )}
 
+                {/* Submit button */}
                 <div className="flex justify-end pt-4">
                     <button
                         type="submit"

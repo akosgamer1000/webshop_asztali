@@ -1,9 +1,34 @@
+/**
+ * Products Management Hook
+ * 
+ * A custom hook that provides functionality for fetching and managing products.
+ * It handles loading states, error handling, and automatic data fetching.
+ * 
+ * Features:
+ * - Fetch all products
+ * - Handle loading states
+ * - Error handling with specific error messages
+ * - Automatic logout on authentication errors
+ * - Refetch functionality
+ */
+
 import { useState, useEffect, useCallback } from 'react';
 import { AxiosError } from 'axios';
 import axiosInstance from '../../misch/Axios';
 import { useAppDispatch } from '../../misch/Store';
 import { logout } from '../../misch/store/authSlice';
 
+/**
+ * Interface representing the structure of a product
+ * @interface ProductData
+ * @property {number} id - Unique identifier for the product
+ * @property {string} name - Name of the product
+ * @property {string} manufacturer - Manufacturer of the product
+ * @property {string} type - Type/category of the product
+ * @property {number} price - Price of the product
+ * @property {number} couantity - Available quantity of the product
+ * @property {string} imgSrc - URL/path to the product's image
+ */
 interface ProductData {
   id: number;
   name: string;
@@ -14,12 +39,56 @@ interface ProductData {
   imgSrc: string;
 }
 
+/**
+ * Custom hook for managing products
+ * 
+ * This hook provides functionality for fetching and managing products.
+ * It automatically fetches products when mounted and provides methods
+ * for refetching data when needed.
+ * 
+ * Usage example:
+ * ```tsx
+ * const { products, loading, error, refetch } = useProducts();
+ * 
+ * if (loading) return <LoadingSpinner />;
+ * if (error) return <ErrorMessage message={error} />;
+ * 
+ * return (
+ *   <div>
+ *     {products.map(product => (
+ *       <ProductCard key={product.id} product={product} />
+ *     ))}
+ *   </div>
+ * );
+ * ```
+ * 
+ * @returns {Object} Object containing products data and management functions
+ * @property {ProductData[]} products - Array of products
+ * @property {boolean} loading - Loading state indicator
+ * @property {string | null} error - Error message if any
+ * @property {() => Promise<void>} refetch - Function to refetch products
+ */
 const useProducts = () => {
+  // State management for products, loading, and error
   const [products, setProducts] = useState<ProductData[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
   const dispatch = useAppDispatch();
 
+  /**
+   * Fetch products from the server
+   * 
+   * This function handles the API call to fetch products and manages
+   * loading states and error handling. It automatically logs out
+   * the user if an authentication error occurs.
+   * 
+   * Error handling includes:
+   * - Network errors
+   * - Authentication errors (401)
+   * - Not found errors (404)
+   * - Server errors (500)
+   * - Other unexpected errors
+   */
   const fetchProducts = useCallback(async () => {
     setLoading(true);
     try {
@@ -55,6 +124,7 @@ const useProducts = () => {
     }
   }, [dispatch]);
 
+  // Fetch products when the component mounts
   useEffect(() => {
     fetchProducts();
   }, [fetchProducts]);

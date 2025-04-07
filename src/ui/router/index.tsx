@@ -1,3 +1,14 @@
+/**
+ * Application Router Configuration
+ * 
+ * This file defines the routing structure of the application using React Router.
+ * It includes:
+ * - Protected route wrapper for authenticated routes
+ * - Authentication state management
+ * - Nested routes for product creation
+ * - Route definitions for all major application features
+ */
+
 import React, { useEffect } from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
@@ -25,15 +36,31 @@ import AddPowerSupply from '../companents/product/adds/powersupply';
 import AddPowerhouse from '../companents/product/adds/powerhouse';
 import OrderView from '../companents/order/OrderView';
 
+/**
+ * Protected Route Component
+ * 
+ * Wraps routes that require authentication.
+ * Redirects to login if user is not authenticated.
+ * 
+ * @param {React.ReactElement} element - The component to render if authenticated
+ * @returns {React.ReactElement} Either the protected component or a redirect to login
+ */
 const PrivateRoute: React.FC<{ element: React.ReactElement }> = ({ element }) => {
   const isAuthenticated = useSelector((state: RootState) => !!state.auth.token);
   return isAuthenticated ? element : <Navigate to="/login" />;
 };
 
+/**
+ * Main Router Component
+ * 
+ * Configures all application routes and handles authentication state.
+ * Includes automatic login from localStorage on initial load.
+ */
 const Router: React.FC = () => {
   const dispatch = useAppDispatch();
   const isAuthenticated = useSelector((state: RootState) => !!state.auth.token);
 
+  // Check for stored credentials on initial load
   useEffect(() => {
     const token = localStorage.getItem("token");
     const userId = localStorage.getItem("userId");
@@ -44,11 +71,15 @@ const Router: React.FC = () => {
 
   return (
     <Routes>
+      {/* Main layout wrapper for all routes */}
       <Route element={<MainLayout />}>
+        {/* Public route - redirects to home if already authenticated */}
         <Route 
           path="/login" 
           element={isAuthenticated ? <Navigate to="/" /> : <LoginContent />} 
         />
+        
+        {/* Protected routes */}
         <Route path="/" element={<PrivateRoute element={<ProductContent />} />} />
         <Route path="/products" element={<PrivateRoute element={<ProductContent />} />} />
         <Route path="/setting" element={<PrivateRoute element={<SettingsContent />} />} />
@@ -59,6 +90,8 @@ const Router: React.FC = () => {
         <Route path="/orderdetails/:id" element={<PrivateRoute element={<OrderView />} />} />
         <Route path="/adduser" element={<PrivateRoute element={<AddUserContent />} />} />
         <Route path="/products/:id" element={<PrivateRoute element={<ProductDetailsContent />} />} />
+        
+        {/* Nested routes for product creation workflow */}
         <Route path="/addProduct" element={<PrivateRoute element={<Frame />} />}>
           <Route path="select" element={<ProductChoice />} />
           <Route path="processor" element={<AddProcessor />} />

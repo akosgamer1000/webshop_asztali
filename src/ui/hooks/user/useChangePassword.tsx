@@ -1,19 +1,88 @@
+/**
+ * Password Change Hook
+ * 
+ * A custom hook that provides functionality for changing user passwords.
+ * It handles loading states, error handling, and success feedback.
+ * 
+ * Features:
+ * - Change user password with old and new password validation
+ * - Handle loading states
+ * - Error handling with specific error messages
+ * - Success state management
+ * - Detailed error logging for debugging
+ */
+
 import { useState } from 'react';
 import axios, { AxiosError } from 'axios';
 import axiosInstance from '../../misch/Axios';
 
-
-
+/**
+ * Interface representing the data required for password change
+ * @interface ChangePasswordData
+ * @property {string} oldPassword - Current password of the user
+ * @property {string} newPassword - New password to set for the user
+ */
 interface ChangePasswordData {
   oldPassword: string;
   newPassword: string;
 }
 
+/**
+ * Custom hook for changing user passwords
+ * 
+ * This hook provides functionality for changing user passwords and managing
+ * the password change process state, including loading, error, and success states.
+ * 
+ * Usage example:
+ * ```tsx
+ * const { changePassword, loading, error, success } = useChangePassword();
+ * 
+ * const handlePasswordChange = async () => {
+ *   const result = await changePassword({
+ *     oldPassword: "currentPassword",
+ *     newPassword: "newPassword"
+ *   });
+ *   
+ *   if (success) {
+ *     // Handle success
+ *   } else {
+ *     // Handle error
+ *   }
+ * };
+ * ```
+ * 
+ * @returns {Object} Object containing password change function and state
+ * @property {(passwordData: ChangePasswordData) => Promise<any>} changePassword - Function to change password
+ * @property {boolean} loading - Loading state indicator
+ * @property {string | null} error - Error message if any
+ * @property {boolean} success - Success state indicator
+ */
 const useChangePassword = () => {
+  // State management for loading, error, and success
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<boolean>(false);
 
+  /**
+   * Change user password
+   * 
+   * This function handles the API call to change the user's password and manages
+   * loading states, error handling, and success feedback.
+   * 
+   * @param {ChangePasswordData} passwordData - Object containing old and new passwords
+   * @returns {Promise<any>} Response data from the server or null if error
+   * 
+   * Error handling includes:
+   * - Network errors
+   * - Wrong old password (401)
+   * - User not found (404)
+   * - Invalid password data (400)
+   * - Incorrect old password (403)
+   * - Server errors (500)
+   * - Other unexpected errors
+   * 
+   * The function also logs detailed error information for debugging purposes.
+   */
   const changePassword = async (passwordData: ChangePasswordData) => {
     setLoading(true);
     setError(null);

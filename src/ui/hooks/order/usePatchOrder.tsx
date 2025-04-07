@@ -1,20 +1,95 @@
+/**
+ * Order Update Hook
+ * 
+ * A custom hook that provides functionality for updating order information.
+ * It handles loading states, error handling, and success feedback.
+ * 
+ * Features:
+ * - Update order status
+ * - Handle loading states
+ * - Error handling with specific error messages
+ * - Success state management
+ * - Automatic logout on authentication errors
+ */
+
 import { useState } from 'react';
 import axios, { AxiosError } from 'axios';
 import axiosInstance from '../../misch/Axios';
 import { useAppDispatch } from '../../misch/Store';
 import { logout } from '../../misch/store/authSlice';
 
+/**
+ * Interface representing the data that can be updated for an order
+ * @interface OrderUpdateData
+ * @property {string} [status] - New status for the order
+ */
 interface OrderUpdateData {
   status?: string;
- 
 }
 
+/**
+ * Custom hook for updating order information
+ * 
+ * This hook provides functionality for updating order details such as status.
+ * It handles the API call, loading states, and error handling.
+ * 
+ * Usage example:
+ * ```tsx
+ * const { updateOrder, loading, error, success } = usePatchOrder();
+ * 
+ * const handleStatusUpdate = async (orderId: number, newStatus: string) => {
+ *   await updateOrder(orderId, { status: newStatus });
+ *   if (success) {
+ *     // Show success message or refresh order list
+ *   }
+ * };
+ * 
+ * return (
+ *   <div>
+ *     <button 
+ *       onClick={() => handleStatusUpdate(order.id, 'completed')}
+ *       disabled={loading}
+ *     >
+ *       Mark as Completed
+ *     </button>
+ *     {error && <ErrorMessage message={error} />}
+ *     {success && <SuccessMessage message="Order updated successfully" />}
+ *   </div>
+ * );
+ * ```
+ * 
+ * @returns {Object} Object containing update function and state
+ * @property {(orderId: number, orderData: OrderUpdateData) => Promise<any>} updateOrder - Function to update order
+ * @property {boolean} loading - Loading state indicator
+ * @property {string | null} error - Error message if any
+ * @property {boolean} success - Success state indicator
+ */
 const usePatchOrder = () => {
+  // State management for loading, error, and success
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<boolean>(false);
   const dispatch = useAppDispatch();
 
+  /**
+   * Update order information
+   * 
+   * This function handles the API call to update an order and manages
+   * loading states and error handling. It automatically logs out
+   * the user if an authentication error occurs.
+   * 
+   * @param {number} orderId - ID of the order to update
+   * @param {OrderUpdateData} orderData - Data to update for the order
+   * @returns {Promise<any>} Updated order data or null if update failed
+   * 
+   * Error handling includes:
+   * - Network errors
+   * - Authentication errors (401)
+   * - Not found errors (404)
+   * - Invalid data errors (400)
+   * - Server errors (500)
+   * - Other unexpected errors
+   */
   const updateOrder = async (orderId: number, orderData: OrderUpdateData) => {
     setLoading(true);
     setError(null);

@@ -1,3 +1,16 @@
+/**
+ * Order Content Component
+ * 
+ * A component that displays a list of orders in a data table format.
+ * Features:
+ * - Fetches and displays all orders
+ * - Allows status updates (Pending -> InProgress -> Delivered)
+ * - Provides search functionality
+ * - Shows order details in a table format
+ * - Handles loading and error states
+ * - Responsive design with consistent styling
+ */
+
 import React, { useState } from 'react';
 import '../../style/basic.css'
 import useOrders from '../../hooks/order/useOrders';
@@ -5,18 +18,32 @@ import usePatchOrder from '../../hooks/order/usePatchOrder';
 import { useNavigate } from 'react-router-dom';
 import DataTable, { Column } from '../common/DataTable';
 
+/**
+ * Enum representing possible order statuses
+ */
 enum Status {
-  Pending = 'Pending',
-  InProgress = 'InProgress',
-  Delivered = 'Delivered'
+  Pending = 'Pending',      // Initial order status
+  InProgress = 'InProgress', // Order is being processed
+  Delivered = 'Delivered'   // Order has been delivered
 }
 
+/**
+ * Component that displays and manages a list of orders
+ * @returns {JSX.Element} A data table containing order information
+ */
 const OrderContent: React.FC = () => {
+  // Custom hooks for data fetching and updates
   const { orders, loading, error, refetch } = useOrders();
   const { updateOrder } = usePatchOrder();
   const navigate = useNavigate();
   const [statusUpdateError, setStatusUpdateError] = useState<string | null>(null);
 
+  /**
+   * Handles the status change of an order
+   * Updates the order status in a cycle: Pending -> InProgress -> Delivered -> Pending
+   * @param {number} orderId - ID of the order to update
+   * @param {string} currentStatus - Current status of the order
+   */
   const handleStatusChange = async (orderId: number, currentStatus: string) => {
     let newStatus: Status;
     switch (currentStatus) {
@@ -43,10 +70,18 @@ const OrderContent: React.FC = () => {
     }
   };
 
+  /**
+   * Navigates to the order details page
+   * @param {any} order - Order object containing details
+   */
   function handleViewDetails(order: any) {
     navigate(`/orderdetails/${order.id}`);
   }
 
+  /**
+   * Column configuration for the data table
+   * Defines how each order property should be displayed
+   */
   const columns: Column<any>[] = [
     { header: 'Order ID', accessor: 'id' },
     { header: 'Email', accessor: 'email' },
@@ -97,11 +132,14 @@ const OrderContent: React.FC = () => {
 
   return (
     <div className="mt-5">
+      {/* Status update error message */}
       {statusUpdateError && (
         <div className="mb-4 bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded">
           {statusUpdateError}
         </div>
       )}
+
+      {/* Orders data table */}
       <DataTable
         data={orders}
         columns={columns}
