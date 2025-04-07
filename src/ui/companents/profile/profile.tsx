@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom';
 import useGetUserById from '../../hooks/login/useGetuserbyid';
 import useChangePassword from '../../hooks/user/useChangePassword';
 import picture from '../../profile.png'
-
+import { FaEye, FaEyeSlash } from 'react-icons/fa';
 
 const ProfileContent: React.FC = () => {
   const { id } = useParams();
@@ -13,6 +13,8 @@ const ProfileContent: React.FC = () => {
   const [currentUser, setCurrentUser] = useState<any>(null);
   const [passwordError, setPasswordError] = useState<string | null>(null);
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
+  const [showOldPassword, setShowOldPassword] = useState(false);
+  const [showNewPassword, setShowNewPassword] = useState(false);
   
   const { user, loading, error } = useGetUserById(Number.parseInt(id || '0'));
   const { changePassword, loading: passwordLoading, error: passwordChangeError, success: passwordChangeSuccess } = useChangePassword();
@@ -142,25 +144,43 @@ const ProfileContent: React.FC = () => {
               <label className="text-sm font-medium text-gray-600 mb-2">
                 Current Password
               </label>
-              <input
-                type="password"
-                value={oldPassword}
-                onChange={(e) => setOldPassword(e.target.value)}
-                className="p-2 border border-gray-300 rounded-md"
-                placeholder="Enter current password"
-              />
+              <div className="relative">
+                <input
+                  type={showOldPassword ? "text" : "password"}
+                  value={oldPassword}
+                  onChange={(e) => setOldPassword(e.target.value)}
+                  className="w-full p-2 border border-gray-300 rounded-md"
+                  placeholder="Enter current password"
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowOldPassword(!showOldPassword)}
+                  className="absolute right-2 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-700"
+                >
+                  {showOldPassword ? <FaEyeSlash size={20} /> : <FaEye size={20} />}
+                </button>
+              </div>
             </div>
             <div className="flex flex-col">
               <label className="text-sm font-medium text-gray-600 mb-2">
                 New Password
               </label>
-              <input
-                type="password"
-                value={newPassword}
-                onChange={(e) => setNewPassword(e.target.value)}
-                className="p-2 border border-gray-300 rounded-md"
-                placeholder="Enter new password"
-              />
+              <div className="relative">
+                <input
+                  type={showNewPassword ? "text" : "password"}
+                  value={newPassword}
+                  onChange={(e) => setNewPassword(e.target.value)}
+                  className="w-full p-2 border border-gray-300 rounded-md"
+                  placeholder="Enter new password"
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowNewPassword(!showNewPassword)}
+                  className="absolute right-2 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-700"
+                >
+                  {showNewPassword ? <FaEyeSlash size={20} /> : <FaEye size={20} />}
+                </button>
+              </div>
             </div>
             <div className="flex justify-end space-x-4">
               <button
