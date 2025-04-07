@@ -28,18 +28,6 @@ function loadSettingsFromLocalStorage(): SettingsState {
     settings: [
       {
         id: 2,
-        title: "Email Notifications",
-        description: "Receive email notifications for new orders",
-        enabled: true
-      },
-      {
-        id: 3,
-        title: "Auto Save",
-        description: "Automatically save changes to products",
-        enabled: true
-      },
-      {
-        id: 4,
         title: "Analytics",
         description: "Collect anonymous usage data",
         enabled: false
