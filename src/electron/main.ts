@@ -3,10 +3,10 @@ import path from 'path'
 
 app.on('ready',()=>{
     let mainWindow = new BrowserWindow({ 
-        width: 1200, 
-        height: 800,
-        minWidth: 1000, 
-        
+        width: 1300, 
+        height: 900,
+        minWidth: 1200, 
+        minHeight:800,
         webPreferences: {
             nodeIntegration: true,
             contextIsolation: false
