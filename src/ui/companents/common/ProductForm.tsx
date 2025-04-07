@@ -46,7 +46,6 @@ const ProductForm: React.FC<ProductFormProps> = ({
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
-    // Basic validation
     let hasError = false;
     const formData: Record<string, any> = {
       type: productType

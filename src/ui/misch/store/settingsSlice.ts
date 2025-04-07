@@ -12,7 +12,7 @@ interface SettingsState {
   settings: SettingOption[];
 }
 
-// Load saved settings from localStorage if available
+
 function loadSettingsFromLocalStorage(): SettingsState {
   const savedSettings = localStorage.getItem('appSettings');
   if (savedSettings) {
@@ -23,7 +23,7 @@ function loadSettingsFromLocalStorage(): SettingsState {
     }
   }
   
-  // Default settings if none found in localStorage
+ 
   return {
     settings: [
       {

@@ -23,7 +23,7 @@ const AddVideoCard: React.FC = () => {
     { name: 'bandwidth', label: 'Bandwidth (GB/s)', type: 'number', min: 0 },
     { name: 'suggestedPower', label: 'Suggested Power (W)', type: 'number', min: 0 },
     { name: 'displayPort', label: 'Display Port Count', type: 'number', min: 0 },
-    { name: 'size', label: 'Size (mm)', type: 'number', min: 0 }
+    { name: 'size', label: 'Size (mm)', type: 'text' }
   ];
 
   const handleSubmit = async (formData: Record<string, any>) => {

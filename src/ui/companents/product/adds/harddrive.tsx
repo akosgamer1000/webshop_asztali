@@ -28,7 +28,7 @@ const AddHardDrive: React.FC = () => {
     { name: 'readingSpeed', label: 'Reading Speed (MB/s)', type: 'number', min: 0 },
     { name: 'writingSpeed', label: 'Writing Speed (MB/s)', type: 'number', min: 0 },
     { name: 'nandFlashType', label: 'NAND Flash Type', type: 'text' },
-    { name: 'pciGeneration', label: 'PCI Generation', type: 'text' }
+    { name: 'pciGeneration', label: 'PCI Generation', type: 'number' ,min:0  }
   ];
 
   const handleSubmit = async (formData: Record<string, any>) => {
