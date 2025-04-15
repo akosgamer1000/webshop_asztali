@@ -7,6 +7,7 @@ app.on('ready',()=>{
         height: 900,
         minWidth: 1200, 
         minHeight:800,
+        autoHideMenuBar: true,
         webPreferences: {
             nodeIntegration: true,
             contextIsolation: false

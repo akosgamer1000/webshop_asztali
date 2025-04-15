@@ -88,6 +88,7 @@ const ProfileContent: React.FC = () => {
             try {
                 const success = await deleteuser.deleteUser(Number(id));
                 if (success) {
+                    
                     navigate('/users');
                 } else {
                     setDeleteError(deleteuser.error || "Failed to delete user");
@@ -146,15 +147,15 @@ const ProfileContent: React.FC = () => {
                 <div className="flex justify-end gap-4 pt-4">
                     <button 
                         onClick={handleDelete}
-                        disabled={isOwnProfile}
+                        disabled={isOwnProfile || deleteuser.loading}
                         className={`px-6 py-2 text-white rounded-md transition-colors ${
-                            isOwnProfile 
+                            isOwnProfile || deleteuser.loading
                                 ? 'bg-gray-400 cursor-not-allowed' 
                                 : 'bg-red-600 hover:bg-red-700'
                         }`}
                         title={isOwnProfile ? "You cannot delete your own profile" : "Delete User"}
                     >
-                        Delete User
+                        {deleteuser.loading ? "Deleting..." : "Delete User"}
                     </button>
                 </div>
             </div>

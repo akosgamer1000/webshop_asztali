@@ -32,7 +32,7 @@ const Header: React.FC<{ toggleSidebar: () => void }> = ({ toggleSidebar }) => {
         </button>
         
         {/* Application title - centered and full width */}
-        <h1 className="text-xl font-bold text-center w-full">Admin Panel</h1>
+        <h1 className="text-xl font-bold text-center w-full">Pixelforge Admin</h1>
       </div>
     );
   };

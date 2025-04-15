@@ -12,6 +12,8 @@
 
 import axios from 'axios';
 import store from './Store';
+import { jwtDecode } from 'jwt-decode';
+import { logout } from './store/authSlice';
 
 // API base URL for development
 const url = "http://localhost:3000";
@@ -36,9 +38,26 @@ axiosInstance.interceptors.request.use((config) => {
   // Get authentication token from Redux store
   const token = store.getState().auth.token;
   
-  // Add token to Authorization header if it exists
+  // Check token expiration if it exists
   if (token) {
-    config.headers.Authorization = `Bearer ${token}`;
+    try {
+      const decodedToken = jwtDecode<{ exp: number }>(token);
+      const currentTime = Date.now() / 1000;
+      
+      // If token is expired or about to expire in the next minute
+      if (decodedToken.exp < currentTime + 60) {
+        // Dispatch logout action
+        store.dispatch(logout());
+        // Throw error to prevent the request
+        throw new Error('Token expired');
+      }
+      
+      config.headers.Authorization = `Bearer ${token}`;
+    } catch (error) {
+      // If token is invalid or expired, logout
+      store.dispatch(logout());
+      throw new Error('Invalid token');
+    }
   }
   
   // Add timestamp to GET requests to prevent caching
