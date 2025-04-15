@@ -28,28 +28,7 @@ interface ChangePasswordData {
 }
 
 /**
- * Custom hook for changing user passwords
  * 
- * This hook provides functionality for changing user passwords and managing
- * the password change process state, including loading, error, and success states.
- * 
- * Usage example:
- * ```tsx
- * const { changePassword, loading, error, success } = useChangePassword();
- * 
- * const handlePasswordChange = async () => {
- *   const result = await changePassword({
- *     oldPassword: "currentPassword",
- *     newPassword: "newPassword"
- *   });
- *   
- *   if (success) {
- *     // Handle success
- *   } else {
- *     // Handle error
- *   }
- * };
- * ```
  * 
  * @returns {Object} Object containing password change function and state
  * @property {(passwordData: ChangePasswordData) => Promise<any>} changePassword - Function to change password

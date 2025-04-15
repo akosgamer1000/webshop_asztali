@@ -61,7 +61,6 @@ export function useSettings() {
  * These IDs correspond to settings in the Redux store
  */
 export const SETTINGS = {
-  EMAIL_NOTIFICATIONS: 2,  // Email notification settings
-  AUTO_SAVE: 3,           // Auto-save functionality
-  ANALYTICS: 4            // Analytics tracking
+            // Auto-save functionality
+  ANALYTICS: 2           // Analytics tracking
 }; 

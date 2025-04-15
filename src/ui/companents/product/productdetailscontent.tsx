@@ -51,15 +51,20 @@ const ProductDetailsContent: React.FC = () => {
 
   // State management
   const [isEditing, setIsEditing] = useState(false);
+  const [isEditingCouantity, setIsEditingCouantity] = useState(false);
   const [currentPrice, setCurrentPrice] = useState<number>(0);
+  const [currentCouantity, setCurrentCouantity] = useState<number>(0);
   const [percentage, setPercentage] = useState<string>('');
+  const [couantityChange, setCouantityChange] = useState<string>('');
   const [isUpdating, setIsUpdating] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
+  const [couantityAction, setCouantityAction] = useState<'add' | 'remove'>('add');
 
-  // Update current price when product data changes
+  // Update current price and couantity when product data changes
   useEffect(() => {
     if (product) {
       setCurrentPrice(product.price);
+      setCurrentCouantity(product.couantity);
     }
   }, [product]);
 
@@ -167,8 +172,24 @@ const ProductDetailsContent: React.FC = () => {
    */
   const handlePriceUpdate = async (percentageValue: number) => {
     setIsUpdating(true);
+    
+    
+    if (isNaN(percentageValue) || Math.abs(percentageValue) > 100) {
+      setError('Percentage must be between -100 and 100');
+      setIsUpdating(false);
+      return;
+    }
+    
     if (product) {
       const newPrice = product.price * (1 + percentageValue / 100);
+      
+      
+      if (newPrice <= 0) {
+        setError('Price cannot be zero or negative');
+        setIsUpdating(false);
+        return;
+      }
+      
       try {
         await patchProduct.updateProductPrice(product.id, newPrice);
         setCurrentPrice(newPrice);
@@ -177,6 +198,43 @@ const ProductDetailsContent: React.FC = () => {
       } catch (error) {
         console.error('Failed to update price:', error);
         setError('Failed to update price. Please try again.');
+      } finally {
+        setIsUpdating(false);
+      }
+    }
+  };
+
+  /**
+   * Handles the couantity update process
+   * @param {number} changeAmount - Amount to add or remove from couantity
+   */
+  const handleCouantityUpdate = async (changeAmount: number) => {
+    setIsUpdating(true);
+    
+    
+    if (product) {
+      let newCouantity: number;
+      
+      if (couantityAction === 'add') {
+        newCouantity = product.couantity + changeAmount;
+      } else {
+        // When removing, ensure we don't go below 0
+        newCouantity = Math.max(0, product.couantity - changeAmount);
+        if (newCouantity === 0 && product.couantity > 0 && changeAmount > product.couantity) {
+          setError('Cannot remove more than the available couantity');
+          setIsUpdating(false);
+          return;
+        }
+      }
+      
+      try {
+        await patchProduct.updateProductPrice(product.id, undefined, newCouantity);
+        setCurrentCouantity(newCouantity);
+        await refetch();
+        setIsEditingCouantity(false);
+      } catch (error) {
+        console.error('Failed to update couantity:', error);
+        setError('Failed to update couantity. Please try again.');
       } finally {
         setIsUpdating(false);
       }
@@ -192,7 +250,7 @@ const ProductDetailsContent: React.FC = () => {
       <div className="grid grid-cols-2 gap-4 mb-6">
         {renderField('Manufacturer', product.manufacturer)}
         {renderField('Price', `$${currentPrice.toFixed(2)}`)}
-        {renderField('Stock', `${product.quantity || product.couantity || 0} units`)}
+        {renderField('Stock', `${currentCouantity || 0} units`)}
         {renderField('Product Type', formatLabel(product.type))}
       </div>
       
@@ -214,6 +272,8 @@ const ProductDetailsContent: React.FC = () => {
                 className={`w-20 px-2 py-1 border rounded ${isUpdating ? 'opacity-50 pointer-events-none' : ''}`}
                 placeholder="%"
                 disabled={isUpdating}
+                min="-100"
+                max="100"
               />
               <button
                 onClick={() => handlePriceUpdate(parseFloat(percentage))}
@@ -241,6 +301,64 @@ const ProductDetailsContent: React.FC = () => {
             className="bg-blue-500 text-white px-6 py-2 rounded hover:bg-blue-600 transition-colors flex items-center gap-2"
           >
             <span>Modify Price</span>
+          </button>
+        )}
+      </div>
+      
+      {/* Couantity modification controls */}
+      <div className="mt-4 text-right flex justify-end items-center gap-4">
+        {isEditingCouantity ? (
+          <div className="flex flex-col gap-2">
+            <div className="flex items-center gap-2">
+              <div className="flex border rounded overflow-hidden">
+                <button
+                  onClick={() => setCouantityAction('add')}
+                  className={`px-3 py-1 ${couantityAction === 'add' ? 'bg-blue-500 text-white' : 'bg-gray-200'}`}
+                >
+                  Add
+                </button>
+                <button
+                  onClick={() => setCouantityAction('remove')}
+                  className={`px-3 py-1 ${couantityAction === 'remove' ? 'bg-blue-500 text-white' : 'bg-gray-200'}`}
+                >
+                  Remove
+                </button>
+              </div>
+              <input
+                type="number"
+                value={couantityChange}
+                onChange={(e) => setCouantityChange(e.target.value)}
+                className={`w-20 px-2 py-1 border rounded ${isUpdating ? 'opacity-50 pointer-events-none' : ''}`}
+                placeholder="Qty"
+                disabled={isUpdating}
+                min="1"
+              />
+              <button
+                onClick={() => handleCouantityUpdate(parseInt(couantityChange))}
+                disabled={isUpdating}
+                className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition-colors disabled:bg-blue-300"
+              >
+                {isUpdating ? 'Updating...' : `${couantityAction === 'add' ? 'Add' : 'Remove'} Couantity`}
+              </button>
+              <button
+                onClick={() => {
+                  setCurrentCouantity(product.couantity);
+                  setIsEditingCouantity(false);
+                  setError(null);
+                }}
+                className="bg-gray-300 text-gray-700 px-4 py-2 rounded hover:bg-gray-400 transition-colors"
+              >
+                Cancel
+              </button>
+            </div>
+            {error && <div className="text-red-500 text-sm mt-2">{error}</div>}
+          </div>
+        ) : (
+          <button
+            onClick={() => setIsEditingCouantity(true)}
+            className="bg-green-500 text-white px-6 py-2 rounded hover:bg-green-600 transition-colors flex items-center gap-2"
+          >
+            <span>Modify Couantity</span>
           </button>
         )}
       </div>

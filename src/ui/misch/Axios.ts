@@ -44,7 +44,7 @@ axiosInstance.interceptors.request.use((config) => {
       const decodedToken = jwtDecode<{ exp: number }>(token);
       const currentTime = Date.now() / 1000;
       
-      // If token is expired or about to expire in the next minute
+     
       if (decodedToken.exp < currentTime + 60) {
         // Dispatch logout action
         store.dispatch(logout());

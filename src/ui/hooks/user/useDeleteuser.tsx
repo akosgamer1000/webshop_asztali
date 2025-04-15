@@ -23,21 +23,7 @@ import { logout } from '../../misch/store/authSlice';
  * 
  * This hook provides functionality for deleting users and managing
  * the deletion process state, including loading, error, and success states.
- * 
- * Usage example:
- * ```tsx
- * const { deleteUser, loading, error, success } = useDeleteUser();
- * 
- * const handleDeleteUser = async (userId: number) => {
- *   const result = await deleteUser(userId);
- *   
- *   if (result) {
- *     // Handle success
- *   } else {
- *     // Handle error
- *   }
- * };
- * ```
+
  * 
  * @returns {Object} Object containing user deletion function and state
  * @property {(userId: number) => Promise<boolean>} deleteUser - Function to delete user

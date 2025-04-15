@@ -38,27 +38,7 @@ interface UserData {
 }
 
 /**
- * Custom hook for managing users
- * 
- * This hook provides functionality for fetching and managing users.
- * It automatically fetches users when mounted and provides methods
- * for refetching data when needed.
- * 
- * Usage example:
- * ```tsx
- * const { users, loading, error, refetch } = useUsers();
- * 
- * if (loading) return <LoadingSpinner />;
- * if (error) return <ErrorMessage message={error} />;
- * 
- * return (
- *   <div>
- *     {users.map(user => (
- *       <UserCard key={user.id} user={user} />
- *     ))}
- *   </div>
- * );
- * ```
+
  * 
  * @returns {Object} Object containing users data and management functions
  * @property {UserData[]} users - Array of users

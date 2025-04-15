@@ -28,35 +28,8 @@ interface OrderUpdateData {
 }
 
 /**
- * Custom hook for updating order information
+ *
  * 
- * This hook provides functionality for updating order details such as status.
- * It handles the API call, loading states, and error handling.
- * 
- * Usage example:
- * ```tsx
- * const { updateOrder, loading, error, success } = usePatchOrder();
- * 
- * const handleStatusUpdate = async (orderId: number, newStatus: string) => {
- *   await updateOrder(orderId, { status: newStatus });
- *   if (success) {
- *     // Show success message or refresh order list
- *   }
- * };
- * 
- * return (
- *   <div>
- *     <button 
- *       onClick={() => handleStatusUpdate(order.id, 'completed')}
- *       disabled={loading}
- *     >
- *       Mark as Completed
- *     </button>
- *     {error && <ErrorMessage message={error} />}
- *     {success && <SuccessMessage message="Order updated successfully" />}
- *   </div>
- * );
- * ```
  * 
  * @returns {Object} Object containing update function and state
  * @property {(orderId: number, orderData: OrderUpdateData) => Promise<any>} updateOrder - Function to update order

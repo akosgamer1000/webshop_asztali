@@ -46,28 +46,7 @@ interface OrderData {
 }
 
 /**
- * Custom hook for fetching and managing a single order by ID
- * 
- * This hook provides functionality for fetching and managing a single order.
- * It automatically fetches the order when mounted and when the orderId changes.
- * 
- * Usage example:
- * ```tsx
- * const { order, loading, error } = useGetOrderById(orderId);
- * 
- * if (loading) return <LoadingSpinner />;
- * if (error) return <ErrorMessage message={error} />;
- * if (!order) return <NotFound />;
- * 
- * return (
- *   <div>
- *     <h1>Order #{order.id}</h1>
- *     <p>Status: {order.status}</p>
- *     <p>Total: ${order.totalPrice}</p>
- *     <ProductList products={order.products} />
- *   </div>
- * );
- * ```
+ 
  * 
  * @param {number} orderId - ID of the order to fetch
  * @returns {Object} Object containing order data and state

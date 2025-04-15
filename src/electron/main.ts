@@ -8,6 +8,7 @@ app.on('ready',()=>{
         minWidth: 1200, 
         minHeight:800,
         autoHideMenuBar: true,
+        title: 'Pixelforge Admin',
         webPreferences: {
             nodeIntegration: true,
             contextIsolation: false

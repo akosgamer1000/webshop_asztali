@@ -19,34 +19,7 @@ import { useAppDispatch } from '../../misch/Store';
 import { logout } from '../../misch/store/authSlice';
 
 /**
- * Custom hook for updating product prices
- * 
- * This hook provides functionality for updating a product's price.
- * It handles the API call, loading states, and error handling.
- * 
- * Usage example:
- * ```tsx
- * const { updateProductPrice, loading, error, success } = usePatchOneProduct();
- * 
- * const handlePriceUpdate = async (productId: number, newPrice: number) => {
- *   await updateProductPrice(productId, newPrice);
- *   if (success) {
- *     // Show success message or refresh product list
- *   }
- * };
- * 
- * return (
- *   <div>
- *     <button 
- *       onClick={() => handlePriceUpdate(product.id, 99.99)}
- *       disabled={loading}
- *     >
- *       Update Price
- *     </button>
- *     {error && <ErrorMessage message={error} />}
- *     {success && <SuccessMessage message="Price updated successfully" />}
- *   </div>
- * );
+ 
  * ```
  * 
  * @returns {Object} Object containing update function and state
@@ -81,7 +54,7 @@ const usePatchOneProduct = () => {
    * - Server errors (500)
    * - Other unexpected errors
    */
-  const updateProductPrice = async (productId: number, newPrice: number) => {
+  const updateProductPrice = async (productId: number, newPrice?: number,newCouantity?: number) => {
     setLoading(true);
     setError(null);
     setSuccess(false);
@@ -89,7 +62,7 @@ const usePatchOneProduct = () => {
     try {
       const response = await axiosInstance.patch(
         `/products/${productId}`,
-        { price: newPrice }
+        { price: newPrice, couantity: newCouantity }
       );
 
       setSuccess(true);

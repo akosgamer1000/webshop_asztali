@@ -172,42 +172,8 @@ type ProductType =
   | Powerhouse;
 
 /**
- * Custom hook for creating new products
+ *
  * 
- * This hook provides functionality for creating new products of various types.
- * It handles data formatting, API calls, loading states, and error handling.
- * 
- * Usage example:
- * ```tsx
- * const { createProduct, loading, error } = useCreateProduct();
- * 
- * const handleCreateProcessor = async () => {
- *   try {
- *     const newProcessor: Processor = {
- *       name: "Intel Core i7",
- *       manufacturer: "Intel",
- *       type: "PROCESSOR",
- *       price: 299.99,
- *       couantity: 10,
- *       imgSrc: "/images/processor.jpg",
- *       coreNumber: 8,
- *       baseFrequency: 3.6,
- *       turboBoostFrequency: 4.2,
- *       cache: 16,
- *       architecture: "x86-64",
- *       processorSeller: "Intel",
- *       processorModel: "i7-11700K",
- *       integratedGraphicModel: "Intel UHD Graphics 750",
- *       processorTechnology: "14nm"
- *     };
- *     
- *     await createProduct(newProcessor);
- *     // Handle success
- *   } catch (error) {
- *     // Handle error
- *   }
- * };
- * ```
  * 
  * @returns {Object} Object containing creation function and state
  * @property {(productData: ProductType) => Promise<any>} createProduct - Function to create a new product

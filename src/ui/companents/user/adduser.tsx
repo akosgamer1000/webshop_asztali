@@ -14,7 +14,7 @@
  * - Loading state management
  */
 
-import React, { useRef, FormEvent, useState } from 'react';
+import React, { useRef, FormEvent, useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import useCreateUser from '../../hooks/user/useCreateUser';
 import useUsers from '../../hooks/user/useUsers';
@@ -88,6 +88,24 @@ const AddUser: React.FC = () => {
     const [errors, setErrors] = useState<ValidationErrors>({});
     const [showPassword, setShowPassword] = useState(false);
     const [isSubmitting, setIsSubmitting] = useState(false);
+
+    useEffect(() => {
+        if (create.error) {
+            console.log('Error from useCreateUser hook:', create.error);
+            
+            if (create.error.includes("User with this email already exists")) {
+                setErrors(prevErrors => ({
+                    ...prevErrors, 
+                    email: create.error || "Email already in use"
+                }));
+            } else {
+                setErrors(prevErrors => ({
+                    ...prevErrors, 
+                    form: create.error || "Error creating user"
+                }));
+            }
+        }
+    }, [create.error]);
 
     /**
      * Validate form fields
@@ -165,9 +183,15 @@ const AddUser: React.FC = () => {
         };
 
         try {
-            await create.createUser(formData);
-            await refetch();
-            navigate('/users');
+            const result = await create.createUser(formData);
+            
+         
+           
+            
+            if (result) {
+                await refetch();
+                navigate('/users');
+            }
         } catch (error) {
             console.error('Error creating user:', error);
             setErrors(prevErrors => ({...prevErrors, form: 'Failed to create user'}));
@@ -181,6 +205,13 @@ const AddUser: React.FC = () => {
             <h2 className="text-2xl font-semibold text-gray-800 mb-6">Add New User</h2>
 
             <form onSubmit={handleSubmit} className="space-y-6">
+                {/* General form errors */}
+                {errors.form && (
+                    <div className="p-3 bg-red-100 border border-red-400 text-red-700 rounded">
+                        <p>{errors.form}</p>
+                    </div>
+                )}
+
                 {/* Name field */}
                 <div className="flex flex-col">
                     <label className="text-sm font-medium text-gray-600 mb-2">
@@ -215,7 +246,7 @@ const AddUser: React.FC = () => {
                         }`}
                     />
                     {errors.email && (
-                        <p className="text-red-500 text-sm mt-1">{errors.email}</p>
+                        <p className="text-red-500 text-sm mt-1 font-medium">{errors.email}</p>
                     )}
                 </div>
 
@@ -287,25 +318,24 @@ const AddUser: React.FC = () => {
                     )}
                 </div>
 
-                {/* Form error message */}
-                {errors.form && (
-                    <div className="text-red-500 text-sm mb-4">
-                        {errors.form}
-                    </div>
-                )}
-
                 {/* Submit button */}
-                <div className="flex justify-end pt-4">
-                    <button
-                        type="submit"
-                        disabled={isSubmitting}
-                        className={`px-6 py-2 ${
-                            isSubmitting 
-                                ? 'bg-gray-400 cursor-not-allowed' 
-                                : 'bg-green-600 hover:bg-green-700'
-                        } text-white rounded-md transition-colors`}
+                <div className="flex justify-end">
+                    <button 
+                        type="submit" 
+                        className="bg-blue-600 text-white py-2 px-6 rounded-md hover:bg-blue-700 
+                            focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2
+                            transition-colors disabled:bg-blue-400 disabled:cursor-not-allowed"
+                        disabled={isSubmitting || create.loading}
                     >
-                        {isSubmitting ? 'Adding...' : 'Add User'}
+                        {(isSubmitting || create.loading) ? (
+                            <span className="flex items-center">
+                                <svg className="animate-spin -ml-1 mr-2 h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                </svg>
+                                Saving...
+                            </span>
+                        ) : 'Add User'}
                     </button>
                 </div>
             </form>

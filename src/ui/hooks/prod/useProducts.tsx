@@ -40,27 +40,8 @@ interface ProductData {
 }
 
 /**
- * Custom hook for managing products
+ *
  * 
- * This hook provides functionality for fetching and managing products.
- * It automatically fetches products when mounted and provides methods
- * for refetching data when needed.
- * 
- * Usage example:
- * ```tsx
- * const { products, loading, error, refetch } = useProducts();
- * 
- * if (loading) return <LoadingSpinner />;
- * if (error) return <ErrorMessage message={error} />;
- * 
- * return (
- *   <div>
- *     {products.map(product => (
- *       <ProductCard key={product.id} product={product} />
- *     ))}
- *   </div>
- * );
- * ```
  * 
  * @returns {Object} Object containing products data and management functions
  * @property {ProductData[]} products - Array of products

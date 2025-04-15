@@ -47,26 +47,8 @@ interface UpdateUserResult {
 }
 
 /**
- * Custom hook for updating user information
- * 
- * This hook provides functionality for updating user details and managing
- * the update process state, including loading, error, and success states.
- * 
- * Usage example:
- * ```tsx
- * const { updateUser, loading, error, success } = usePatchUser();
- * 
- * const handleUpdate = async () => {
- *   const result = await updateUser(userId, {
- *     name: "New Name",
- *     email: "newemail@example.com"
- *   });
- *   
- *   if (result.success) {
- *     // Handle success
- *   } else {
- *     // Handle error
- *   }
+ *
+
  * };
  * ```
  * 

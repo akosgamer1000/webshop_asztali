@@ -42,37 +42,7 @@ interface Product {
 }
 
 /**
- * Custom hook for fetching and managing a single product by ID
- * 
- * This hook provides functionality for fetching and managing a single product.
- * It automatically fetches the product when mounted and when the productId changes.
- * Supports generic types for extended product interfaces.
- * 
- * Usage example:
- * ```tsx
- * // Basic usage
- * const { product, loading, error, refetch } = useGetProductById(productId);
- * 
- * // With extended product type
- * interface ExtendedProduct extends Product {
- *   description: string;
- *   specifications: Record<string, string>;
- * }
- * const { product, loading, error } = useGetProductById<ExtendedProduct>(productId);
- * 
- * if (loading) return <LoadingSpinner />;
- * if (error) return <ErrorMessage message={error} />;
- * if (!product) return <NotFound />;
- * 
- * return (
- *   <div>
- *     <h1>{product.name}</h1>
- *     <p>Manufacturer: {product.manufacturer}</p>
- *     <p>Price: ${product.price}</p>
- *     <img src={product.imgSrc} alt={product.name} />
- *   </div>
- * );
- * ```
+ *
  * 
  * @template T - Type that extends the base Product interface
  * @param {number} productId - ID of the product to fetch

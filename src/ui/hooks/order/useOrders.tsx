@@ -34,27 +34,9 @@ interface OrderData {
 }
 
 /**
- * Custom hook for managing orders
+ *
  * 
- * This hook provides functionality for fetching and managing orders.
- * It automatically fetches orders when mounted and provides methods
- * for refetching data when needed.
  * 
- * Usage example:
- * ```tsx
- * const { orders, loading, error, refetch } = useOrders();
- * 
- * if (loading) return <LoadingSpinner />;
- * if (error) return <ErrorMessage message={error} />;
- * 
- * return (
- *   <div>
- *     {orders.map(order => (
- *       <OrderCard key={order.id} order={order} />
- *     ))}
- *   </div>
- * );
- * ```
  * 
  * @returns {Object} Object containing orders data and management functions
  * @property {OrderData[]} orders - Array of orders
