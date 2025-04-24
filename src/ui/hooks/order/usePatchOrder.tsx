@@ -69,6 +69,7 @@ const usePatchOrder = () => {
     setSuccess(false);
 
     try {
+      console.log(orderData)
       const response = await axiosInstance.patch(`/order/${orderId}`, orderData);
       setSuccess(true);
       return response.data;

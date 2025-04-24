@@ -24,7 +24,8 @@ import DataTable, { Column } from '../common/DataTable';
 enum Status {
   Pending = 'Pending',      // Initial order status
   InProgress = 'InProgress', // Order is being processed
-  Delivered = 'Delivered'   // Order has been delivered
+  Delivered = 'Delivered',   // Order has been delivered
+  Cancelled = 'Cancelled'    // Order has been cancelled
 }
 
 /**
@@ -71,6 +72,23 @@ const OrderContent: React.FC = () => {
   };
 
   /**
+   * Handles the cancellation of an order
+   * @param {number} orderId - ID of the order to cancel
+   */
+  const handleCancelOrder = async (orderId: number) => {
+    setStatusUpdateError(null);
+    try {
+      let newStatus: Status = Status.Cancelled;
+      console.log(newStatus)
+      await updateOrder(orderId, { status: newStatus });
+      await refetch();
+    } catch (error) {
+      console.error('Failed to cancel order:', error);
+      setStatusUpdateError(`Failed to cancel order: ${error instanceof Error ? error.message : 'Unknown error'}`);
+    }
+  };
+
+  /**
    * Navigates to the order details page
    * @param {any} order - Order object containing details
    */
@@ -93,6 +111,7 @@ const OrderContent: React.FC = () => {
           order.status === Status.Pending ? 'bg-yellow-200' :
           order.status === Status.InProgress ? 'bg-blue-200' :
           order.status === Status.Delivered ? 'bg-green-200' :
+          order.status === Status.Cancelled ? 'bg-red-200' :
           'bg-gray-200'
         }`}>
           {order.status}
@@ -110,22 +129,38 @@ const OrderContent: React.FC = () => {
     { 
       header: 'Actions', 
       accessor: (order) => (
-        <button 
-          onClick={(e) => {
-            e.stopPropagation();
-            handleStatusChange(order.id, order.status);
-          }}
-          disabled={order.status === Status.Delivered}
-          className={`font-bold py-2 px-4 rounded ${
-            order.status === Status.Pending 
-              ? 'bg-yellow-500 hover:bg-yellow-700 text-white' 
-              : order.status === Status.InProgress
-              ? 'bg-blue-500 hover:bg-blue-700 text-white'
-              : 'bg-green-500 text-white cursor-not-allowed opacity-50'
-          }`}
-        >
-          {order.status === Status.Delivered ? 'Delivered' : 'Progress Status'}
-        </button>
+        <div className="flex space-x-2">
+          <button 
+            onClick={(e) => {
+              e.stopPropagation();
+              handleStatusChange(order.id, order.status);
+            }}
+            disabled={order.status === Status.Delivered || order.status === Status.Cancelled}
+            className={`font-bold py-2 px-4 rounded ${
+              order.status === Status.Pending 
+                ? 'bg-yellow-500 hover:bg-yellow-700 text-white' 
+                : order.status === Status.InProgress
+                ? 'bg-blue-500 hover:bg-blue-700 text-white'
+                : order.status === Status.Delivered
+                ? 'bg-green-500 text-white cursor-not-allowed opacity-50'
+                : 'bg-gray-500 text-white cursor-not-allowed opacity-50'
+            }`}
+          >
+            {order.status === Status.Delivered ? 'Delivered' : 
+             order.status === Status.Cancelled ? 'Cancelled' : 'Progress Status'}
+          </button>
+          {(order.status === Status.Pending || order.status === Status.InProgress) && (
+            <button
+              onClick={(e) => {
+                e.stopPropagation();
+                handleCancelOrder(order.id);
+              }}
+              className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
+            >
+              Cancel
+            </button>
+          )}
+        </div>
       )
     }
   ];
