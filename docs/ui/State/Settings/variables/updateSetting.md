@@ -8,4 +8,4 @@
 
 > **updateSetting**: `ActionCreatorWithPayload`\<\{ `id`: `number`; `enabled`: `boolean`; \}, `"settings/updateSetting"`\>
 
-Defined in: [src/ui/misch/store/settingsSlice.ts:133](https://github.com/yourusername/webshop_asztali/blob/966ac422304bbbe6308f4e6c123a88355a82fe82/src/ui/misch/store/settingsSlice.ts#L133)
+Defined in: [src/ui/misch/store/settingsSlice.ts:133](https://github.com/yourusername/webshop_asztali/blob/6cd6b8ff5f7d5531f80a92ddbde9cd7ab8ecd569/src/ui/misch/store/settingsSlice.ts#L133)

@@ -8,7 +8,7 @@
 
 > **useCreateUser**(): `object`
 
-Defined in: [src/ui/hooks/user/useCreateUser.tsx:65](https://github.com/yourusername/webshop_asztali/blob/966ac422304bbbe6308f4e6c123a88355a82fe82/src/ui/hooks/user/useCreateUser.tsx#L65)
+Defined in: [src/ui/hooks/user/useCreateUser.tsx:65](https://github.com/yourusername/webshop_asztali/blob/6cd6b8ff5f7d5531f80a92ddbde9cd7ab8ecd569/src/ui/hooks/user/useCreateUser.tsx#L65)
 
 Custom hook for creating new users
 

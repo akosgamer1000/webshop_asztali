@@ -8,23 +8,16 @@
 
 ## File
 
-hooks/login/useGetlogged.tsx
+hooks/login/useGetUserId.tsx
 
 ## Description
 
-Authentication Hook - Get Logged User
+User ID Retrieval Hook
 
-A custom hook that fetches and manages the currently logged-in user's information.
-It handles various authentication states and error conditions, including:
-- Network errors
-- Authentication failures
-- Server errors
-- Session expiration
-
-The hook automatically logs out the user if their session is invalid or expired.
-
-This hook provides a standardized way to access the current user's authentication state
-and handle the associated loading states and error messages.
+A custom hook that consistently provides the current user's ID,
+retrieving it from either the Redux store or decoding it from the JWT token.
+This ensures that the user ID is always available, even if there are timing issues
+with localStorage or the Redux store.
 
 ## Author
 
@@ -40,4 +33,4 @@ WebShop Team
 
 ## Functions
 
-- [useGetLogged](functions/useGetLogged.md)
+- [useGetUserId](functions/useGetUserId.md)

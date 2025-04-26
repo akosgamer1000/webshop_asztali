@@ -20,7 +20,6 @@ import { HashRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import store from './misch/Store';
 import Router from './router';
-import AuthInitializer from './companents/auth/AuthInitializer';
 
 /**
  * Root component that sets up the application's core infrastructure
@@ -42,11 +41,8 @@ const App: React.FC = () => {
     <Provider store={store}>
       {/* HashRouter - Provides client-side routing using URL hash */}
       <HashRouter>
-        {/* AuthInitializer - Ensures auth state is initialized before rendering */}
-        <AuthInitializer>
-          {/* Router component - Defines the application's routing structure */}
-          <Router />
-        </AuthInitializer>
+        {/* Router component - Defines the application's routing structure */}
+        <Router />
       </HashRouter>
     </Provider>
   );

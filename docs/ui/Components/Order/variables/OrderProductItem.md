@@ -8,7 +8,7 @@
 
 > `const` **OrderProductItem**: `React.FC`\<`OrderProductItemProps`\>
 
-Defined in: [src/ui/companents/order/OrderProductItem.tsx:49](https://github.com/yourusername/webshop_asztali/blob/966ac422304bbbe6308f4e6c123a88355a82fe82/src/ui/companents/order/OrderProductItem.tsx#L49)
+Defined in: [src/ui/companents/order/OrderProductItem.tsx:49](https://github.com/yourusername/webshop_asztali/blob/6cd6b8ff5f7d5531f80a92ddbde9cd7ab8ecd569/src/ui/companents/order/OrderProductItem.tsx#L49)
 
 Component that renders a product item within an order
 

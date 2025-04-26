@@ -18,10 +18,11 @@
  * @since 1.0.0
  */
 
-import React, { Suspense, lazy } from 'react';
+import React, { useEffect, Suspense, lazy } from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import { RootState } from '../misch/Store';
+import { RootState, useAppDispatch } from '../misch/Store';
+import { login, getUserIdFromToken } from '../misch/store/authSlice';
 import MainLayout from '../companents/layout/MainLayout';
 import LoginContent from '../companents/login/logincontent';
 
@@ -112,18 +113,40 @@ const NestedSuspenseRoute: React.FC<NestedRouteProps> = ({ element }) => {
  * 
  * @component
  * @description Configures all application routes and handles authentication state.
+ * Includes automatic login from localStorage on initial load.
  * @returns {JSX.Element} The complete routing configuration for the application
  * @example
  * <Provider store={store}>
  *   <HashRouter>
- *     <AuthInitializer>
- *       <Router />
- *     </AuthInitializer>
+ *     <Router />
  *   </HashRouter>
  * </Provider>
  */
 const Router: React.FC = () => {
+  const dispatch = useAppDispatch();
   const isAuthenticated = useSelector((state: RootState) => !!state.auth.token);
+
+  /**
+   * Check for stored credentials on initial load
+   * Automatically logs in the user if valid credentials exist in localStorage
+   */
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    let userId = localStorage.getItem("userId");
+    
+    if (token) {
+      // If token exists but userId is missing, extract it from the token
+      if (!userId) {
+        userId = getUserIdFromToken(token);
+        if (userId) {
+          localStorage.setItem("userId", userId);
+          console.log('User ID extracted from token and stored in localStorage:', userId);
+        }
+      }
+      
+      dispatch(login({ token, userId: userId ?? '' }));
+    }
+  }, [dispatch]);
 
   return (
     <Routes>

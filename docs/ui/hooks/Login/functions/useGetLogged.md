@@ -2,13 +2,13 @@
 
 ***
 
-[WebShop Asztali Documentation](../../../../modules.md) / [UI/Hooks/Login](../README.md) / useGetLogged
+[WebShop Asztali Documentation](../../../../modules.md) / [UI/Hooks/Login](../README-1.md) / useGetLogged
 
 # Function: useGetLogged()
 
 > **useGetLogged**(): `object`
 
-Defined in: [src/ui/hooks/login/useGetlogged.tsx:71](https://github.com/yourusername/webshop_asztali/blob/966ac422304bbbe6308f4e6c123a88355a82fe82/src/ui/hooks/login/useGetlogged.tsx#L71)
+Defined in: [src/ui/hooks/login/useGetlogged.tsx:71](https://github.com/yourusername/webshop_asztali/blob/6cd6b8ff5f7d5531f80a92ddbde9cd7ab8ecd569/src/ui/hooks/login/useGetlogged.tsx#L71)
 
 Custom hook to fetch and manage the currently logged-in user
 

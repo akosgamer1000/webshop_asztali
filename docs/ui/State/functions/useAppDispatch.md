@@ -8,7 +8,7 @@
 
 > **useAppDispatch**\<`AppDispatch`\>(): `AppDispatch`
 
-Defined in: [src/ui/misch/Store.ts:58](https://github.com/yourusername/webshop_asztali/blob/966ac422304bbbe6308f4e6c123a88355a82fe82/src/ui/misch/Store.ts#L58)
+Defined in: [src/ui/misch/Store.ts:58](https://github.com/yourusername/webshop_asztali/blob/6cd6b8ff5f7d5531f80a92ddbde9cd7ab8ecd569/src/ui/misch/Store.ts#L58)
 
 Typed version of useDispatch hook
  useAppDispatch

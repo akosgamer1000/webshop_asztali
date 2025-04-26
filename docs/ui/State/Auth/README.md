@@ -45,6 +45,7 @@ WebShop Team
 
 ## Functions
 
+- [getUserIdFromToken](functions/getUserIdFromToken.md)
 - [selectUserId](functions/selectUserId.md)
 - [selectAuthToken](functions/selectAuthToken.md)
 - [selectIsAuthenticated](functions/selectIsAuthenticated.md)

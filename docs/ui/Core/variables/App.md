@@ -8,7 +8,7 @@
 
 > `const` **App**: `React.FC`
 
-Defined in: [src/ui/App.tsx:38](https://github.com/yourusername/webshop_asztali/blob/966ac422304bbbe6308f4e6c123a88355a82fe82/src/ui/App.tsx#L38)
+Defined in: [src/ui/App.tsx:38](https://github.com/yourusername/webshop_asztali/blob/6cd6b8ff5f7d5531f80a92ddbde9cd7ab8ecd569/src/ui/App.tsx#L38)
 
 Root component that sets up the application's core infrastructure
 

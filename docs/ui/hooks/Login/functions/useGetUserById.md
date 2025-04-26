@@ -2,13 +2,13 @@
 
 ***
 
-[WebShop Asztali Documentation](../../../../modules.md) / [UI/Hooks/Login](../README-1.md) / useGetUserById
+[WebShop Asztali Documentation](../../../../modules.md) / [UI/Hooks/Login](../README-2.md) / useGetUserById
 
 # Function: useGetUserById()
 
 > **useGetUserById**(`userId`): `object`
 
-Defined in: [src/ui/hooks/login/useGetuserbyid.tsx:75](https://github.com/yourusername/webshop_asztali/blob/966ac422304bbbe6308f4e6c123a88355a82fe82/src/ui/hooks/login/useGetuserbyid.tsx#L75)
+Defined in: [src/ui/hooks/login/useGetuserbyid.tsx:75](https://github.com/yourusername/webshop_asztali/blob/6cd6b8ff5f7d5531f80a92ddbde9cd7ab8ecd569/src/ui/hooks/login/useGetuserbyid.tsx#L75)
 
 Custom hook to fetch and manage user data by ID
 

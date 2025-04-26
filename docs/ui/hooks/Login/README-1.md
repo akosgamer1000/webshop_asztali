@@ -8,22 +8,22 @@
 
 ## File
 
-hooks/login/useGetuserbyid.tsx
+hooks/login/useGetlogged.tsx
 
 ## Description
 
-User Data Fetching Hook
+Authentication Hook - Get Logged User
 
-A custom hook that fetches detailed user information by user ID.
-It handles various error conditions and loading states, including:
+A custom hook that fetches and manages the currently logged-in user's information.
+It handles various authentication states and error conditions, including:
 - Network errors
 - Authentication failures
-- User not found errors
 - Server errors
+- Session expiration
 
-The hook automatically logs out the user if their session is invalid.
+The hook automatically logs out the user if their session is invalid or expired.
 
-This hook provides a standardized way to fetch user details by ID
+This hook provides a standardized way to access the current user's authentication state
 and handle the associated loading states and error messages.
 
 ## Author
@@ -40,4 +40,4 @@ WebShop Team
 
 ## Functions
 
-- [useGetUserById](functions/useGetUserById.md)
+- [useGetLogged](functions/useGetLogged.md)

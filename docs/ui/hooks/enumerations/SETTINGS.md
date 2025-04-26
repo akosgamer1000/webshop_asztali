@@ -6,7 +6,7 @@
 
 # Enumeration: SETTINGS
 
-Defined in: [src/ui/hooks/useSettings.ts:111](https://github.com/yourusername/webshop_asztali/blob/966ac422304bbbe6308f4e6c123a88355a82fe82/src/ui/hooks/useSettings.ts#L111)
+Defined in: [src/ui/hooks/useSettings.ts:111](https://github.com/yourusername/webshop_asztali/blob/6cd6b8ff5f7d5531f80a92ddbde9cd7ab8ecd569/src/ui/hooks/useSettings.ts#L111)
 
 Constants for common setting IDs
 These IDs correspond to settings in the Redux store
@@ -17,7 +17,7 @@ These IDs correspond to settings in the Redux store
 
 > **AUTOSAVE**: `number`
 
-Defined in: [src/ui/hooks/useSettings.ts:112](https://github.com/yourusername/webshop_asztali/blob/966ac422304bbbe6308f4e6c123a88355a82fe82/src/ui/hooks/useSettings.ts#L112)
+Defined in: [src/ui/hooks/useSettings.ts:112](https://github.com/yourusername/webshop_asztali/blob/6cd6b8ff5f7d5531f80a92ddbde9cd7ab8ecd569/src/ui/hooks/useSettings.ts#L112)
 
 ***
 
@@ -25,4 +25,4 @@ Defined in: [src/ui/hooks/useSettings.ts:112](https://github.com/yourusername/we
 
 > **ANALYTICS**: `number`
 
-Defined in: [src/ui/hooks/useSettings.ts:113](https://github.com/yourusername/webshop_asztali/blob/966ac422304bbbe6308f4e6c123a88355a82fe82/src/ui/hooks/useSettings.ts#L113)
+Defined in: [src/ui/hooks/useSettings.ts:113](https://github.com/yourusername/webshop_asztali/blob/6cd6b8ff5f7d5531f80a92ddbde9cd7ab8ecd569/src/ui/hooks/useSettings.ts#L113)
