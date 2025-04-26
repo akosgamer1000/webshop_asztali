@@ -3,14 +3,16 @@
   "files": ["dist-electron", "dist-react"],
   "icon": "./logo1.png",
   "mac": {
-    "target": "dmg"
+    "target": "dmg",
+    "icon": "./logo1.png"
   },
   "linux": {
     "target": "AppImage",
-    "category": "Utility"
+    "category": "Utility",
+    "icon": "./logo1.png"
   },
   "win": {
-    "target": ["portable", "msi"]
+    "target": ["portable", "msi"],
+    "icon": "./logo1.ico"
   }
-  
 }
