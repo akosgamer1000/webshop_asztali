@@ -1,5 +1,7 @@
 /**
- * Users Management Hook
+ * @file hooks/user/useUsers.tsx
+ * @module UI/Hooks/User
+ * @description Users Management Hook
  * 
  * A custom hook that provides functionality for fetching and managing users.
  * It handles loading states, error handling, and automatic data fetching.
@@ -10,6 +12,13 @@
  * - Error handling with specific error messages
  * - Automatic logout on authentication errors
  * - Refetch functionality
+ * 
+ * This hook provides a standardized way to fetch all users
+ * and handle the associated loading states and error messages.
+ * 
+ * @author WebShop Team
+ * @version 1.0.0
+ * @since 1.0.0
  */
 
 import { useState, useEffect, useCallback } from 'react';
@@ -38,13 +47,31 @@ interface UserData {
 }
 
 /**
-
- * 
+ * Custom hook for fetching and managing users
+ *
+ * @function useUsers
  * @returns {Object} Object containing users data and management functions
  * @property {UserData[]} users - Array of users
  * @property {boolean} loading - Loading state indicator
  * @property {string | null} error - Error message if any
  * @property {() => Promise<void>} refetch - Function to refetch users
+ * @example
+ * const { users, loading, error, refetch } = useUsers();
+ * 
+ * if (loading) {
+ *   return <div>Loading...</div>;
+ * }
+ * 
+ * if (error) {
+ *   return <div>{error}</div>;
+ * }
+ * 
+ * return (
+ *   <UserList 
+ *     users={users} 
+ *     onRefresh={refetch} 
+ *   />
+ * );
  */
 const useUsers = () => {
   // State management for users, loading, and error

@@ -1,15 +1,36 @@
 /**
- * Product Creation Hook
+ * File: hooks/prod/useCreateProduct.tsx
+ * Module: UI/Hooks/Product
  * 
- * A custom hook that provides functionality for creating new products.
- * It handles loading states, error handling, and data formatting for different product types.
+ * @fileoverview A custom hook for creating new products in the system
+ * @author WebShop Team
+ * @version 1.0.0
+ * 
+ * @description
+ * This hook provides comprehensive functionality for creating new products of various types.
+ * It handles the entire creation process including data formatting, API communication,
+ * loading states, and error handling with specific error messages for different scenarios.
  * 
  * Features:
- * - Create new products of various types
- * - Handle loading states
- * - Error handling with specific error messages
- * - Automatic data formatting
- * - Type-safe product creation
+ * - Create new products of various types (processors, memory, hard drives, etc.)
+ * - Handle loading states during API communication
+ * - Comprehensive error handling with specific error messages
+ * - Automatic data formatting based on product type
+ * - Type-safe product creation with TypeScript interfaces
+ * - Authentication error handling with automatic logout
+ * 
+ * @example
+ * ```tsx
+ * const { createProduct, loading, error } = useCreateProduct();
+ * 
+ * // Example usage in a form submission
+ * const handleSubmit = async (productData) => {
+ *   const result = await createProduct(productData);
+ *   if (result) {
+ *     // Product created successfully
+ *   }
+ * };
+ * ```
  */
 
 import { useState } from 'react';
@@ -25,7 +46,7 @@ import { logout } from '../../misch/store/authSlice';
  * @property {string} manufacturer - Manufacturer of the product
  * @property {string} type - Type of the product (PROCESSOR, MEMORY, etc.)
  * @property {number} price - Price of the product
- * @property {number} couantity - Available quantity
+ * @property {number} quantity - Available quantity
  * @property {string} imgSrc - URL/path to the product's image
  */
 interface BaseProduct {
@@ -33,7 +54,7 @@ interface BaseProduct {
   manufacturer: string;
   type: 'PROCESSOR' | 'MEMORY' | 'HARDDRIVE' | 'VIDEOCARD' | 'MOTHERBOARD' | 'CPUCOOLER' | 'POWERSUPPLY' | 'POWERHOUSE';
   price: number;
-  couantity: number;
+  quantity: number;
   imgSrc: string;
 }
 
@@ -172,8 +193,7 @@ type ProductType =
   | Powerhouse;
 
 /**
- *
- * 
+ * Hook for creating new products
  * 
  * @returns {Object} Object containing creation function and state
  * @property {(productData: ProductType) => Promise<any>} createProduct - Function to create a new product
@@ -199,7 +219,7 @@ const useCreateProduct = () => {
   const formatProductData = (productData: ProductType) => {
     console.log('Original Product Data:', productData);
 
-    const { type, name, manufacturer, price, couantity, imgSrc, ...specificFields } = productData;
+    const { type, name, manufacturer, price, quantity, imgSrc, ...specificFields } = productData;
     
     // Base product data common to all product types
     const baseProduct = {
@@ -207,7 +227,7 @@ const useCreateProduct = () => {
       manufacturer,
       type,
       price,
-      couantity,
+      quantity,
       imgSrc
     };
 

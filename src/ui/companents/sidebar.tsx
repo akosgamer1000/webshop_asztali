@@ -1,5 +1,7 @@
 /**
- * Sidebar Component
+ * @file companents/sidebar.tsx
+ * @module UI/Components/Layout
+ * @description Sidebar Navigation Component
  * 
  * A responsive navigation sidebar that provides:
  * - Main navigation links for authenticated users
@@ -11,9 +13,9 @@
  * It uses Redux for authentication state management and includes
  * dynamic routing based on user authentication status.
  * 
- * @param {Function} toggleSidebar - Callback function to toggle sidebar visibility
- * @param {boolean} isOpen - Current state of sidebar visibility
- * @returns {JSX.Element} A navigation sidebar component
+ * @author WebShop Team
+ * @version 1.0.0
+ * @since 1.0.0
  */
 
 import React from 'react';
@@ -25,7 +27,21 @@ import { logout } from '../misch/store/authSlice';
 import type { RootState } from '../misch/Store';
 import useGetLogged from "../hooks/login/useGetlogged";
 
-// Component that renders the navigation sidebar
+/**
+ * Sidebar Component
+ * 
+ * @component
+ * @description A functional component that renders a responsive navigation sidebar.
+ * Displays different navigation options based on user authentication status.
+ * Collapses on mobile and remains fixed on desktop screens.
+ * 
+ * @param {Object} props - Component properties
+ * @param {Function} props.toggleSidebar - Callback function to toggle sidebar visibility
+ * @param {boolean} props.isOpen - Current state of sidebar visibility (true = visible, false = hidden)
+ * @returns {JSX.Element} A navigation sidebar component
+ * @example
+ * <Sidebar toggleSidebar={() => setIsOpen(!isOpen)} isOpen={isOpen} />
+ */
 const Sidebar: React.FC<{ toggleSidebar: () => void; isOpen: boolean }> = ({
   isOpen,
 }) => {
@@ -41,6 +57,9 @@ const Sidebar: React.FC<{ toggleSidebar: () => void; isOpen: boolean }> = ({
   /**
    * Handles user logout by dispatching the logout action
    * This will clear the auth token and user state
+   * 
+   * @function
+   * @returns {void}
    */
   const handleLogout = () => {
     dispatch(logout());

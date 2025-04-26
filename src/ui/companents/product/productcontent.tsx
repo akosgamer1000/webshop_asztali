@@ -1,5 +1,7 @@
 /**
- * Product Content Component
+ * @file companents/product/productcontent.tsx
+ * @module UI/Components/Product
+ * @description Product Content Component
  * 
  * A component that displays a list of all products in a data table format.
  * Features:
@@ -8,6 +10,14 @@
  * - Clickable rows to view product details
  * - Add new product button
  * - Responsive design with consistent styling
+ * 
+ * This component serves as the main interface for product management,
+ * allowing administrators to view the complete product catalog and navigate
+ * to detailed views or add new products to the inventory.
+ * 
+ * @author WebShop Team
+ * @version 1.0.0
+ * @since 1.0.0
  */
 
 import React from "react";
@@ -17,6 +27,13 @@ import DataTable, { Column } from '../common/DataTable';
 
 /**
  * Interface representing a product in the system
+ * @interface Product
+ * @property {number} id - Unique identifier
+ * @property {string} name - Product name
+ * @property {string} manufacturer - Manufacturer name
+ * @property {string} type - Product type/category
+ * @property {number} price - Product price
+ * @property {number} quantity - Available quantity
  */
 interface Product {
   id: number;           // Unique identifier
@@ -24,20 +41,28 @@ interface Product {
   manufacturer: string; // Manufacturer name
   type: string;         // Product type/category
   price: number;        // Product price
-  couantity: number;    // Available quantity
+  quantity: number;     // Available quantity
 }
 
 /**
  * Component that displays and manages a list of products
+ * @component
  * @returns {JSX.Element} A data table containing product information
+ * @example
+ * <ProductContent />
  */
 const Content: React.FC = () => {
+  /**
+   * Hooks for navigation and data fetching
+   */
   const navigate = useNavigate();
   const { products, loading: productsLoading, error: dataError } = useProducts();
 
   /**
    * Navigates to the product details page
+   * @function handleView
    * @param {Product} product - Product to view
+   * @inner
    */
   const handleView = (product: Product) => {
     navigate(`/products/${product.id}`);
@@ -46,6 +71,7 @@ const Content: React.FC = () => {
   /**
    * Column configuration for the data table
    * Defines how each product property should be displayed
+   * @type {Column<Product>[]}
    */
   const columns: Column<Product>[] = [
     { header: 'ID', accessor: 'id', width: '10%' },
@@ -57,8 +83,17 @@ const Content: React.FC = () => {
       accessor: (item: Product) => `$${item.price.toFixed(2)}`,
       width: '15%'
     },
-    { header: 'Quantity', accessor: 'couantity', width: '15%' }  
+    { header: 'Quantity', accessor: 'quantity', width: '15%' }  
   ];
+
+  /**
+   * Navigate to the product creation workflow
+   * @function handleAddProduct
+   * @inner
+   */
+  const handleAddProduct = () => {
+    navigate('/addProduct/select');
+  };
 
   return (
     <div className="mt-5">
@@ -77,7 +112,7 @@ const Content: React.FC = () => {
       {/* Add new product button */}
       <div className="flex flex-col items-center gap-4 mt-8">
         <button
-          onClick={() => navigate('/addProduct/select')}
+          onClick={handleAddProduct}
           className="bg-green-500 hover:bg-green-600 text-white font-bold py-3 px-6 rounded-lg shadow-lg flex items-center"
         >
           Add New Product

@@ -1,5 +1,7 @@
 /**
- * Password Change Hook
+ * @file hooks/user/useChangePassword.tsx
+ * @module UI/Hooks/User
+ * @description Password Change Hook
  * 
  * A custom hook that provides functionality for changing user passwords.
  * It handles loading states, error handling, and success feedback.
@@ -10,6 +12,14 @@
  * - Error handling with specific error messages
  * - Success state management
  * - Detailed error logging for debugging
+ * 
+ * This hook provides a standardized way to change user passwords
+ * and handle the associated loading states, success feedback,
+ * and error messages.
+ * 
+ * @author WebShop Team
+ * @version 1.0.0
+ * @since 1.0.0
  */
 
 import { useState } from 'react';
@@ -28,14 +38,29 @@ interface ChangePasswordData {
 }
 
 /**
+ * Custom hook for changing user passwords
  * 
- * 
+ * @function useChangePassword
  * @returns {Object} Object containing password change function and state
  * @property {(passwordData: ChangePasswordData) => Promise<any>} changePassword - Function to change password
  * @property {boolean} loading - Loading state indicator
  * @property {string | null} error - Error message if any
  * @property {boolean} success - Success state indicator
+ * @example
+ * const { changePassword, loading, error, success } = useChangePassword();
+ * 
+ * // Change user password
+ * const handleSubmit = async (data) => {
+ *   await changePassword({
+ *     oldPassword: data.oldPassword,
+ *     newPassword: data.newPassword
+ *   });
+ *   if (success) {
+ *     // Password changed successfully
+ *   }
+ * };
  */
+
 const useChangePassword = () => {
   // State management for loading, error, and success
   const [loading, setLoading] = useState<boolean>(false);

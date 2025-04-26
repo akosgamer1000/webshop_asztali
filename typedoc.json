@@ -6,17 +6,65 @@
     "**/node_modules/**",
     "**/dist/**",
     "**/dist-electron/**",
-    "**/dist-react/**"
+    "**/dist-react/**",
+    "**/*.test.ts",
+    "**/*.test.tsx",
+    "**/*.spec.ts",
+    "**/*.spec.tsx",
+    "**/*.stories.tsx"
   ],
   "excludeExternals": true,
   "excludePrivate": false,
   "excludeProtected": false,
   "categorizeByGroup": true,
-  "categoryOrder": ["Main", "Components", "Hooks", "Utils", "*"],
+  "categoryOrder": [
+    "Main", 
+    "Components/Layout",
+    "Components/User",
+    "Components/Product",
+    "Components/Order",
+    "Components/Common",
+    "Components", 
+    "Hooks/User",
+    "Hooks/Login",
+    "Hooks/Product",
+    "Hooks/Order",
+    "Hooks",
+    "Utils", 
+    "Store",
+    "*"
+  ],
   "readme": "README.md",
   "name": "WebShop Asztali Documentation",
   "includeVersion": true,
   "theme": "default",
-  "plugin": ["typedoc-plugin-markdown"],
-  "hideGenerator": true
+  "plugin": [
+    "typedoc-plugin-markdown",
+    "typedoc-plugin-mermaid",
+    "typedoc-plugin-rename-defaults"
+  ],
+  "hideGenerator": true,
+  "sort": ["source-order", "required-first", "kind"],
+  "validation": {
+    "invalidLink": true,
+    "notExported": true,
+    "notDocumented": true
+  },
+  "navigationLinks": {
+    "GitHub": "https://github.com/yourusername/webshop_asztali",
+    "API": "globals.html"
+  },
+  "sourceLinkTemplate": "https://github.com/yourusername/webshop_asztali/blob/{gitRevision}/{path}#L{line}",
+  "visibilityFilters": {
+    "protected": false,
+    "private": false,
+    "inherited": true,
+    "external": false
+  },
+  "searchInComments": true,
+  "disableSources": false,
+  "cleanOutputDir": true,
+  "treatWarningsAsErrors": false,
+  "logLevel": "Info",
+  "jsDocCompatibility": true
 } 

@@ -1,5 +1,7 @@
 /**
- * User Creation Hook
+ * @file companents/user/addCreateUser.tsx
+ * @module UI/Components/User
+ * @description User Creation Hook
  * 
  * A custom hook that provides functionality for creating new users.
  * It handles loading states, error handling, and authentication.
@@ -9,6 +11,10 @@
  * - Handle loading states
  * - Error handling with specific error messages
  * - Automatic logout on authentication errors
+ * 
+ * @author WebShop Team
+ * @version 1.0.0
+ * @since 1.0.0
  */
 
 import { useState } from 'react';

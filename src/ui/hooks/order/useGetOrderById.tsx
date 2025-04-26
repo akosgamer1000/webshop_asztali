@@ -1,5 +1,7 @@
 /**
- * Order Details Hook
+ * @file hooks/order/useGetOrderById.tsx
+ * @module UI/Hooks/Order
+ * @description Order Details Hook
  * 
  * A custom hook that provides functionality for fetching and managing a single order by ID.
  * It handles loading states, error handling, and automatic data fetching.
@@ -10,6 +12,13 @@
  * - Error handling with specific error messages
  * - Automatic logout on authentication errors
  * - Detailed order information including products and total price
+ * 
+ * This hook provides a standardized way to fetch order details
+ * and handle the associated loading states and error messages.
+ * 
+ * @author WebShop Team
+ * @version 1.0.0
+ * @since 1.0.0
  */
 
 import { useState, useEffect } from 'react';
@@ -46,13 +55,26 @@ interface OrderData {
 }
 
 /**
- 
+ * Custom hook for fetching order details by ID
  * 
+ * @function useGetOrderById
  * @param {number} orderId - ID of the order to fetch
  * @returns {Object} Object containing order data and state
  * @property {OrderData | null} order - The order data or null if not found
  * @property {boolean} loading - Loading state indicator
  * @property {string | null} error - Error message if any
+ * @example
+ * const { order, loading, error } = useGetOrderById(123);
+ * 
+ * if (loading) {
+ *   return <div>Loading...</div>;
+ * }
+ * 
+ * if (error) {
+ *   return <div>{error}</div>;
+ * }
+ * 
+ * return <OrderDetails order={order} />;
  */
 const useGetOrderById = (orderId: number) => {
     // State management for order, loading, and error

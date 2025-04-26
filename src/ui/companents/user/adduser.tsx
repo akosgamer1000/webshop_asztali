@@ -1,5 +1,7 @@
 /**
- * Add User Component
+ * @file companents/user/adduser.tsx
+ * @module UI/Components/User
+ * @description Add User Component
  * 
  * A React component that provides a form for creating new users.
  * It includes form validation, password visibility toggle, and error handling.
@@ -12,6 +14,10 @@
  * - Role selection (user/admin)
  * - Error handling and display
  * - Loading state management
+ * 
+ * @author WebShop Team
+ * @version 1.0.0
+ * @since 1.0.0
  */
 
 import React, { useRef, FormEvent, useState, useEffect } from 'react';

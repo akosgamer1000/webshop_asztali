@@ -1,5 +1,7 @@
 /**
- * Product Choice Component
+ * @file companents/product/productChoice.tsx
+ * @module UI/Components/Product
+ * @description Product Choice Component
  * 
  * A component that displays a grid of product type options for adding new products.
  * Features:
@@ -8,20 +10,38 @@
  * - Responsive design (1 column on mobile, 2 on tablet, 3 on desktop)
  * - Hover effects and transitions
  * - Navigation to product-specific add forms
+ * 
+ * This component serves as the entry point for the product creation workflow,
+ * allowing administrators to select which type of product they want to add.
+ * 
+ * @author WebShop Team
+ * @version 1.0.0
+ * @since 1.0.0
  */
 
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 
 /**
- * Component that renders a selection grid for product types
+ * Product Choice Component
+ * 
+ * @component
+ * @description A functional component that renders a selection grid for product types.
+ * Each product type is represented as a card with an icon and description.
+ * 
  * @returns {JSX.Element} A grid of product type options
+ * @example
+ * <Route path="/addProduct/select" element={<ProductChoice />} />
  */
 const ProductChoice: React.FC = () => {
+  /**
+   * Hook for navigation between routes
+   */
   const navigate = useNavigate();
 
   /**
    * Available product types with their navigation paths and icons
+   * @type {Array<{name: string, path: string, icon: string}>}
    */
   const productTypes = [
     { name: 'Processor', path: 'processor', icon: '🔲' },      // CPU/Processor products

@@ -1,20 +1,37 @@
 /**
- * Header Component
+ * @file companents/header.tsx
+ * @module UI/Components/Layout
+ * @description Header Component
  * 
  * A responsive header component for the admin panel that includes:
  * - A hamburger menu button (visible only on mobile devices)
- * - The application title
+ * - The application title with brand identity
+ * - Sticky positioning for consistent navigation
  * 
- * The header is sticky positioned and includes a shadow for visual hierarchy.
- * It uses Tailwind CSS for styling and is fully responsive.
+ * This component serves as the top navigation bar across all pages,
+ * providing consistent branding and mobile navigation controls.
+ * Uses Tailwind CSS for styling and responsive design.
  * 
- * @param {Function} toggleSidebar - Callback function to toggle the sidebar visibility
- * @returns {JSX.Element} A header component with navigation controls
+ * @author WebShop Team
+ * @version 1.0.0
+ * @since 1.0.0
  */
 
 import  "../style/basic.css";
 
-// Component that renders the top header bar
+/**
+ * Header Component
+ * 
+ * @component
+ * @description A functional component that renders the top header bar of the application.
+ * Includes a hamburger menu button for mobile navigation and the application title.
+ * 
+ * @param {Object} props - Component properties
+ * @param {Function} props.toggleSidebar - Callback function to toggle the sidebar visibility
+ * @returns {JSX.Element} A header component with navigation controls
+ * @example
+ * <Header toggleSidebar={() => setSidebarOpen(!sidebarOpen)} />
+ */
 const Header: React.FC<{ toggleSidebar: () => void }> = ({ toggleSidebar }) => {
     return (
       // Main header container

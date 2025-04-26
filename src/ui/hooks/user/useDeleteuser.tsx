@@ -1,5 +1,7 @@
 /**
- * User Deletion Hook
+ * @file hooks/user/useDeleteuser.tsx
+ * @module UI/Hooks/User
+ * @description User Deletion Hook
  * 
  * A custom hook that provides functionality for deleting users.
  * It handles loading states, error handling, and success feedback.
@@ -10,6 +12,14 @@
  * - Error handling with specific error messages
  * - Success state management
  * - Automatic logout on authentication errors
+ * 
+ * This hook provides a standardized way to delete user accounts
+ * and handle the associated loading states, success feedback,
+ * and error messages.
+ * 
+ * @author WebShop Team
+ * @version 1.0.0
+ * @since 1.0.0
  */
 
 import { useState } from 'react';
@@ -21,15 +31,25 @@ import { logout } from '../../misch/store/authSlice';
 /**
  * Custom hook for deleting users
  * 
- * This hook provides functionality for deleting users and managing
+ * @function useDeleteUser
+ * @description This hook provides functionality for deleting users and managing
  * the deletion process state, including loading, error, and success states.
-
  * 
  * @returns {Object} Object containing user deletion function and state
  * @property {(userId: number) => Promise<boolean>} deleteUser - Function to delete user
  * @property {boolean} loading - Loading state indicator
  * @property {string | null} error - Error message if any
  * @property {boolean} success - Success state indicator
+ * @example
+ * const { deleteUser, loading, error, success } = useDeleteUser();
+ * 
+ * // Delete a user
+ * const handleDelete = async (userId) => {
+ *   const result = await deleteUser(userId);
+ *   if (result) {
+ *     // User deleted successfully
+ *   }
+ * };
  */
 const useDeleteUser = () => {
   // State management for loading, error, and success

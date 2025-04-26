@@ -1,5 +1,7 @@
 /**
- * User View Component
+ * @file companents/user/userwiew.tsx
+ * @module UI/Components/User
+ * @description User View Component
  * 
  * A React component that displays detailed information about a specific user.
  * It provides functionality for viewing user details and deleting users.
@@ -10,6 +12,14 @@
  * - Loading and error state handling
  * - Navigation after user deletion
  * - Permission-based delete button
+ * 
+ * This component serves as the detailed view for individual users,
+ * providing administrators with the ability to view and manage specific
+ * user accounts in the system.
+ * 
+ * @author WebShop Team
+ * @version 1.0.0
+ * @since 1.0.0
  */
 
 import React, { useState } from 'react';
@@ -18,11 +28,13 @@ import useGetUserById from '../../hooks/login/useGetuserbyid';
 import useDeleteUser from '../../hooks/user/useDeleteuser';
 import { useSelector } from 'react-redux';
 import { selectUserId } from '../../misch/store/authSlice';
+import ConfirmDialog from '../common/ConfirmDialog';
 
 /**
  * User View Component
  * 
- * This component displays detailed information about a specific user and provides
+ * @component
+ * @description This component displays detailed information about a specific user and provides
  * functionality to delete the user (except for the user's own profile).
  * 
  * The component uses:
@@ -32,6 +44,8 @@ import { selectUserId } from '../../misch/store/authSlice';
  * - React Router for navigation and parameter handling
  * 
  * @returns {JSX.Element} The rendered user view component
+ * @example
+ * <Route path="/user/:id" element={<UserView />} />
  */
 const ProfileContent: React.FC = () => {
     // Get user ID from URL parameters and initialize hooks
@@ -40,6 +54,9 @@ const ProfileContent: React.FC = () => {
     const deleteuser = useDeleteUser();
     const [deleteError, setDeleteError] = useState<string | null>(null);
     const loggedInUserId = useSelector(selectUserId);
+    
+    // State for the confirmation dialog
+    const [showConfirmDialog, setShowConfirmDialog] = useState(false);
     
     // Validate user ID
     if (!id) {
@@ -68,40 +85,59 @@ const ProfileContent: React.FC = () => {
     const isOwnProfile = Boolean(id && loggedInUserId && Number(id) === Number(loggedInUserId));
    
     /**
-     * Handle user deletion
-     * 
-     * This function handles the deletion of a user with the following checks:
-     * - Prevents deletion of own profile
-     * - Confirms deletion with user
-     * - Handles success and error states
-     * - Navigates to users list on success
+     * Show the confirmation dialog for deletion
      */
-    const handleDelete = async () => {
-        // Prevent deletion of own profile
+    const handleDeleteClick = () => {
         if (isOwnProfile) {
             setDeleteError("You cannot delete your own account");
-            return; 
+            return;
         }
         
-        // Confirm deletion with user
-        if (window.confirm('Are you sure you want to delete this user?')) {
-            try {
-                const success = await deleteuser.deleteUser(Number(id));
-                if (success) {
-                    
-                    navigate('/users');
-                } else {
-                    setDeleteError(deleteuser.error || "Failed to delete user");
-                }
-            } catch (error) {
-                console.error('Error deleting user:', error);
-                setDeleteError("An unexpected error occurred while deleting the user");
+        // Open the non-blocking confirmation dialog
+        setShowConfirmDialog(true);
+    };
+   
+    /**
+     * Handle user deletion
+     */
+    const handleConfirmDelete = async () => {
+        try {
+            // Close dialog immediately to prevent further UI blocking
+            setShowConfirmDialog(false);
+            
+            const success = await deleteuser.deleteUser(Number(id));
+            if (success) {
+                navigate('/users');
+            } else {
+                setDeleteError(deleteuser.error || "Failed to delete user");
             }
+        } catch (error) {
+            console.error('Error deleting user:', error);
+            setDeleteError("An unexpected error occurred while deleting the user");
         }
+    };
+    
+    /**
+     * Cancel the delete operation
+     */
+    const handleCancelDelete = () => {
+        setShowConfirmDialog(false);
     };
 
     return (
         <div className="bg-white rounded-lg shadow-md p-6">
+            {/* Confirmation Dialog */}
+            <ConfirmDialog
+                isOpen={showConfirmDialog}
+                title="Delete User"
+                message={`Are you sure you want to delete the user "${user?.name}"? This action cannot be undone.`}
+                confirmText="Delete"
+                cancelText="Cancel"
+                onConfirm={handleConfirmDelete}
+                onCancel={handleCancelDelete}
+                variant="danger"
+            />
+            
             <h2 className="text-2xl font-semibold text-gray-800 mb-6">User Profile</h2>
             
             {/* Error message display */}
@@ -146,7 +182,7 @@ const ProfileContent: React.FC = () => {
                 {/* Delete user button */}
                 <div className="flex justify-end gap-4 pt-4">
                     <button 
-                        onClick={handleDelete}
+                        onClick={handleDeleteClick}
                         disabled={isOwnProfile || deleteuser.loading}
                         className={`px-6 py-2 text-white rounded-md transition-colors ${
                             isOwnProfile || deleteuser.loading

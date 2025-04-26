@@ -1,27 +1,39 @@
 /**
- * Confirm Dialog Component
+ * @file ConfirmDialog.tsx
+ * @module UI/Components/Common
+ * @description Confirm Dialog Component
  * 
  * A reusable modal dialog component for confirming user actions.
  * Features:
  * - Customizable title and message
  * - Configurable button text
  * - Multiple visual variants (danger, warning, info)
- * - Backdrop overlay
  * - Responsive design
+ * - Accessible dialog implementation
+ * - Simple API with callback functions
+ * 
+ * This component provides a standardized way to ask for user confirmation
+ * before performing potentially destructive or important actions.
+ * It displays as a modal dialog positioned in the center of the screen.
+ * 
+ * @author WebShop Team
+ * @version 1.0.0
+ * @since 1.0.0
  */
 
 import React from 'react';
 
 /**
  * Props interface for the ConfirmDialog component
+ * @interface ConfirmDialogProps
  * @property {boolean} isOpen - Controls whether the dialog is visible
  * @property {string} title - Text to display in the dialog header
  * @property {string} message - Main content text of the dialog
- * @property {string} [confirmText] - Text for the confirm button (defaults to 'Confirm')
- * @property {string} [cancelText] - Text for the cancel button (defaults to 'Cancel')
+ * @property {string} [confirmText='Confirm'] - Text for the confirm button (defaults to 'Confirm')
+ * @property {string} [cancelText='Cancel'] - Text for the cancel button (defaults to 'Cancel')
  * @property {() => void} onConfirm - Callback function when confirm is clicked
  * @property {() => void} onCancel - Callback function when cancel is clicked
- * @property {'danger' | 'warning' | 'info'} [variant] - Visual style of the dialog (defaults to 'warning')
+ * @property {'danger' | 'warning' | 'info'} [variant='warning'] - Visual style of the dialog (defaults to 'warning')
  */
 interface ConfirmDialogProps {
   isOpen: boolean;           // Controls dialog visibility
@@ -36,8 +48,26 @@ interface ConfirmDialogProps {
 
 /**
  * A modal dialog component for confirming user actions
+ * @component
  * @param {ConfirmDialogProps} props - Component properties
+ * @param {boolean} props.isOpen - Controls dialog visibility
+ * @param {string} props.title - Dialog title text
+ * @param {string} props.message - Dialog message content
+ * @param {string} [props.confirmText='Confirm'] - Text for confirm button
+ * @param {string} [props.cancelText='Cancel'] - Text for cancel button
+ * @param {() => void} props.onConfirm - Callback function for confirm action
+ * @param {() => void} props.onCancel - Callback function for cancel action
+ * @param {'danger' | 'warning' | 'info'} [props.variant='warning'] - Visual style variant
  * @returns {JSX.Element | null} The dialog component or null if not open
+ * @example
+ * <ConfirmDialog
+ *   isOpen={showDialog}
+ *   title="Delete Item"
+ *   message="Are you sure you want to delete this item?"
+ *   onConfirm={handleDelete}
+ *   onCancel={() => setShowDialog(false)}
+ *   variant="danger"
+ * />
  */
 const ConfirmDialog: React.FC<ConfirmDialogProps> = ({
   isOpen,                    // Controls dialog visibility
@@ -54,7 +84,9 @@ const ConfirmDialog: React.FC<ConfirmDialogProps> = ({
 
   /**
    * Returns the appropriate button classes based on the variant
+   * @function getButtonClasses
    * @returns {string} Tailwind CSS classes for the confirm button
+   * @inner
    */
   const getButtonClasses = () => {
     switch (variant) {
@@ -69,10 +101,10 @@ const ConfirmDialog: React.FC<ConfirmDialogProps> = ({
   };
 
   return (
-    // Backdrop overlay - covers the entire screen with semi-transparent black
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-      {/* Dialog container - white background with rounded corners and shadow */}
-      <div className="bg-white rounded-lg shadow-lg p-6 max-w-md w-full">
+    // Fixed positioning in the center of the screen, no backdrop
+    <div className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-50">
+      {/* Dialog container with additional border for better visibility */}
+      <div className="bg-white rounded-lg shadow-lg p-6 max-w-md w-full border border-gray-300">
         {/* Dialog header - bold title text */}
         <h2 className="text-xl font-bold mb-4">{title}</h2>
         

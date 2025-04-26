@@ -1,5 +1,7 @@
 /**
- * Login Content Component
+ * @file companents/login/logincontent.tsx
+ * @module UI/Components/Login
+ * @description Login Content Component
  * 
  * A form component that handles user authentication.
  * Features:
@@ -10,6 +12,13 @@
  * - JWT token management
  * - Role-based access control
  * - Automatic redirection after login
+ * 
+ * This component provides the user authentication interface and handles the login
+ * process, including token validation, role verification, and state management.
+ * 
+ * @author WebShop Team
+ * @version 1.0.0
+ * @since 1.0.0
  */
 
 import React, { useRef, useState, useEffect } from 'react';
@@ -24,30 +33,56 @@ import { jwtDecode } from 'jwt-decode';
 
 /**
  * Interface for JWT token role information
+ * @interface RolePayload
+ * @property {string} role - User role extracted from JWT token
  */
-interface roles {
+interface RolePayload {
   role: string;
 }
 
 /**
+ * Interface for JWT token ID information
+ * @interface IdPayload
+ * @property {number} id - User ID extracted from JWT token
+ */
+interface IdPayload {
+  id: number;
+}
+
+/**
  * Login form component that handles user authentication
+ * @component
  * @returns {JSX.Element} A login form with email and password fields
+ * @example
+ * <Route path="/login" element={<LoginContent />} />
  */
 const LoginContent: React.FC = () => {
-  // Form input references
+  /**
+   * Form input references for email and password fields
+   * @type {React.RefObject<HTMLInputElement>}
+   */
   const emailRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
   
-  // Component state
+  /**
+   * Component state for error messages and loading status
+   * @type {[string, React.Dispatch<React.SetStateAction<string>>]}
+   * @type {[boolean, React.Dispatch<React.SetStateAction<boolean>>]}
+   */
   const [error, setError] = useState<string>('');
   const [isLoading, setIsLoading] = useState<boolean>(false);
   
-  // Hooks for navigation and state management
+  /**
+   * Hooks for navigation and state management
+   */
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const isAuthenticated = useSelector((state: RootState) => !!state.auth.token);
 
-  // Redirect if already authenticated
+  /**
+   * Redirect if already authenticated
+   * Prevents accessing the login page when already logged in
+   */
   useEffect(() => {
     if (isAuthenticated) {
       console.log('User already authenticated, redirecting to home');
@@ -56,8 +91,29 @@ const LoginContent: React.FC = () => {
   }, [isAuthenticated, navigate]);
 
   /**
+   * Ensure userId is properly stored in localStorage after authentication
+   * This helps prevent issues with userId being missing on initial login
+   */
+  useEffect(() => {
+    if (isAuthenticated) {
+      const token = localStorage.getItem("token");
+      if (token) {
+        try {
+          const decodedToken = jwtDecode<IdPayload>(token);
+          localStorage.setItem("userId", String(decodedToken.id));
+          console.log('User ID stored in localStorage:', decodedToken.id);
+        } catch (error) {
+          console.error("Failed to decode token:", error);
+        }
+      }
+    }
+  }, [isAuthenticated]);
+
+  /**
    * Handles form submission and authentication
+   * @function handleSubmit
    * @param {React.FormEvent} e - Form submission event
+   * @inner
    */
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -92,18 +148,23 @@ const LoginContent: React.FC = () => {
       }
 
       // Check user role
-      const role = jwtDecode<roles>(response.data.access_token).role;
-      if (role != "admin") {
-        throw new Error('please log in with an admin user');
+      const role = jwtDecode<RolePayload>(response.data.access_token).role;
+      if (role !== "admin") {
+        throw new Error('Please log in with an admin user');
       }
 
+      // Log full decoded token to see its structure
+      const decodedToken = jwtDecode(response.data.access_token);
+      console.log('Full decoded token payload:', decodedToken);
+
       // Extract user ID from token
-      console.log(jwtDecode<{id:string}>(response.data.access_token).id);
+      const userId = jwtDecode<IdPayload>(response.data.access_token).id;
+      console.log('User ID:', userId);
       
       // Update Redux store with authentication state
       dispatch(login({
         token: response.data.access_token,
-        userId: jwtDecode<{id:string}>(response.data.access_token).id
+        userId: String(userId)  // Explicitly convert to string
       }));
       
       // Redirect to home page

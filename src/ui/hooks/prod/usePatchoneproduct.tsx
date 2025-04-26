@@ -1,15 +1,36 @@
 /**
- * Product Price Update Hook
+ * File: hooks/prod/usePatchoneproduct.tsx
+ * Module: UI/Hooks/Product
  * 
- * A custom hook that provides functionality for updating product prices.
- * It handles loading states, error handling, and success feedback.
+ * @fileoverview A custom hook for updating product prices in the system
+ * @author WebShop Team
+ * @version 1.0.0
+ * 
+ * @description
+ * This hook provides functionality for updating product prices and optionally quantities.
+ * It handles loading states, error handling with specific error messages for different scenarios,
+ * and provides success feedback upon completion.
  * 
  * Features:
- * - Update product price
- * - Handle loading states
- * - Error handling with specific error messages
- * - Success state management
- * - Automatic logout on authentication errors
+ * - Update product prices with a simple API call
+ * - Optionally update product quantities
+ * - Handle loading states during API communication
+ * - Comprehensive error handling with specific error messages
+ * - Success feedback mechanism
+ * - Authentication error handling with automatic logout
+ * 
+ * @example
+ * ```tsx
+ * const { updateProductPrice, loading, error, success } = usePatchoneproduct();
+ * 
+ * // Example usage in a form submission
+ * const handlePriceUpdate = async (id, price, quantity) => {
+ *   await updateProductPrice(id, price, quantity);
+ *   if (success) {
+ *     // Price updated successfully
+ *   }
+ * };
+ * ```
  */
 
 import { useState } from 'react';
@@ -19,11 +40,10 @@ import { useAppDispatch } from '../../misch/Store';
 import { logout } from '../../misch/store/authSlice';
 
 /**
- 
- * ```
+ * Hook for updating product prices
  * 
  * @returns {Object} Object containing update function and state
- * @property {(productId: number, newPrice: number) => Promise<any>} updateProductPrice - Function to update product price
+ * @property {(id: string, price: number, quantity?: number) => Promise<void>} updateProductPrice - Function to update product price
  * @property {boolean} loading - Loading state indicator
  * @property {string | null} error - Error message if any
  * @property {boolean} success - Success state indicator
@@ -54,7 +74,7 @@ const usePatchOneProduct = () => {
    * - Server errors (500)
    * - Other unexpected errors
    */
-  const updateProductPrice = async (productId: number, newPrice?: number,newCouantity?: number) => {
+  const updateProductPrice = async (productId: number, newPrice?: number,newQuantity?: number) => {
     setLoading(true);
     setError(null);
     setSuccess(false);
@@ -62,7 +82,7 @@ const usePatchOneProduct = () => {
     try {
       const response = await axiosInstance.patch(
         `/products/${productId}`,
-        { price: newPrice, couantity: newCouantity }
+        { price: newPrice, quantity: newQuantity }
       );
 
       setSuccess(true);

@@ -1,5 +1,7 @@
 /**
- * Order Update Hook
+ * @file hooks/order/usePatchOrder.tsx
+ * @module UI/Hooks/Order
+ * @description Order Update Hook
  * 
  * A custom hook that provides functionality for updating order information.
  * It handles loading states, error handling, and success feedback.
@@ -10,6 +12,14 @@
  * - Error handling with specific error messages
  * - Success state management
  * - Automatic logout on authentication errors
+ * 
+ * This hook provides a standardized way to update order information
+ * and handle the associated loading states, success feedback,
+ * and error messages.
+ * 
+ * @author WebShop Team
+ * @version 1.0.0
+ * @since 1.0.0
  */
 
 import { useState } from 'react';
@@ -28,14 +38,24 @@ interface OrderUpdateData {
 }
 
 /**
- *
+ * Custom hook for updating order information
  * 
- * 
+ * @function usePatchOrder
  * @returns {Object} Object containing update function and state
  * @property {(orderId: number, orderData: OrderUpdateData) => Promise<any>} updateOrder - Function to update order
  * @property {boolean} loading - Loading state indicator
  * @property {string | null} error - Error message if any
  * @property {boolean} success - Success state indicator
+ * @example
+ * const { updateOrder, loading, error, success } = usePatchOrder();
+ * 
+ * // Update an order's status
+ * const handleStatusChange = async (orderId, newStatus) => {
+ *   await updateOrder(orderId, { status: newStatus });
+ *   if (success) {
+ *     // Order updated successfully
+ *   }
+ * };
  */
 const usePatchOrder = () => {
   // State management for loading, error, and success

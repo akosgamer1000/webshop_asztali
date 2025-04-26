@@ -1,5 +1,7 @@
 /**
- * Order View Component
+ * @file companents/order/OrderView.tsx
+ * @module UI/Components/Order
+ * @description Order View Component
  * 
  * A component that displays detailed information about a specific order.
  * Features:
@@ -9,6 +11,13 @@
  * - Displays total price and order date
  * - Handles loading and error states
  * - Responsive layout with consistent styling
+ * 
+ * This component serves as the detailed view for a specific order,
+ * providing administrators with comprehensive information about the order.
+ * 
+ * @author WebShop Team
+ * @version 1.0.0
+ * @since 1.0.0
  */
 
 import React from 'react';
@@ -17,11 +26,20 @@ import useGetOrderById from '../../hooks/order/useGetOrderById';
 import OrderProductItem from './OrderProductItem';
 
 /**
- * Component that renders a detailed view of an order
+ * Order View Component
+ * 
+ * @component
+ * @description A functional component that renders a detailed view of an order
+ * with all its associated information and products.
+ * 
  * @returns {JSX.Element} A detailed order view with all order information
+ * @example
+ * <Route path="/orderdetails/:id" element={<OrderView />} />
  */
 const OrderView: React.FC = () => {
-    // Get order ID from URL parameters
+    /**
+     * Hooks for navigation and URL parameters
+     */
     const { id } = useParams();
     const navigate = useNavigate();
 
@@ -30,7 +48,9 @@ const OrderView: React.FC = () => {
         return <div>Invalid order ID</div>;
     }
 
-    // Fetch order details using custom hook
+    /**
+     * Fetch order details using custom hook
+     */
     const { order, loading, error } = useGetOrderById(Number.parseInt(id));
 
     // Loading state

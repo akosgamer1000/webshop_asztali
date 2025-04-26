@@ -1,5 +1,7 @@
 /**
- * Authentication Hook - Get Logged User
+ * @file hooks/login/useGetlogged.tsx
+ * @module UI/Hooks/Login
+ * @description Authentication Hook - Get Logged User
  * 
  * A custom hook that fetches and manages the currently logged-in user's information.
  * It handles various authentication states and error conditions, including:
@@ -9,6 +11,13 @@
  * - Session expiration
  * 
  * The hook automatically logs out the user if their session is invalid or expired.
+ * 
+ * This hook provides a standardized way to access the current user's authentication state
+ * and handle the associated loading states and error messages.
+ * 
+ * @author WebShop Team
+ * @version 1.0.0
+ * @since 1.0.0
  */
 
 import { useState, useEffect } from 'react';
@@ -19,6 +28,12 @@ import { logout } from '../../misch/store/authSlice';
 
 /**
  * User interface representing the authenticated user's data
+ * @interface User
+ * @property {number} id - User's unique identifier
+ * @property {string} username - User's username
+ * @property {string} role - User's role/permissions
+ * @property {number} iat - Token issued at timestamp
+ * @property {number} exp - Token expiration timestamp
  */
 interface User {
   id: number;          // User's unique identifier
@@ -29,8 +44,29 @@ interface User {
 }
 
 /**
- * Hook to fetch and manage the currently logged-in user
- * @returns {Object} Object containing user ID, loading state, and any error messages
+ * Custom hook to fetch and manage the currently logged-in user
+ * 
+ * @function useGetLogged
+ * @returns {Object} Object containing user information and state
+ * @property {number | null} id - The logged-in user's ID or null if not logged in
+ * @property {boolean} loading - Loading state indicator
+ * @property {string | null} error - Error message if any
+ * @example
+ * const { id, loading, error } = useGetLogged();
+ * 
+ * if (loading) {
+ *   return <div>Loading...</div>;
+ * }
+ * 
+ * if (error) {
+ *   return <div>{error}</div>;
+ * }
+ * 
+ * if (id) {
+ *   return <UserProfile userId={id} />;
+ * } else {
+ *   return <LoginForm />;
+ * }
  */
 const useGetLogged = () => {
   // State management for user data and request status

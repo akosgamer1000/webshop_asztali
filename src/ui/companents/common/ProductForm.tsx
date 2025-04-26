@@ -1,5 +1,7 @@
 /**
- * Product Form Component
+ * @file ProductForm.tsx
+ * @module UI/Components/Common
+ * @description Product Form Component
  * 
  * A reusable form component for creating and editing products.
  * Features:
@@ -9,6 +11,16 @@
  * - Loading states
  * - Responsive grid layout
  * - Back navigation
+ * - Field-level validation rules
+ * - Accessible form controls
+ * 
+ * This component provides a standardized way to create forms for product
+ * creation and editing, with support for various field types and validation rules.
+ * It handles form state, validation, and submission with error handling.
+ * 
+ * @author WebShop Team
+ * @version 1.0.0
+ * @since 1.0.0
  */
 
 import React, { useState, useRef, useEffect } from 'react';
@@ -17,6 +29,7 @@ import { useNavigate } from 'react-router-dom';
 /**
  * Configuration interface for form fields
  * Defines the structure and validation rules for each form field
+ * @interface FormField
  * @property {string} name - Unique identifier for the field
  * @property {string} label - Display label for the field
  * @property {'text' | 'number' | 'checkbox' | 'select'} type - Type of input field
@@ -41,12 +54,13 @@ export interface FormField {
 
 /**
  * Props interface for the ProductForm component
+ * @interface ProductFormProps
  * @property {string} title - Title displayed at the top of the form
  * @property {FormField[]} fields - Configuration for each form field
  * @property {string} productType - Type of product being created/edited
  * @property {(formData: Record<string, any>) => Promise<void>} onSubmit - Handler for form submission
- * @property {boolean} [loading] - Whether the form is in a loading state
- * @property {string | null} [error] - Error message to display if any
+ * @property {boolean} [loading=false] - Whether the form is in a loading state
+ * @property {string | null} [error=null] - Error message to display if any
  */
 interface ProductFormProps {
   title: string;                                   // Form title
@@ -59,8 +73,27 @@ interface ProductFormProps {
 
 /**
  * Product form component for creating and editing products
+ * @component
  * @param {ProductFormProps} props - Component properties
+ * @param {string} props.title - Form title displayed at the top
+ * @param {FormField[]} props.fields - Array of field configurations
+ * @param {string} props.productType - Type of product being created/edited
+ * @param {(formData: Record<string, any>) => Promise<void>} props.onSubmit - Handler for form submission
+ * @param {boolean} [props.loading=false] - Whether the form is in a loading state
+ * @param {string | null} [props.error=null] - Error message to display if any
  * @returns {JSX.Element} A form with dynamic fields based on configuration
+ * @example
+ * <ProductForm
+ *   title="Add Laptop"
+ *   fields={[
+ *     { name: 'brand', label: 'Brand', type: 'text', required: true },
+ *     { name: 'model', label: 'Model', type: 'text', required: true },
+ *     { name: 'price', label: 'Price', type: 'number', required: true, min: 0 },
+ *     { name: 'inStock', label: 'In Stock', type: 'checkbox', defaultValue: true }
+ *   ]}
+ *   productType="laptop"
+ *   onSubmit={handleSubmit}
+ * />
  */
 const ProductForm: React.FC<ProductFormProps> = ({ 
   title,                    // Form title
@@ -89,7 +122,9 @@ const ProductForm: React.FC<ProductFormProps> = ({
   /**
    * Handle form submission
    * Validates all fields and calls onSubmit with form data
+   * @function handleSubmit
    * @param {React.FormEvent} e - Form submission event
+   * @inner
    */
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -162,8 +197,10 @@ const ProductForm: React.FC<ProductFormProps> = ({
 
   /**
    * Render form field based on its type
+   * @function renderField
    * @param {FormField} field - Field configuration
    * @returns {JSX.Element} Rendered form field
+   * @inner
    */
   const renderField = (field: FormField) => {
     switch (field.type) {

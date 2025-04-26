@@ -1,5 +1,7 @@
 /**
- * Main App Component
+ * @file App.tsx
+ * @module UI/Core
+ * @description Main App Component
  * 
  * This is the root component of the application that sets up the core providers:
  * - Redux store for state management
@@ -7,6 +9,10 @@
  * 
  * The component serves as the entry point for the React application and wraps
  * all other components with necessary providers.
+ * 
+ * @author WebShop Team
+ * @version 1.0.0
+ * @since 1.0.0
  */
 
 import React from 'react';
@@ -15,7 +21,20 @@ import { Provider } from 'react-redux';
 import store from './misch/Store';
 import Router from './router';
 
-// Root component that sets up the application's core infrastructure
+/**
+ * Root component that sets up the application's core infrastructure
+ * @component
+ * @returns {JSX.Element} The configured application with all providers
+ * @example
+ * // In main.tsx
+ * import App from './App';
+ * 
+ * ReactDOM.createRoot(document.getElementById('root')!).render(
+ *   <React.StrictMode>
+ *     <App />
+ *   </React.StrictMode>
+ * );
+ */
 const App: React.FC = () => {
   return (
     // Redux Provider - Makes the store available to all child components

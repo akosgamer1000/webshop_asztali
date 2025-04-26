@@ -1,5 +1,7 @@
 /**
- * User Data Fetching Hook
+ * @file hooks/login/useGetuserbyid.tsx
+ * @module UI/Hooks/Login
+ * @description User Data Fetching Hook
  * 
  * A custom hook that fetches detailed user information by user ID.
  * It handles various error conditions and loading states, including:
@@ -9,6 +11,13 @@
  * - Server errors
  * 
  * The hook automatically logs out the user if their session is invalid.
+ * 
+ * This hook provides a standardized way to fetch user details by ID
+ * and handle the associated loading states and error messages.
+ * 
+ * @author WebShop Team
+ * @version 1.0.0
+ * @since 1.0.0
  */
 
 import { useState, useEffect } from 'react';
@@ -19,6 +28,12 @@ import { logout } from '../../misch/store/authSlice';
 
 /**
  * Interface representing the user's detailed information
+ * @interface UserData
+ * @property {number} id - User's unique identifier
+ * @property {string} name - User's full name
+ * @property {string} email - User's email address
+ * @property {string} address - User's physical address
+ * @property {string} role - User's role/permissions
  */
 interface UserData {
   id: number;          // User's unique identifier
@@ -30,9 +45,32 @@ interface UserData {
 }
 
 /**
- * Hook to fetch and manage user data by ID
+ * Custom hook to fetch and manage user data by ID
+ * 
+ * @function useGetUserById
  * @param {number} userId - The ID of the user to fetch
- * @returns {Object} Object containing user data, loading state, and any error messages
+ * @returns {Object} Object containing user data and state
+ * @property {UserData | null} user - The user data or null if not found
+ * @property {boolean} loading - Loading state indicator
+ * @property {string | null} error - Error message if any
+ * @example
+ * const { user, loading, error } = useGetUserById(123);
+ * 
+ * if (loading) {
+ *   return <div>Loading...</div>;
+ * }
+ * 
+ * if (error) {
+ *   return <div>{error}</div>;
+ * }
+ * 
+ * return (
+ *   <UserDetails 
+ *     name={user.name}
+ *     email={user.email}
+ *     role={user.role}
+ *   />
+ * );
  */
 const useGetUserById = (userId: number) => {
   // State management for user data and request status

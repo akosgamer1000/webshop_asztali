@@ -1,5 +1,7 @@
 /**
- * Orders Management Hook
+ * @file hooks/order/useOrders.tsx
+ * @module UI/Hooks/Order
+ * @description Orders Management Hook
  * 
  * A custom hook that provides functionality for fetching and managing orders.
  * It handles loading states, error handling, and automatic data fetching.
@@ -10,6 +12,13 @@
  * - Error handling with specific error messages
  * - Automatic logout on authentication errors
  * - Refetch functionality
+ * 
+ * This hook provides a standardized way to fetch all orders
+ * and handle the associated loading states and error messages.
+ * 
+ * @author WebShop Team
+ * @version 1.0.0
+ * @since 1.0.0
  */
 
 import { useState, useEffect, useCallback } from 'react';
@@ -34,15 +43,31 @@ interface OrderData {
 }
 
 /**
- *
+ * Custom hook for fetching and managing orders
  * 
- * 
- * 
+ * @function useOrders
  * @returns {Object} Object containing orders data and management functions
  * @property {OrderData[]} orders - Array of orders
  * @property {boolean} loading - Loading state indicator
  * @property {string | null} error - Error message if any
  * @property {() => Promise<void>} refetch - Function to refetch orders
+ * @example
+ * const { orders, loading, error, refetch } = useOrders();
+ * 
+ * if (loading) {
+ *   return <div>Loading...</div>;
+ * }
+ * 
+ * if (error) {
+ *   return <div>{error}</div>;
+ * }
+ * 
+ * return (
+ *   <OrderList 
+ *     orders={orders} 
+ *     onRefresh={refetch} 
+ *   />
+ * );
  */
 const useOrders = () => {
   // State management for orders, loading, and error

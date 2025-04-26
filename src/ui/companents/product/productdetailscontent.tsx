@@ -1,14 +1,25 @@
 /**
- * Product Details Content Component
+ * @file companents/product/productdetailscontent.tsx
+ * @module UI/Components/Product
+ * @description Product Details Content Component
  * 
  * A component that displays detailed information about a specific product.
  * Features:
  * - Fetches and displays product details
  * - Shows technical specifications
  * - Allows price modification with percentage-based updates
+ * - Provides inventory management functionality
  * - Formats values with appropriate units
  * - Handles loading and error states
  * - Responsive design with consistent styling
+ * 
+ * This component serves as the detailed view for specific products,
+ * providing administrators with comprehensive information and management
+ * capabilities for individual product entries.
+ * 
+ * @author WebShop Team
+ * @version 1.0.0
+ * @since 1.0.0
  */
 
 import  { useEffect, useState} from 'react';
@@ -18,12 +29,22 @@ import usePatchOneProduct from '../../hooks/prod/usePatchoneproduct';
 
 /**
  * Type definition for supported product types
+ * @type {string}
  */
 type ProductType = 'PROCESSOR' | 'MOTHERBOARD' | 'VIDEOCARD' | 'MEMORY' | 'HARDDRIVE' | 'POWERSUPPLY' | 'POWERHOUSE' | 'CPUCOOLER';
 
 /**
  * Interface representing a product in the system
  * Includes basic product information and allows for additional dynamic properties
+ * @interface Product
+ * @property {number} id - Unique identifier
+ * @property {string} name - Product name
+ * @property {string} manufacturer - Manufacturer name
+ * @property {ProductType} type - Product type/category
+ * @property {number} price - Product price
+ * @property {number} quantity - Available quantity
+ * @property {string} imgSrc - Product image URL
+ * @property {any} [key: string] - Additional dynamic properties
  */
 interface Product {
   id: number;           // Unique identifier
@@ -31,14 +52,21 @@ interface Product {
   manufacturer: string; // Manufacturer name
   type: ProductType;    // Product type/category
   price: number;        // Product price
-  couantity: number;    // Available quantity
+  quantity: number;     // Available quantity
   imgSrc: string;       // Product image URL
   [key: string]: any;   // Additional dynamic properties
 }
 
 /**
- * Component that displays and manages detailed product information
+ * Product Details Content Component
+ * 
+ * @component
+ * @description Component that displays and manages detailed product information
+ * with technical specifications and inventory management
+ * 
  * @returns {JSX.Element} A detailed product view with technical specifications
+ * @example
+ * <Route path="/products/:id" element={<ProductDetailsContent />} />
  */
 const ProductDetailsContent: React.FC = () => {
   // Get product ID from URL parameters
@@ -51,20 +79,20 @@ const ProductDetailsContent: React.FC = () => {
 
   // State management
   const [isEditing, setIsEditing] = useState(false);
-  const [isEditingCouantity, setIsEditingCouantity] = useState(false);
+  const [isEditingQuantity, setIsEditingQuantity] = useState(false);
   const [currentPrice, setCurrentPrice] = useState<number>(0);
-  const [currentCouantity, setCurrentCouantity] = useState<number>(0);
+  const [currentQuantity, setCurrentQuantity] = useState<number>(0);
   const [percentage, setPercentage] = useState<string>('');
-  const [couantityChange, setCouantityChange] = useState<string>('');
+  const [quantityChange, setQuantityChange] = useState<string>('');
   const [isUpdating, setIsUpdating] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
-  const [couantityAction, setCouantityAction] = useState<'add' | 'remove'>('add');
+  const [quantityAction, setQuantityAction] = useState<'add' | 'remove'>('add');
 
-  // Update current price and couantity when product data changes
+  // Update current price and quantity when product data changes
   useEffect(() => {
     if (product) {
       setCurrentPrice(product.price);
-      setCurrentCouantity(product.couantity);
+      setCurrentQuantity(product.quantity);
     }
   }, [product]);
 
@@ -127,7 +155,7 @@ const ProductDetailsContent: React.FC = () => {
   const findDetailsObject = (): [string, Record<string, any>] | [null, null] => {
     for (const [key, value] of Object.entries(product)) {
       // Skip basic product properties and empty values
-      if (['id', 'name','manufacturer', 'type', 'price', 'couantity'].includes(key) || !value) {
+      if (['id', 'name','manufacturer', 'type', 'price', 'quantity'].includes(key) || !value) {
         continue;
       }
       
@@ -205,36 +233,35 @@ const ProductDetailsContent: React.FC = () => {
   };
 
   /**
-   * Handles the couantity update process
-   * @param {number} changeAmount - Amount to add or remove from couantity
+   * Handles the quantity update process
+   * @param {number} changeAmount - Amount to add or remove from quantity
    */
-  const handleCouantityUpdate = async (changeAmount: number) => {
+  const handleQuantityUpdate = async (changeAmount: number) => {
     setIsUpdating(true);
     
     
     if (product) {
-      let newCouantity: number;
+      let newQuantity: number;
       
-      if (couantityAction === 'add') {
-        newCouantity = product.couantity + changeAmount;
+      if (quantityAction === 'add') {
+        newQuantity = product.quantity + changeAmount;
       } else {
-        // When removing, ensure we don't go below 0
-        newCouantity = Math.max(0, product.couantity - changeAmount);
-        if (newCouantity === 0 && product.couantity > 0 && changeAmount > product.couantity) {
-          setError('Cannot remove more than the available couantity');
+        newQuantity = Math.max(0, product.quantity - changeAmount);
+        if (newQuantity === 0 && product.quantity > 0 && changeAmount > product.quantity) {
+          setError('Cannot remove more than the available quantity');
           setIsUpdating(false);
           return;
         }
       }
       
       try {
-        await patchProduct.updateProductPrice(product.id, undefined, newCouantity);
-        setCurrentCouantity(newCouantity);
+        await patchProduct.updateProductPrice(product.id, undefined, newQuantity);
+        setCurrentQuantity(newQuantity);
         await refetch();
-        setIsEditingCouantity(false);
+        setIsEditingQuantity(false);
       } catch (error) {
-        console.error('Failed to update couantity:', error);
-        setError('Failed to update couantity. Please try again.');
+        console.error('Failed to update quantity:', error);
+        setError('Failed to update quantity. Please try again.');
       } finally {
         setIsUpdating(false);
       }
@@ -250,7 +277,7 @@ const ProductDetailsContent: React.FC = () => {
       <div className="grid grid-cols-2 gap-4 mb-6">
         {renderField('Manufacturer', product.manufacturer)}
         {renderField('Price', `$${currentPrice.toFixed(2)}`)}
-        {renderField('Stock', `${currentCouantity || 0} units`)}
+        {renderField('Stock', `${currentQuantity || 0} units`)}
         {renderField('Product Type', formatLabel(product.type))}
       </div>
       
@@ -305,45 +332,45 @@ const ProductDetailsContent: React.FC = () => {
         )}
       </div>
       
-      {/* Couantity modification controls */}
+      {/* Quantity modification controls */}
       <div className="mt-4 text-right flex justify-end items-center gap-4">
-        {isEditingCouantity ? (
+        {isEditingQuantity ? (
           <div className="flex flex-col gap-2">
             <div className="flex items-center gap-2">
               <div className="flex border rounded overflow-hidden">
                 <button
-                  onClick={() => setCouantityAction('add')}
-                  className={`px-3 py-1 ${couantityAction === 'add' ? 'bg-blue-500 text-white' : 'bg-gray-200'}`}
+                  onClick={() => setQuantityAction('add')}
+                  className={`px-3 py-1 ${quantityAction === 'add' ? 'bg-blue-500 text-white' : 'bg-gray-200'}`}
                 >
                   Add
                 </button>
                 <button
-                  onClick={() => setCouantityAction('remove')}
-                  className={`px-3 py-1 ${couantityAction === 'remove' ? 'bg-blue-500 text-white' : 'bg-gray-200'}`}
+                  onClick={() => setQuantityAction('remove')}
+                  className={`px-3 py-1 ${quantityAction === 'remove' ? 'bg-blue-500 text-white' : 'bg-gray-200'}`}
                 >
                   Remove
                 </button>
               </div>
               <input
                 type="number"
-                value={couantityChange}
-                onChange={(e) => setCouantityChange(e.target.value)}
+                value={quantityChange}
+                onChange={(e) => setQuantityChange(e.target.value)}
                 className={`w-20 px-2 py-1 border rounded ${isUpdating ? 'opacity-50 pointer-events-none' : ''}`}
                 placeholder="Qty"
                 disabled={isUpdating}
                 min="1"
               />
               <button
-                onClick={() => handleCouantityUpdate(parseInt(couantityChange))}
+                onClick={() => handleQuantityUpdate(parseInt(quantityChange))}
                 disabled={isUpdating}
                 className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition-colors disabled:bg-blue-300"
               >
-                {isUpdating ? 'Updating...' : `${couantityAction === 'add' ? 'Add' : 'Remove'} Couantity`}
+                {isUpdating ? 'Updating...' : `${quantityAction === 'add' ? 'Add' : 'Remove'} Quantity`}
               </button>
               <button
                 onClick={() => {
-                  setCurrentCouantity(product.couantity);
-                  setIsEditingCouantity(false);
+                  setCurrentQuantity(product.quantity);
+                  setIsEditingQuantity(false);
                   setError(null);
                 }}
                 className="bg-gray-300 text-gray-700 px-4 py-2 rounded hover:bg-gray-400 transition-colors"
@@ -355,10 +382,10 @@ const ProductDetailsContent: React.FC = () => {
           </div>
         ) : (
           <button
-            onClick={() => setIsEditingCouantity(true)}
+            onClick={() => setIsEditingQuantity(true)}
             className="bg-green-500 text-white px-6 py-2 rounded hover:bg-green-600 transition-colors flex items-center gap-2"
           >
-            <span>Modify Couantity</span>
+            <span>Modify Quantity</span>
           </button>
         )}
       </div>

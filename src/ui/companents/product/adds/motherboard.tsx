@@ -1,17 +1,53 @@
+/**
+ * @file companents/product/adds/motherboard.tsx
+ * @module UI/Components/Product/Adds
+ * @description Motherboard Add Component
+ * 
+ * A form component for adding new motherboard products to the inventory.
+ * Features:
+ * - Specialized input fields for motherboard specifications
+ * - Form validation for required fields
+ * - Support for motherboard-specific attributes like socket type, chipset, and connectivity options
+ * - Integration with product creation hook
+ * - Responsive form layout and consistent styling
+ * 
+ * This component serves as a specialized product creation interface
+ * for adding motherboards with their unique technical specifications.
+ * 
+ * @author WebShop Team
+ * @version 1.0.0
+ * @since 1.0.0
+ */
+
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import useCreateProduct from '../../../hooks/prod/useCreateProduct';
 import ProductForm, { FormField } from '../../common/ProductForm';
 
+/**
+ * Component for adding new motherboard products
+ * @component
+ * @returns {JSX.Element} A specialized form for adding motherboard products
+ * @example
+ * <AddMotherboard />
+ */
 const AddMotherboard: React.FC = () => {
+  /**
+   * Hooks for navigation and product creation
+   */
   const navigate = useNavigate();
   const { createProduct, loading, error } = useCreateProduct();
 
+  /**
+   * Form field configuration for motherboard products
+   * Defines the structure and validation rules for the form
+   * @type {FormField[]}
+   */
   const fields: FormField[] = [
     { name: 'name', label: 'Name', type: 'text', required: true },
     { name: 'manufacturer', label: 'Manufacturer', type: 'text', required: true },
     { name: 'price', label: 'Price', type: 'number', required: true, min: 0, step: '0.01' },
-    { name: 'couantity', label: 'Quantity', type: 'number', required: true, min: 0 },
+    { name: 'quantity', label: 'Quantity', type: 'number', required: true, min: 0 },
     { name: 'imgSrc', label: 'Image URL', type: 'text' },
     { name: 'cpuSocket', label: 'CPU Socket', type: 'text', required: true },
     { name: 'chipset', label: 'Chipset', type: 'text', required: true },
@@ -41,6 +77,12 @@ const AddMotherboard: React.FC = () => {
     { name: 'wireless', label: 'Wireless', type: 'checkbox' }
   ];
 
+  /**
+   * Handles form submission and product creation
+   * @function handleSubmit
+   * @param {Record<string, any>} formData - Form data values
+   * @inner
+   */
   const handleSubmit = async (formData: Record<string, any>) => {
     const formattedData = {
       ...formData,

@@ -1,5 +1,7 @@
 /**
- * Settings Component
+ * @file companents/setting/setting.tsx
+ * @module UI/Components/Setting
+ * @description Settings Component
  * 
  * A comprehensive application settings management component that allows users to configure
  * various application preferences and options. This component provides a clean and intuitive
@@ -12,6 +14,13 @@
  * - Cancel changes and revert to previous settings
  * - Logout functionality
  * - Responsive design with consistent styling
+ * 
+ * This component serves as the central interface for user preferences management,
+ * providing an intuitive way to configure application behavior and appearance.
+ * 
+ * @author WebShop Team
+ * @version 1.0.0
+ * @since 1.0.0
  */
 
 import React, { useState, useEffect } from 'react';
@@ -24,18 +33,26 @@ import { useAppSelector } from '../../misch/Store';
 /**
  * Setting Component
  * 
- * A functional component that manages the application settings interface and interactions.
+ * @component
+ * @description A functional component that manages the application settings interface and interactions.
  * Handles state management for settings changes, saving settings to Redux store and local storage,
  * and provides logout functionality.
  * 
  * @returns {JSX.Element} A rendered settings management interface
+ * @example
+ * <Route path="/settings" element={<Setting />} />
  */
 const Setting: React.FC = () => {
-  // Redux hooks for state management
+  /**
+   * Redux hooks for state management
+   */
   const dispatch = useDispatch();
   const reduxSettings = useAppSelector(selectSettings);
   
-  // State management for settings
+  /**
+   * State management for settings
+   * @type {[SettingOption[], React.Dispatch<React.SetStateAction<SettingOption[]>>]}
+   */
   const [settings, setSettings] = useState<SettingOption[]>(reduxSettings || []);
   const [unsavedSettings, setUnsavedSettings] = useState<SettingOption[]>(settings);
   const [hasChanges, setHasChanges] = useState(false);
@@ -53,7 +70,9 @@ const Setting: React.FC = () => {
    * Toggles a setting's enabled state
    * Updates the unsaved settings and marks that changes have been made
    * 
+   * @function toggleSetting
    * @param {number} id - The ID of the setting to toggle
+   * @inner
    */
   const toggleSetting = (id: number) => {
     setUnsavedSettings(prevSettings =>
@@ -68,6 +87,9 @@ const Setting: React.FC = () => {
    * Saves the current settings to Redux store and local storage
    * Dispatches the saveSettings action and updates local state
    * Shows success or error message to the user
+   * 
+   * @function handleSave
+   * @inner
    */
   const handleSave = async () => {
     try {
@@ -84,6 +106,9 @@ const Setting: React.FC = () => {
   /**
    * Cancels any unsaved changes and reverts to the last saved settings
    * Resets the unsaved settings to match the saved settings
+   * 
+   * @function handleCancel
+   * @inner
    */
   const handleCancel = () => {
     setUnsavedSettings(settings);
@@ -93,6 +118,9 @@ const Setting: React.FC = () => {
   /**
    * Handles user logout
    * Dispatches the logout action to clear user session
+   * 
+   * @function handleLogout
+   * @inner
    */
   const handleLogout = () => {
     dispatch(logout());

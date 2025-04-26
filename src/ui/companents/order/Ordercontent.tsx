@@ -1,5 +1,7 @@
 /**
- * Order Content Component
+ * @file companents/order/Ordercontent.tsx
+ * @module UI/Components/Order
+ * @description Order Content Component
  * 
  * A component that displays a list of orders in a data table format.
  * Features:
@@ -9,6 +11,14 @@
  * - Shows order details in a table format
  * - Handles loading and error states
  * - Responsive design with consistent styling
+ * - Order cancellation functionality
+ * 
+ * This component serves as the main interface for order management,
+ * allowing administrators to view and update the status of customer orders.
+ * 
+ * @author WebShop Team
+ * @version 1.0.0
+ * @since 1.0.0
  */
 
 import React, { useState } from 'react';
@@ -20,6 +30,7 @@ import DataTable, { Column } from '../common/DataTable';
 
 /**
  * Enum representing possible order statuses
+ * @enum {string}
  */
 enum Status {
   Pending = 'Pending',      // Initial order status
@@ -29,21 +40,43 @@ enum Status {
 }
 
 /**
+ * @interface Order
+ * @property {number} id - Unique identifier for the order
+ * @property {string} email - Customer email address
+ * @property {string} address - Shipping address
+ * @property {Status} status - Current order status
+ * @property {number} totalPrice - Total price of the order
+ * @property {string} createdAt - Order creation timestamp
+ */
+
+/**
  * Component that displays and manages a list of orders
+ * @component
  * @returns {JSX.Element} A data table containing order information
+ * @example
+ * <OrderContent />
  */
 const OrderContent: React.FC = () => {
-  // Custom hooks for data fetching and updates
+  /**
+   * Custom hooks for data fetching, updates and navigation
+   */
   const { orders, loading, error, refetch } = useOrders();
   const { updateOrder } = usePatchOrder();
   const navigate = useNavigate();
+  
+  /**
+   * State for tracking status update errors
+   * @type {[string | null, React.Dispatch<React.SetStateAction<string | null>>]}
+   */
   const [statusUpdateError, setStatusUpdateError] = useState<string | null>(null);
 
   /**
    * Handles the status change of an order
    * Updates the order status in a cycle: Pending -> InProgress -> Delivered -> Pending
+   * @function handleStatusChange
    * @param {number} orderId - ID of the order to update
    * @param {string} currentStatus - Current status of the order
+   * @inner
    */
   const handleStatusChange = async (orderId: number, currentStatus: string) => {
     let newStatus: Status;
@@ -73,7 +106,9 @@ const OrderContent: React.FC = () => {
 
   /**
    * Handles the cancellation of an order
+   * @function handleCancelOrder
    * @param {number} orderId - ID of the order to cancel
+   * @inner
    */
   const handleCancelOrder = async (orderId: number) => {
     setStatusUpdateError(null);
@@ -90,7 +125,9 @@ const OrderContent: React.FC = () => {
 
   /**
    * Navigates to the order details page
-   * @param {any} order - Order object containing details
+   * @function handleViewDetails
+   * @param {Order} order - Order object containing details
+   * @inner
    */
   function handleViewDetails(order: any) {
     navigate(`/orderdetails/${order.id}`);
@@ -99,6 +136,7 @@ const OrderContent: React.FC = () => {
   /**
    * Column configuration for the data table
    * Defines how each order property should be displayed
+   * @type {Column<any>[]}
    */
   const columns: Column<any>[] = [
     { header: 'Order ID', accessor: 'id' },

@@ -1,5 +1,7 @@
 /**
- * User Creation Hook
+ * @file hooks/user/useCreateUser.tsx
+ * @module UI/Hooks/User
+ * @description User Creation Hook
  * 
  * A custom hook that provides functionality for creating new users.
  * It handles loading states, error handling, and authentication.
@@ -9,6 +11,13 @@
  * - Handle loading states
  * - Error handling with specific error messages
  * - Automatic logout on authentication errors
+ * 
+ * This hook provides a standardized way to create user accounts
+ * and handle the associated loading states and error messages.
+ * 
+ * @author WebShop Team
+ * @version 1.0.0
+ * @since 1.0.0
  */
 
 import { useState } from 'react';
@@ -35,13 +44,23 @@ interface UserData {
 }
 
 /**
- *
- * ```
+ * Custom hook for creating new users
  * 
+ * @function useCreateUser
  * @returns {Object} Object containing user creation function and state
  * @property {(userData: UserData) => Promise<any>} createUser - Function to create user
  * @property {boolean} loading - Loading state indicator
  * @property {string | null} error - Error message if any
+ * @example
+ * const { createUser, loading, error } = useCreateUser();
+ * 
+ * // Create a new user
+ * const handleSubmit = async (formData) => {
+ *   const result = await createUser(formData);
+ *   if (result) {
+ *     // User created successfully
+ *   }
+ * };
  */
 const useCreateUser = () => {
   // State management for loading and error

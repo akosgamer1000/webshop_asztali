@@ -1,5 +1,7 @@
 /**
- * Products Management Hook
+ * @file hooks/prod/useProducts.tsx
+ * @module UI/Hooks/Product
+ * @description Products Management Hook
  * 
  * A custom hook that provides functionality for fetching and managing products.
  * It handles loading states, error handling, and automatic data fetching.
@@ -10,6 +12,13 @@
  * - Error handling with specific error messages
  * - Automatic logout on authentication errors
  * - Refetch functionality
+ * 
+ * This hook provides a standardized way to fetch all products
+ * and handle the associated loading states and error messages.
+ * 
+ * @author WebShop Team
+ * @version 1.0.0
+ * @since 1.0.0
  */
 
 import { useState, useEffect, useCallback } from 'react';
@@ -26,7 +35,7 @@ import { logout } from '../../misch/store/authSlice';
  * @property {string} manufacturer - Manufacturer of the product
  * @property {string} type - Type/category of the product
  * @property {number} price - Price of the product
- * @property {number} couantity - Available quantity of the product
+ * @property {number} quantity - Available quantity of the product
  * @property {string} imgSrc - URL/path to the product's image
  */
 interface ProductData {
@@ -35,19 +44,36 @@ interface ProductData {
   manufacturer: string;
   type: string;
   price: number;
-  couantity: number;
+  quantity: number;
   imgSrc: string;
 }
 
 /**
- *
+ * Custom hook for fetching and managing products
  * 
- * 
+ * @function useProducts
  * @returns {Object} Object containing products data and management functions
  * @property {ProductData[]} products - Array of products
  * @property {boolean} loading - Loading state indicator
  * @property {string | null} error - Error message if any
  * @property {() => Promise<void>} refetch - Function to refetch products
+ * @example
+ * const { products, loading, error, refetch } = useProducts();
+ * 
+ * if (loading) {
+ *   return <div>Loading...</div>;
+ * }
+ * 
+ * if (error) {
+ *   return <div>{error}</div>;
+ * }
+ * 
+ * return (
+ *   <ProductList 
+ *     products={products} 
+ *     onRefresh={refetch} 
+ *   />
+ * );
  */
 const useProducts = () => {
   // State management for products, loading, and error

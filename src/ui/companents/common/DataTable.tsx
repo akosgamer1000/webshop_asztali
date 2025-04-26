@@ -1,5 +1,7 @@
 /**
- * Data Table Component
+ * @file DataTable.tsx
+ * @module UI/Components/Common
+ * @description Data Table Component
  * 
  * A reusable table component for displaying and managing tabular data.
  * Features:
@@ -9,12 +11,24 @@
  * - Loading and error states
  * - Row click handling
  * - Responsive design
+ * - Accessibility support
+ * - Empty state handling
+ * 
+ * This component provides a standardized way to display tabular data with
+ * built-in pagination and search capabilities. It supports dynamic column
+ * configurations, custom cell rendering, and responsive layout for different
+ * screen sizes.
+ * 
+ * @author WebShop Team
+ * @version 1.0.0
+ * @since 1.0.0
  */
 
 import React, { useState, useMemo } from 'react';
 
 /**
  * Column configuration interface
+ * @interface Column
  * @template T - Type of the data items
  * @property {string} header - The text to display in the column header
  * @property {keyof T | ((item: T) => React.ReactNode)} accessor - Function to access the data or key to access the property
@@ -28,16 +42,17 @@ export interface Column<T> {
 
 /**
  * Props interface for the DataTable component
+ * @interface DataTableProps
  * @template T - Type of the data items
  * @property {T[]} data - Array of data items to display in the table
  * @property {Column<T>[]} columns - Configuration for each column
  * @property {keyof T} keyField - Field to use as unique identifier for each row
- * @property {boolean} [loading] - Whether the table is in a loading state
- * @property {string | null} [error] - Error message to display if any
- * @property {string} [searchPlaceholder] - Placeholder text for the search input
- * @property {(keyof T)[]} [searchFields] - Fields to search in when filtering
+ * @property {boolean} [loading=false] - Whether the table is in a loading state
+ * @property {string | null} [error=null] - Error message to display if any
+ * @property {string} [searchPlaceholder='Search...'] - Placeholder text for the search input
+ * @property {(keyof T)[]} [searchFields=[]] - Fields to search in when filtering
  * @property {(item: T) => void} [onRowClick] - Callback when a row is clicked
- * @property {number} [itemsPerPage] - Number of items to display per page
+ * @property {number} [itemsPerPage=5] - Number of items to display per page
  */
 interface DataTableProps<T> {
   data: T[];                                        // Array of data items
@@ -53,9 +68,34 @@ interface DataTableProps<T> {
 
 /**
  * Generic data table component for displaying and managing tabular data
+ * @component
  * @template T - Type of the data items
  * @param {DataTableProps<T>} props - Component properties
+ * @param {T[]} props.data - Array of data items to display
+ * @param {Column<T>[]} props.columns - Configuration for table columns
+ * @param {keyof T} props.keyField - Property to use as unique row identifier
+ * @param {boolean} [props.loading=false] - Loading state indicator
+ * @param {string | null} [props.error=null] - Error message to display
+ * @param {string} [props.searchPlaceholder='Search...'] - Search input placeholder text
+ * @param {(keyof T)[]} [props.searchFields=[]] - Properties to include in search
+ * @param {(item: T) => void} [props.onRowClick] - Handler for row click events
+ * @param {number} [props.itemsPerPage=5] - Number of items per page
  * @returns {JSX.Element} A data table with pagination and search
+ * @example
+ * <DataTable
+ *   data={users}
+ *   columns={[
+ *     { header: 'ID', accessor: 'id' },
+ *     { header: 'Name', accessor: 'name' },
+ *     { header: 'Email', accessor: 'email' },
+ *     { header: 'Actions', accessor: (user) => (
+ *       <button onClick={() => handleEdit(user)}>Edit</button>
+ *     )}
+ *   ]}
+ *   keyField="id"
+ *   searchFields={['name', 'email']}
+ *   onRowClick={handleRowClick}
+ * />
  */
 function DataTable<T>({
   data,
@@ -72,7 +112,10 @@ function DataTable<T>({
   const [currentPage, setCurrentPage] = useState<number>(1);  // Current page number
   const [searchTerm, setSearchTerm] = useState<string>('');   // Current search term
 
-  // Reset to first page when search term changes
+  /**
+   * Reset pagination when search term changes
+   * This ensures users see the first page of filtered results
+   */
   React.useEffect(() => {
     setCurrentPage(1);
   }, [searchTerm]);
@@ -80,7 +123,9 @@ function DataTable<T>({
   /**
    * Filter data based on search term
    * Memoized to prevent unnecessary recalculations
+   * @function filteredData
    * @returns {T[]} Filtered array of data items
+   * @inner
    */
   const filteredData = useMemo(() => {
     if (!searchTerm || searchFields.length === 0) return data;
@@ -103,7 +148,9 @@ function DataTable<T>({
 
   /**
    * Handle page change
+   * @function handlePageChange
    * @param {number} pageNumber - New page number to navigate to
+   * @inner
    */
   const handlePageChange = (pageNumber: number) => {
     setCurrentPage(pageNumber);
@@ -111,9 +158,11 @@ function DataTable<T>({
 
   /**
    * Get cell value based on column configuration
+   * @function getCellValue
    * @param {T} item - Data item for the row
    * @param {Column<T>} column - Column configuration
    * @returns {React.ReactNode} Content to display in the cell
+   * @inner
    */
   const getCellValue = (item: T, column: Column<T>) => {
     if (typeof column.accessor === 'function') {

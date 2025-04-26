@@ -1,5 +1,7 @@
 /**
- * Profile Content Component
+ * @file companents/profile/profile.tsx
+ * @module UI/Components/Profile
+ * @description Profile Content Component
  * 
  * A comprehensive user profile management component that allows users to view and modify their profile information.
  * This component provides a clean and intuitive interface for users to manage their account settings.
@@ -11,6 +13,10 @@
  * - Responsive design with consistent styling
  * - Comprehensive error handling and user feedback
  * - Loading state management
+ * 
+ * @author WebShop Team
+ * @version 1.0.0
+ * @since 1.0.0
  */
 
 import React, { useState, useEffect } from 'react';

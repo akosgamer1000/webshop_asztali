@@ -1,5 +1,7 @@
 /**
- * User Content Component
+ * @file companents/user/usercontent.tsx
+ * @module UI/Components/User
+ * @description User Content Component
  * 
  * A React component that displays a list of users in a data table format.
  * It provides functionality for viewing user details and adding new users.
@@ -10,6 +12,14 @@
  * - Navigate to user details on row click
  * - Add new user button
  * - Loading and error state handling
+ * 
+ * This component serves as the main interface for user management,
+ * providing administrators with a comprehensive view of all users
+ * in the system and tools to manage them.
+ * 
+ * @author WebShop Team
+ * @version 1.0.0
+ * @since 1.0.0
  */
 
 import React from "react";
@@ -19,9 +29,18 @@ import { useNavigate } from "react-router-dom";
 import DataTable, { Column } from '../common/DataTable';
 
 /**
+ * @interface User
+ * @property {number} id - Unique identifier for the user
+ * @property {string} name - User's full name
+ * @property {string} email - User's email address
+ * @property {string} role - User's role in the system
+ */
+
+/**
  * User Content Component
  * 
- * This component renders a data table containing user information and provides
+ * @component
+ * @description This component renders a data table containing user information and provides
  * navigation to user details and user creation.
  * 
  * The component uses:
@@ -30,27 +49,42 @@ import DataTable, { Column } from '../common/DataTable';
  * - React Router for navigation
  * 
  * @returns {JSX.Element} The rendered user content component
+ * @example
+ * <Route path="/users" element={<UserContent />} />
  */
 const UserContent: React.FC = () => {
-  // Fetch users data and handle loading/error states
+  /**
+   * Fetch users data and handle loading/error states
+   */
   const { users, loading, error } = useUsers();
   const navigate = useNavigate();
 
   /**
    * Handle user row click
    * 
-   * Navigates to the user details page when a user row is clicked.
-   * 
-   * @param {any} user - The user object that was clicked
+   * @function handleUserClick
+   * @param {User} user - The user object that was clicked
+   * @inner
    */
   function handleUserClick(user: any) {
     navigate(`/user/${user.id}`);
   }
 
   /**
+   * Navigate to the user creation page
+   * 
+   * @function handleAddUser
+   * @inner
+   */
+  function handleAddUser() {
+    navigate('/adduser');
+  }
+
+  /**
    * Table column definitions
    * 
-   * Defines the structure and display of user data in the table.
+   * @type {Column<any>[]}
+   * @description Defines the structure and display of user data in the table.
    * Each column specifies a header and the corresponding data accessor.
    */
   const columns: Column<any>[] = [
@@ -80,7 +114,7 @@ const UserContent: React.FC = () => {
       {/* Add new user button */}
       <div className="flex justify-center mt-6">
         <button
-          onClick={() => navigate('/adduser')}
+          onClick={handleAddUser}
           className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-6 rounded-lg transition-colors"
         >
           Add New User

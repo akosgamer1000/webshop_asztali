@@ -1,5 +1,7 @@
 /**
- * User Update Hook
+ * @file hooks/user/usePatchuser.tsx
+ * @module UI/Hooks/User
+ * @description User Update Hook
  * 
  * A custom hook that provides functionality for updating user information.
  * It handles loading states, error handling, and success feedback.
@@ -10,6 +12,14 @@
  * - Error handling with specific error messages
  * - Success state management
  * - Automatic logout on authentication errors
+ * 
+ * This hook provides a standardized way to update user information
+ * and handle the associated loading states, success feedback,
+ * and error messages.
+ * 
+ * @author WebShop Team
+ * @version 1.0.0
+ * @since 1.0.0
  */
 
 import { useState } from 'react';
@@ -47,16 +57,24 @@ interface UpdateUserResult {
 }
 
 /**
+ * Custom hook for updating user information
  *
-
- * };
- * ```
- * 
+ * @function usePatchUser
  * @returns {Object} Object containing update function and state
  * @property {(userId: number, userData: UserUpdateData) => Promise<UpdateUserResult>} updateUser - Function to update user
  * @property {boolean} loading - Loading state indicator
  * @property {string | null} error - Error message if any
  * @property {boolean} success - Success state indicator
+ * @example
+ * const { updateUser, loading, error, success } = usePatchUser();
+ * 
+ * // Update user information
+ * const handleUpdate = async (userId, userData) => {
+ *   const result = await updateUser(userId, userData);
+ *   if (result.success) {
+ *     // User updated successfully
+ *   }
+ * };
  */
 const usePatchUser = () => {
   // State management for loading, error, and success
