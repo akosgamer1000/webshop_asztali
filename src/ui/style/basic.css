@@ -3,13 +3,13 @@
  * 
  * This file contains fundamental styling rules for the application.
  * It imports Tailwind CSS and sets minimum width constraints
- * to ensure proper layout on different screen sizes.
+ * to ensure proper layout.
  */
 
 /* Import Tailwind CSS framework */
 @import "tailwindcss";
 
-/* Set minimum width for the body to prevent layout breaking on small screens */
+/* Set minimum width for the body to prevent layout breaking */
 body {
     min-width: 1180px;  /* Minimum width for the entire page */
     overflow-x: auto;   /* Enable horizontal scrolling if needed */

@@ -3,13 +3,13 @@
  * @module UI/Components/Layout
  * @description Sidebar Navigation Component
  * 
- * A responsive navigation sidebar that provides:
+ * A navigation sidebar that provides:
  * - Main navigation links for authenticated users
  * - Login link for unauthenticated users
  * - User profile access
  * - Logout functionality
  * 
- * The sidebar is collapsible on mobile devices and fixed on desktop.
+ * The sidebar is fixed on desktop.
  * It uses Redux for authentication state management and includes
  * dynamic routing based on user authentication status.
  * 
@@ -31,20 +31,14 @@ import useGetUserId from "../hooks/login/useGetUserId";
  * Sidebar Component
  * 
  * @component
- * @description A functional component that renders a responsive navigation sidebar.
+ * @description A functional component that renders a navigation sidebar.
  * Displays different navigation options based on user authentication status.
- * Collapses on mobile and remains fixed on desktop screens.
  * 
- * @param {Object} props - Component properties
- * @param {Function} props.toggleSidebar - Callback function to toggle sidebar visibility
- * @param {boolean} props.isOpen - Current state of sidebar visibility (true = visible, false = hidden)
  * @returns {JSX.Element} A navigation sidebar component
  * @example
- * <Sidebar toggleSidebar={() => setIsOpen(!isOpen)} isOpen={isOpen} />
+ * <Sidebar />
  */
-const Sidebar: React.FC<{ toggleSidebar: () => void; isOpen: boolean }> = ({
-  isOpen,
-}) => {
+const Sidebar: React.FC = () => {
   // Get the dispatch function from Redux store
   const dispatch = useAppDispatch();
   
@@ -66,16 +60,11 @@ const Sidebar: React.FC<{ toggleSidebar: () => void; isOpen: boolean }> = ({
   };
 
   return (
-    // Main sidebar container with responsive classes
+    // Main sidebar container
     // - Fixed positioning
     // - Full height
     // - Dark background
-    // - Transforms for mobile slide animation
-    <div
-      className={`fixed top-0 left-0 h-full bg-gray-800 text-white p-5 transition-transform w-64 ${
-        isOpen ? "translate-x-0" : "-translate-x-64"
-      } md:translate-x-0`}
-    >
+    <div className="fixed top-0 left-0 h-full bg-gray-800 text-white p-5 w-64">
       {/* Sidebar header */}
       <h2 className="text-center text-xl font-bold mb-5">Admin</h2>
       
@@ -126,21 +115,11 @@ const Sidebar: React.FC<{ toggleSidebar: () => void; isOpen: boolean }> = ({
               </Link>
             </li>
             
-            {/* Settings page link */}
-            <li>
-              <Link
-                to="/setting"
-                className="block p-3 rounded hover:bg-gray-700 cursor-pointer"
-              >
-                Settings
-              </Link>
-            </li>
-            
             {/* Logout button */}
             <li>
               <button
                 onClick={handleLogout}
-                className="w-full text-left p-3 rounded hover:bg-gray-700 cursor-pointer"
+                className="block w-full p-3 rounded hover:bg-gray-700 cursor-pointer text-left"
               >
                 Logout
               </button>
