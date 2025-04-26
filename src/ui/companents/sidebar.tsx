@@ -25,7 +25,7 @@ import { useSelector } from 'react-redux';
 import { useAppDispatch } from '../misch/Store';
 import { logout } from '../misch/store/authSlice';
 import type { RootState } from '../misch/Store';
-import useGetLogged from "../hooks/login/useGetlogged";
+import useGetUserId from "../hooks/login/useGetUserId";
 
 /**
  * Sidebar Component
@@ -51,8 +51,8 @@ const Sidebar: React.FC<{ toggleSidebar: () => void; isOpen: boolean }> = ({
   // Check if user is authenticated by looking for token in Redux store
   const isAuthenticated = useSelector((state: RootState) => !!state.auth.token);
   
-  // Get the current user's ID using custom hook
-  const { id } = useGetLogged(); 
+  // Get the current user's ID using reliable hook that doesn't depend on API calls
+  const userId = useGetUserId();
 
   /**
    * Handles user logout by dispatching the logout action
@@ -117,8 +117,10 @@ const Sidebar: React.FC<{ toggleSidebar: () => void; isOpen: boolean }> = ({
             {/* User profile link with dynamic ID */}
             <li>
               <Link
-                to={`/profile/${id || ''}`}
-                className="block p-3 rounded hover:bg-gray-700 cursor-pointer"
+                to={userId ? `/profile/${userId}` : "#"}
+                className={`block p-3 rounded hover:bg-gray-700 ${
+                  !userId ? 'opacity-50 pointer-events-none' : 'cursor-pointer'
+                }`}
               >
                 Profile
               </Link>

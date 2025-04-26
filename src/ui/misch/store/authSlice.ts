@@ -38,10 +38,12 @@ interface IdPayload {
  * @interface AuthState
  * @property {string | null} token - JWT token for authentication
  * @property {string | null} userId - ID of the authenticated user
+ * @property {boolean} isInitialized - Whether the auth state has been initialized
  */
 interface AuthState {
   token: string | null;
   userId: string | null;
+  isInitialized: boolean;
 }
 
 /**
@@ -92,6 +94,7 @@ function loadStateFromLocalStorage() : AuthState {
   return {
     token: token ?? null,
     userId: userId ?? null,
+    isInitialized: false // Start as not initialized
   }
 }
 
@@ -132,6 +135,7 @@ const authSlice = createSlice({
       
       state.userId = userId;
       state.token = action.payload.token;
+      state.isInitialized = true; // Mark as initialized after login
       
       localStorage.setItem("token", action.payload.token);
       localStorage.setItem("userId", userId);
@@ -139,6 +143,19 @@ const authSlice = createSlice({
       // Additional logging for debugging
       console.log('Login action called with userId:', userId);
     },
+    
+    /**
+     * Mark authentication as initialized
+     * 
+     * @function initializeComplete
+     * @param {AuthState} state - Current authentication state
+     * @example
+     * dispatch(initializeComplete());
+     */
+    initializeComplete(state) {
+      state.isInitialized = true;
+    },
+    
     /**
      * Logout action
      * 
@@ -153,6 +170,7 @@ const authSlice = createSlice({
     logout(state) {
       state.token = null;
       state.userId = null;
+      // Keep isInitialized as true after logout
       
       localStorage.removeItem("token");
       localStorage.removeItem("userId");
@@ -161,7 +179,7 @@ const authSlice = createSlice({
 });
 
 // Export actions and reducer
-export const { login, logout } = authSlice.actions;
+export const { login, logout, initializeComplete } = authSlice.actions;
 export default authSlice.reducer;
 
 /**
@@ -196,3 +214,14 @@ export const selectAuthToken = (state: RootState) => state.auth.token;
  * const isAuthenticated = useAppSelector(selectIsAuthenticated);
  */
 export const selectIsAuthenticated = (state: RootState) => !!state.auth.token;
+
+/**
+ * Selector for checking if auth is initialized
+ * 
+ * @function selectIsInitialized
+ * @param {RootState} state - Redux state
+ * @returns {boolean} True if auth state is initialized, false otherwise
+ * @example
+ * const isInitialized = useAppSelector(selectIsInitialized);
+ */
+export const selectIsInitialized = (state: RootState) => state.auth.isInitialized;
