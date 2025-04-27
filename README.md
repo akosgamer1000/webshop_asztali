@@ -177,7 +177,7 @@ webshop_asztali/
 
 ### Felhasználókezelés
 - A "Felhasználók" menüpont használatával adminisztrálhatja a rendszer felhasználóit
-- Különböző szerepkörök támogatottak: admin, manager, staff
+- Különböző szerepkörök támogatottak: admin, user
 
 ### Rendeléskezelés
 - A "Rendelések" menüpont alatt megtekintheti és kezelheti a vásárlói rendeléseket
