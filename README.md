@@ -86,7 +86,6 @@ A parancs automatikusan kezeli az Electron kód fordítását, a React UI builde
 
 
 
-A parancs automatikusan kezeli az Electron kód fordítását, a React UI buildelését és az alkalmazás Linux-ra való csomagolását.
 
 A buildelt alkalmazás a `dist` könyvtárban lesz elérhető.
 
@@ -199,7 +198,7 @@ webshop_asztali/
 ### Build Problémák
 - Ellenőrizze, hogy minden függőség telepítve van-e
 - Windows build problémák esetén győződjön meg róla, hogy van-e megfelelő jogosultság a mappákhoz
-- macOS build során ellenőrizze, hogy megfelelő Apple fejlesztői azonosítóval rendelkezik-e
+
 
 
 
@@ -216,7 +215,15 @@ Nemeth Akos - <your.email@example.com>
 
 Projekt Link: [https://github.com/your-username/webshop_asztali](https://github.com/akosgamer1000/webshop_asztali)
 felhasználói utmutató
-<video width="640" height="360" controls>
-  <source src="./felhasznaloi_utmutato.mp4" type="video/mp4">
- 
-</video>
+
+### Bemutató videó a használatról
+
+
+
+
+
+A felhasználói útmutató videó megtekinthető YouTube-on is az alábbi linken:
+
+https://youtu.be/Sijl8bNBNGg
+
+
