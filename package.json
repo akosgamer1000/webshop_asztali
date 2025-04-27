@@ -14,8 +14,8 @@
     "dist:mac": "npm run transpile:electron && npm run build && electron-builder --mac --arm64",
     "dist:win": "npm run transpile:electron && npm run build && electron-builder --win --x64",
     "dist:linux": "npm run transpile:electron && npm run build && electron-builder --linux --x64",
-    "docs": "typedoc --options typedoc.json",
-    "docs:serve": "npx serve docs"
+    "docs": "typedoc --options typedoc.json"
+
   },
   "dependencies": {
     "2": "^3.0.0",

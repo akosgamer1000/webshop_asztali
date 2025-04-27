@@ -40,9 +40,9 @@ A Pixelforge Admin egy asztali alkalmazás, amely számítógépes hardverekre s
    npm run transpile:electron
    ```
 
-4. Indítsa el a fejlesztői szervert:
+4. buildelje le :
    ```
-   npm run dev
+   npm run build
    ```
 
 5. Indítsa el az Electron-t:
@@ -62,7 +62,7 @@ Az alkalmazás főbb konfigurációs fájljai:
 
 ## Fordítási/Build Útmutató
 
-Különböző platformokra való termelési build létrehozása:
+windows ra  való termelési build létrehozása:
 
 #### Windows
 ```
@@ -70,28 +70,16 @@ npm run dist:win
 ```
 A parancs automatikusan kezeli az Electron kód fordítását, a React UI buildelését és az alkalmazás Windows-ra való csomagolását.
 
-#### macOS
-```
-npm run dist:mac
-```
-A parancs automatikusan kezeli az Electron kód fordítását, a React UI buildelését és az alkalmazás macOS-re való csomagolását.
 
-#### Linux
-```
-npm run dist:linux
-```
+
 A parancs automatikusan kezeli az Electron kód fordítását, a React UI buildelését és az alkalmazás Linux-ra való csomagolását.
 
 A buildelt alkalmazás a `dist` könyvtárban lesz elérhető.
 
 ## Futtatási Útmutató
 
-### Fejlesztési Módban
-1. Indítsa el a Vite fejlesztői szervert:
-   ```
-   npm run dev
-   ```
-2. Külön terminálban indítsa el az Electron alkalmazást:
+
+1. elinditásához:
    ```
    npm run dev:electron
    ```
@@ -100,9 +88,7 @@ A buildelt alkalmazás a `dist` könyvtárban lesz elérhető.
 1. Telepítse az operációs rendszeréhez megfelelő csomagot
 2. Indítsa el a Pixelforge Admin alkalmazást a telepítő által létrehozott alkalmazás ikonra kattintva
 
-## Tesztelési Útmutató
 
-*Jelenleg automatizált tesztek nem állnak rendelkezésre. A funkciók manuálisan tesztelhetők a fejlesztői környezetben.*
 
 ## Projektstruktúra
 
@@ -149,9 +135,9 @@ webshop_asztali/
    ```
    npm run transpile:electron
    ```
-3. Futtassa a Vite fejlesztői szervert:
+3. kodbeli változtatásokhoz:
    ```
-   npm run dev
+   npm run build
    ```
 4. Indítsa el az Electron alkalmazást:
    ```
