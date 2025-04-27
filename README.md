@@ -16,6 +16,20 @@ A Pixelforge Admin egy asztali alkalmazás, amely számítógépes hardverekre s
 
 ## Telepítési Útmutató
 
+### Telepítés Végfelhasználóként
+
+1. Töltse le a legfrissebb telepítőt az operációs rendszerének megfelelően:
+   - A GitHub Repository Releases oldaláról: https://github.com/akosgamer1000/webshop_asztali/releases
+   - Vagy közvetlenül a Pixelforge weboldaláról
+
+2. A letöltés egy dist mappát eredményez, amely tartalmazza az alkalmazás telepítőjét
+   - Windows: A dist mappában találja a webshop_asztali 0.0.0 windows installer fájlt
+   
+
+3. Futtassa a megfelelő telepítőt 
+
+4. A telepítés befejezése után indítsa el az alkalmazást az asztalon létrehozott parancsikonnal
+
 ### Fejlesztői Környezet Beállítása
 
 #### Előfeltételek
@@ -26,7 +40,7 @@ A Pixelforge Admin egy asztali alkalmazás, amely számítógépes hardverekre s
 #### Telepítési Lépések
 1. Klónozza a repository-t:
    ```
-   git clone https://github.com/your-username/webshop_asztali.git
+   git clone https://github.com/akosgamer1000/webshop_asztali.git
    cd webshop_asztali
    ```
 
@@ -175,7 +189,7 @@ webshop_asztali/
 ### Bejelentkezési Problémák
 - Ellenőrizze, hogy a felhasználónév és jelszó helyes-e
 - Ellenőrizze, hogy van-e aktív internet kapcsolata
-- Ha elfelejtette a jelszavát, lépjen kapcsolatba a rendszeradminisztrátorral
+
 
 ### Fejlesztéssel Kapcsolatos Problémák
 - Ellenőrizze, hogy a Node.js és npm verziója megfelelő-e
@@ -187,20 +201,10 @@ webshop_asztali/
 - Windows build problémák esetén győződjön meg róla, hogy van-e megfelelő jogosultság a mappákhoz
 - macOS build során ellenőrizze, hogy megfelelő Apple fejlesztői azonosítóval rendelkezik-e
 
-## Közreműködés
 
-1. Forkolja a projektet
-2. Hozzon létre egy új ágat a funkciójához (`git checkout -b feature/amazing-feature`)
-3. Commitolja a változtatásait (`git commit -m 'Add some amazing feature'`)
-4. Pusholja az ágat (`git push origin feature/amazing-feature`)
-5. Nyisson egy Pull Request-et
 
-## Dokumentáció
 
-A projekt részletesebb dokumentációja megtalálható:
-- `USER_DOCUMENTATION.md` - Felhasználói dokumentáció
-- `TECHNICAL_DOCUMENTATION.md` - Műszaki dokumentáció
-- `docs/` könyvtárban - Automatikusan generált API dokumentáció
+
 
 ## Licenc
 
@@ -210,4 +214,9 @@ A projekt részletesebb dokumentációja megtalálható:
 
 Nemeth Akos - <your.email@example.com>
 
-Projekt Link: [https://github.com/your-username/webshop_asztali](https://github.com/your-username/webshop_asztali)
+Projekt Link: [https://github.com/your-username/webshop_asztali](https://github.com/akosgamer1000/webshop_asztali)
+felhasználói utmutató
+<video width="640" height="360" controls>
+  <source src="./felhasznaloi_utmutato.mp4" type="video/mp4">
+ 
+</video>

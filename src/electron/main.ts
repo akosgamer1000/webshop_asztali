@@ -7,7 +7,7 @@ app.on('ready',()=>{
         height: 900,
         minWidth: 1200, 
         minHeight:800,
-        //autoHideMenuBar: true,
+        autoHideMenuBar: true,
         title: 'Pixelforge Admin',
         icon: path.join(app.getAppPath(), 'logo1.ico'), 
         
