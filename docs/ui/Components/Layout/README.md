@@ -14,14 +14,13 @@ companents/header.tsx
 
 Header Component
 
-A responsive header component for the admin panel that includes:
-- A hamburger menu button (visible only on mobile devices)
+A header component for the admin panel that includes:
 - The application title with brand identity
 - Sticky positioning for consistent navigation
 
 This component serves as the top navigation bar across all pages,
-providing consistent branding and mobile navigation controls.
-Uses Tailwind CSS for styling and responsive design.
+providing consistent branding.
+Uses Tailwind CSS for styling.
 
 ## Author
 

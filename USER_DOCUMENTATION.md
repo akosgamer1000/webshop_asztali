@@ -1,182 +1,182 @@
-# User Documentation: Pixelforge Admin
+# Felhasználói Dokumentáció: Pixelforge Admin
 
-## Overview
+## Áttekintés
 
-Pixelforge Admin is a desktop application for managing an e-commerce platform specializing in computer hardware. It allows administrators to manage products, users, orders, and application settings.
+A Pixelforge Admin egy asztali alkalmazás, amely egy számítógépes hardverekre specializálódott e-kereskedelmi platform kezelésére szolgál. Lehetővé teszi az adminisztrátorok számára a termékek, felhasználók, rendelések és alkalmazás beállítások kezelését.
 
-## System Requirements
+## Rendszerkövetelmények
 
-- Operating System: Windows 10/11, macOS 11+, or Linux
+- Operációs Rendszer: Windows 10/11, macOS 11+, vagy Linux
 - Minimum 4GB RAM
-- 500MB free disk space
-- Internet connection for API communication
-- Node.js (v16.x or higher)
-- npm (v8.x or higher)
+- 500MB szabad lemezterület
+- Internet kapcsolat az API kommunikációhoz
+- Node.js (v16.x vagy újabb)
+- npm (v8.x vagy újabb)
 
-## Installation
+## Telepítés
 
-### For Developers and Testing
+### Fejlesztőknek és Teszteléshez
 
-1. Clone the repository:
+1. Klónozza a repository-t:
    ```
    git clone https://github.com/your-username/webshop_asztali.git
    cd webshop_asztali
    ```
 
-2. Install dependencies:
+2. Telepítse a függőségeket:
    ```
    npm install
    ```
 
-3. Transpile Electron TypeScript code:
+3. Fordítsa az Electron TypeScript kódot:
    ```
    npm run transpile:electron
    ```
 
-4. Build the application:
+4. Építse az alkalmazást:
    ```
    npm run build
    ```
 
-5. Start the application:
+5. Indítsa el az alkalmazást:
    ```
    npm run dev:electron
    ```
 
-### For End Users
+### Végfelhasználóknak
 
-1. Download the latest build for your operating system from the project release page
-2. Extract the files to your preferred location
-3. Run the application by clicking on the Pixelforge Admin executable
+1. Töltse le az operációs rendszeréhez megfelelő legújabb buildet a projekt kiadási oldaláról
+2. Csomagolja ki a fájlokat a kívánt helyre
+3. Indítsa el az alkalmazást a Pixelforge Admin végrehajtható fájlra kattintva
 
-## Key Features
+## Főbb Funkciók
 
-- Product Management: Add, edit, and view computer hardware products
-- User Management: Add and manage administrative users
-- Order Management: View and process customer orders
-- Settings: Configure application preferences
+- Termékkezelés: Számítógépes hardver termékek hozzáadása, szerkesztése és megtekintése
+- Felhasználókezelés: Adminisztratív felhasználók hozzáadása és kezelése
+- Rendeléskezelés: Vásárlói rendelések megtekintése és feldolgozása
+- Beállítások: Alkalmazás preferenciák konfigurálása
 
-## User Guide
+## Felhasználói Útmutató
 
-### Login
+### Bejelentkezés
 
-1. Launch the Pixelforge Admin application
-2. Enter your username and password
-3. Click the "Login" button
-4. If credentials are valid, you will be redirected to the products page
+1. Indítsa el a Pixelforge Admin alkalmazást
+2. Adja meg felhasználónevét és jelszavát
+3. Kattintson a "Bejelentkezés" gombra
+4. Ha a hitelesítő adatok érvényesek, átirányítódik a termékek oldalra
 
-![Login Screen](path/to/login-screenshot.png)
+![Bejelentkezési Képernyő](path/to/login-screenshot.png)
 
-### Products Management
+### Termékkezelés
 
-#### Viewing Products
-1. Click on "Products" in the sidebar
-2. Browse the product list
-3. Use search or filters to find specific products
+#### Termékek Megtekintése
+1. Kattintson a "Termékek" menüpontra az oldalsávban
+2. Böngéssze a terméklistát
+3. Használja a keresést vagy szűrőket konkrét termékek megtalálásához
 
-![Products List](path/to/products-screenshot.png)
+![Terméklista](path/to/products-screenshot.png)
 
-#### Creating a New Product
-1. Click on "Products" in the sidebar
-2. Click the "Create Product" button
-3. Select the product type from the available options:
-   - Processor
-   - Motherboard
-   - Memory
-   - Hard Drive
-   - Video Card
-   - Power Supply
-   - CPU Cooler
-   - Case
-4. Fill in the required fields for the selected product type
-5. Click "Submit" to create the new product
+#### Új Termék Létrehozása
+1. Kattintson a "Termékek" menüpontra az oldalsávban
+2. Kattintson a "Termék Létrehozása" gombra
+3. Válassza ki a termék típusát a rendelkezésre álló opciók közül:
+   - Processzor
+   - Alaplap
+   - Memória
+   - Merevlemez
+   - Videókártya
+   - Tápegység
+   - CPU Hűtő
+   - Ház
+4. Töltse ki a kért mezőket a kiválasztott terméktípushoz
+5. Kattintson a "Küldés" gombra az új termék létrehozásához
 
-![Add Product](path/to/add-product-screenshot.png)
+![Termék Hozzáadása](path/to/add-product-screenshot.png)
 
-#### Viewing Product Details
-1. Find the product in the product list
-2. Click on the product name
-3. View detailed information about the product
+#### Termék Részletek Megtekintése
+1. Keresse meg a terméket a terméklistában
+2. Kattintson a termék nevére
+3. Tekintse meg a termék részletes információit
 
-### User Management
+### Felhasználókezelés
 
-#### Viewing Users
-1. Click on "Users" in the sidebar
-2. Browse the user list
-3. Use search or filters to find specific users
+#### Felhasználók Megtekintése
+1. Kattintson a "Felhasználók" menüpontra az oldalsávban
+2. Böngéssze a felhasználólistát
+3. Használja a keresést vagy szűrőket konkrét felhasználók megtalálásához
 
-#### Adding a New User
-1. Click on "Users" in the sidebar
-2. Click the "Add User" button
-3. Fill in the required fields:
-   - Username
+#### Új Felhasználó Hozzáadása
+1. Kattintson a "Felhasználók" menüpontra az oldalsávban
+2. Kattintson az "Új Felhasználó" gombra
+3. Töltse ki a kért mezőket:
+   - Felhasználónév
    - Email
-   - Password
-   - Role (Admin, User)
-4. Click "Create" to add the new user
+   - Jelszó
+   - Szerepkör (Admin, Felhasználó)
+4. Kattintson a "Létrehozás" gombra az új felhasználó hozzáadásához
 
-#### Viewing User Details
-1. Find the user in the user list
-2. Click on the username to view detailed information
-3. User details are displayed including contact information and role
+#### Felhasználó Részletek Megtekintése
+1. Keresse meg a felhasználót a felhasználólistában
+2. Kattintson a felhasználónévre a részletes információk megtekintéséhez
+3. A felhasználó részletei megjelennek, beleértve a kapcsolati információkat és szerepkört
 
-#### User Profile
-1. Click on your username in the top-right corner
-2. Select "Profile" from the dropdown menu
-3. View and edit your profile information
+#### Felhasználói Profil
+1. Kattintson a felhasználónevére a jobb felső sarokban
+2. Válassza a "Profil" opciót a legördülő menüből
+3. Tekintse meg és szerkessze a profil információkat
 
-### Order Management
+### Rendeléskezelés
 
-#### Viewing Orders
-1. Click on "Orders" in the sidebar
-2. Browse the order list
-3. Use search or filters to find specific orders
+#### Rendelések Megtekintése
+1. Kattintson a "Rendelések" menüpontra az oldalsávban
+2. Böngéssze a rendeléslistát
+3. Használja a keresést vagy szűrőket konkrét rendelések megtalálásához
 
-#### Viewing Order Details
-1. Find the order in the order list
-2. Click on the order number to view details
-3. Review order details, items, and customer information
+#### Rendelés Részletek Megtekintése
+1. Keresse meg a rendelést a rendeléslistában
+2. Kattintson a rendelésszámra a részletek megtekintéséhez
+3. Tekintse át a rendelés részleteit, tételeit és a vásárló információit
 
-#### Updating Order Status
-1. Navigate to the order details page
-2. The current status is displayed at the top of the order details
-3. To change status, use the status dropdown menu
-4. Select the new status from available options:
-   - Pending
-   - Processing
-   - Shipped
-   - Delivered
-   - Cancelled
-5. The status is updated automatically when changed
+#### Rendelés Állapotának Frissítése
+1. Navigáljon a rendelés részletek oldalra
+2. Az aktuális állapot a rendelés részletek tetején jelenik meg
+3. Az állapot módosításához használja az állapot legördülő menüt
+4. Válassza ki az új állapotot a rendelkezésre álló opciók közül:
+   - Függőben
+   - Feldolgozás alatt
+   - Szállítás alatt
+   - Kiszállítva
+   - Törölve
+5. Az állapot automatikusan frissül a módosításkor
 
-### Settings
+### Beállítások
 
-1. Click on "Settings" in the sidebar
-2. Adjust application preferences:
-   - Display settings
-   - Notification preferences
-   - Default values
-3. Click "Save" to apply changes
+1. Kattintson a "Beállítások" menüpontra az oldalsávban
+2. Állítsa be az alkalmazás preferenciáit:
+   - Megjelenítési beállítások
+   - Értesítési beállítások
+   - Alapértelmezett értékek
+3. Kattintson a "Mentés" gombra a változtatások alkalmazásához
 
-## Troubleshooting
+## Hibaelhárítás
 
-### Login Issues
-- Ensure your username and password are correct
-- Check that you have an active internet connection
-- If you've forgotten your password, contact your system administrator
+### Bejelentkezési Problémák
+- Ellenőrizze, hogy a felhasználónév és jelszó helyes-e
+- Ellenőrizze, hogy van-e aktív internet kapcsolata
+- Ha elfelejtette a jelszavát, lépjen kapcsolatba a rendszeradminisztrátorral
 
-### Product Management Issues
-- Ensure all required fields are filled when creating/editing products
-- If images don't upload, check that they are in supported format (JPG, PNG)
-- Maximum file size for images is 5MB
+### Termékkezelési Problémák
+- Ellenőrizze, hogy minden kötelező mező ki van-e töltve termékek létrehozásakor/szerkesztésekor
+- Ha a képek nem töltődnek fel, ellenőrizze, hogy támogatott formátumban vannak-e (JPG, PNG)
+- A képek maximális mérete 5MB
 
-### Order Processing Issues
-- If orders are not updating, refresh the page and try again
-- Ensure you have the correct permissions to modify orders
+### Rendelésfeldolgozási Problémák
+- Ha a rendelések nem frissülnek, frissítse az oldalt és próbálja újra
+- Ellenőrizze, hogy megvan-e a megfelelő jogosultsága a rendelések módosításához
 
-## Support
+## Támogatás
 
-For additional support:
+További támogatásért:
 - Email: support@pixelforge.com
-- Phone: +1-555-123-4567
-- Hours: Monday-Friday, 9am-5pm EST 
+- Telefon: +1-555-123-4567
+- Nyitvatartás: Hétfő-Péntek, 9:00-17:00 EST 

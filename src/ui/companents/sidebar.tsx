@@ -115,6 +115,16 @@ const Sidebar: React.FC = () => {
               </Link>
             </li>
             
+            {/* Settings link */}
+            <li>
+              <Link
+                to="/setting"
+                className="block p-3 rounded hover:bg-gray-700 cursor-pointer"
+              >
+                Settings
+              </Link>
+            </li>
+            
             {/* Logout button */}
             <li>
               <button

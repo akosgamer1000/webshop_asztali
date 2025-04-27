@@ -96,7 +96,7 @@ const Setting: React.FC = () => {
       dispatch(saveSettings(unsavedSettings));
       setSettings(unsavedSettings);
       setHasChanges(false);
-      alert('Settings saved successfully!');
+      
     } catch (error) {
       alert('Failed to save settings');
       console.error('Error saving settings:', error);

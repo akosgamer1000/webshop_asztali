@@ -8,7 +8,7 @@
 
 > **useGetUserId**(): `null` \| `string`
 
-Defined in: [src/ui/hooks/login/useGetUserId.tsx:35](https://github.com/yourusername/webshop_asztali/blob/6cd6b8ff5f7d5531f80a92ddbde9cd7ab8ecd569/src/ui/hooks/login/useGetUserId.tsx#L35)
+Defined in: [src/ui/hooks/login/useGetUserId.tsx:35](https://github.com/yourusername/webshop_asztali/blob/db527a672c3f1c86910ae6dbab32f3919e7d7093/src/ui/hooks/login/useGetUserId.tsx#L35)
 
 Custom hook to reliably get the current user's ID
 

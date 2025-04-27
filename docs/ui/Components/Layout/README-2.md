@@ -14,13 +14,13 @@ companents/sidebar.tsx
 
 Sidebar Navigation Component
 
-A responsive navigation sidebar that provides:
+A navigation sidebar that provides:
 - Main navigation links for authenticated users
 - Login link for unauthenticated users
 - User profile access
 - Logout functionality
 
-The sidebar is collapsible on mobile devices and fixed on desktop.
+The sidebar is fixed on desktop.
 It uses Redux for authentication state management and includes
 dynamic routing based on user authentication status.
 

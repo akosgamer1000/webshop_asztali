@@ -6,7 +6,7 @@
 
 # Interface: Column\<T\>
 
-Defined in: [src/ui/companents/common/DataTable.tsx:37](https://github.com/yourusername/webshop_asztali/blob/6cd6b8ff5f7d5531f80a92ddbde9cd7ab8ecd569/src/ui/companents/common/DataTable.tsx#L37)
+Defined in: [src/ui/companents/common/DataTable.tsx:37](https://github.com/yourusername/webshop_asztali/blob/db527a672c3f1c86910ae6dbab32f3919e7d7093/src/ui/companents/common/DataTable.tsx#L37)
 
 Column configuration interface
  Column
@@ -25,7 +25,7 @@ Type of the data items
 
 > **header**: `string`
 
-Defined in: [src/ui/companents/common/DataTable.tsx:38](https://github.com/yourusername/webshop_asztali/blob/6cd6b8ff5f7d5531f80a92ddbde9cd7ab8ecd569/src/ui/companents/common/DataTable.tsx#L38)
+Defined in: [src/ui/companents/common/DataTable.tsx:38](https://github.com/yourusername/webshop_asztali/blob/db527a672c3f1c86910ae6dbab32f3919e7d7093/src/ui/companents/common/DataTable.tsx#L38)
 
 The text to display in the column header
 
@@ -35,7 +35,7 @@ The text to display in the column header
 
 > **accessor**: keyof `T` \| (`item`) => `ReactNode`
 
-Defined in: [src/ui/companents/common/DataTable.tsx:39](https://github.com/yourusername/webshop_asztali/blob/6cd6b8ff5f7d5531f80a92ddbde9cd7ab8ecd569/src/ui/companents/common/DataTable.tsx#L39)
+Defined in: [src/ui/companents/common/DataTable.tsx:39](https://github.com/yourusername/webshop_asztali/blob/db527a672c3f1c86910ae6dbab32f3919e7d7093/src/ui/companents/common/DataTable.tsx#L39)
 
 Function to access the data or key to access the property
 
@@ -45,6 +45,6 @@ Function to access the data or key to access the property
 
 > `optional` **width**: `string`
 
-Defined in: [src/ui/companents/common/DataTable.tsx:40](https://github.com/yourusername/webshop_asztali/blob/6cd6b8ff5f7d5531f80a92ddbde9cd7ab8ecd569/src/ui/companents/common/DataTable.tsx#L40)
+Defined in: [src/ui/companents/common/DataTable.tsx:40](https://github.com/yourusername/webshop_asztali/blob/db527a672c3f1c86910ae6dbab32f3919e7d7093/src/ui/companents/common/DataTable.tsx#L40)
 
 Optional width for the column

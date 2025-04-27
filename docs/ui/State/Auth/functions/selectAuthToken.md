@@ -8,7 +8,7 @@
 
 > **selectAuthToken**(`state`): `null` \| `string`
 
-Defined in: [src/ui/misch/store/authSlice.ts:188](https://github.com/yourusername/webshop_asztali/blob/6cd6b8ff5f7d5531f80a92ddbde9cd7ab8ecd569/src/ui/misch/store/authSlice.ts#L188)
+Defined in: [src/ui/misch/store/authSlice.ts:188](https://github.com/yourusername/webshop_asztali/blob/db527a672c3f1c86910ae6dbab32f3919e7d7093/src/ui/misch/store/authSlice.ts#L188)
 
 Selector for getting the authentication token from the authentication state
 

@@ -8,7 +8,7 @@
 
 > `const` **Router**: `React.FC`
 
-Defined in: [src/ui/router/index.tsx:125](https://github.com/yourusername/webshop_asztali/blob/6cd6b8ff5f7d5531f80a92ddbde9cd7ab8ecd569/src/ui/router/index.tsx#L125)
+Defined in: [src/ui/router/index.tsx:125](https://github.com/yourusername/webshop_asztali/blob/db527a672c3f1c86910ae6dbab32f3919e7d7093/src/ui/router/index.tsx#L125)
 
 Main Router Component
 

@@ -8,7 +8,7 @@
 
 > **useDeleteUser**(): `object`
 
-Defined in: [src/ui/hooks/user/useDeleteuser.tsx:54](https://github.com/yourusername/webshop_asztali/blob/6cd6b8ff5f7d5531f80a92ddbde9cd7ab8ecd569/src/ui/hooks/user/useDeleteuser.tsx#L54)
+Defined in: [src/ui/hooks/user/useDeleteuser.tsx:54](https://github.com/yourusername/webshop_asztali/blob/db527a672c3f1c86910ae6dbab32f3919e7d7093/src/ui/hooks/user/useDeleteuser.tsx#L54)
 
 Custom hook for deleting users
 

@@ -8,7 +8,7 @@
 
 > `const` **UserContent**: `React.FC`
 
-Defined in: [src/ui/companents/user/usercontent.tsx:55](https://github.com/yourusername/webshop_asztali/blob/6cd6b8ff5f7d5531f80a92ddbde9cd7ab8ecd569/src/ui/companents/user/usercontent.tsx#L55)
+Defined in: [src/ui/companents/user/usercontent.tsx:55](https://github.com/yourusername/webshop_asztali/blob/db527a672c3f1c86910ae6dbab32f3919e7d7093/src/ui/companents/user/usercontent.tsx#L55)
 
 User Content Component
 

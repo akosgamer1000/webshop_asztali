@@ -6,9 +6,9 @@
 
 # Variable: Header
 
-> `const` **Header**: `React.FC`\<\{ `toggleSidebar`: () => `void`; \}\>
+> `const` **Header**: `React.FC`
 
-Defined in: [src/ui/companents/header.tsx:35](https://github.com/yourusername/webshop_asztali/blob/6cd6b8ff5f7d5531f80a92ddbde9cd7ab8ecd569/src/ui/companents/header.tsx#L35)
+Defined in: [src/ui/companents/header.tsx:32](https://github.com/yourusername/webshop_asztali/blob/db527a672c3f1c86910ae6dbab32f3919e7d7093/src/ui/companents/header.tsx#L32)
 
 Header Component
 
@@ -17,22 +17,14 @@ Header Component
 ## Description
 
 A functional component that renders the top header bar of the application.
-Includes a hamburger menu button for mobile navigation and the application title.
-
-## Param
-
-Component properties
-
-## Param
-
-Callback function to toggle the sidebar visibility
+Includes the application title.
 
 ## Returns
 
-A header component with navigation controls
+A header component
 
 ## Example
 
 ```ts
-<Header toggleSidebar={() => setSidebarOpen(!sidebarOpen)} />
+<Header />
 ```

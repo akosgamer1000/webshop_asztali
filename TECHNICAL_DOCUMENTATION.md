@@ -1,277 +1,268 @@
-# Technical Documentation: Pixelforge Admin
+# Műszaki Dokumentáció: Pixelforge Admin
 
-## Project Overview
+## Projekt Áttekintés
 
-Pixelforge Admin is an Electron-based desktop application built with React, TypeScript, and Redux. The application serves as an admin panel for managing products, users, orders, and settings for an e-commerce platform specializing in computer hardware and components.
+A Pixelforge Admin egy Electron-alapú asztali alkalmazás, amely React, TypeScript és Redux segítségével készült. Az alkalmazás egy e-kereskedelmi platform adminisztrációs felületeként szolgál, amely számítógépes hardverek és komponensek kezelésére specializálódott.
 
-## Technology Stack
+## Technológiai Stack
 
-### Core Technologies
-- **Electron**: Framework for building cross-platform desktop applications
-- **React**: Frontend library for building user interfaces
-- **TypeScript**: Typed JavaScript for better development experience
-- **Redux Toolkit**: State management solution
-- **React Router**: Client-side routing
+### Alapvető Technológiák
+- **Electron**: Keretrendszer platformfüggetlen asztali alkalmazások fejlesztéséhez
+- **React**: Frontend könyvtár felhasználói felületek készítéséhez
+- **TypeScript**: Típusos JavaScript a jobb fejlesztői élmény érdekében
+- **Redux Toolkit**: Állapotkezelési megoldás
+- **React Router**: Kliensoldali útválasztás
 
-### UI Libraries
-- **Ant Design**: UI component library
-- **Tailwind CSS**: Utility-first CSS framework
-- **React Icons**: Icon library
-- **Lucide React**: Another icon library
-- **Sonner**: Toast notification library
+### UI Könyvtárak
+- **Ant Design**: UI komponens könyvtár
+- **Tailwind CSS**: Utility-first CSS keretrendszer
+- **React Icons**: Ikon könyvtár
+- **Lucide React**: További ikon könyvtár
+- **Sonner**: Toast értesítési könyvtár
 
-### Backend Communication
-- **Axios**: HTTP client for API requests
-- **JWT**: JSON Web Token for authentication
+### Backend Kommunikáció
+- **Axios**: HTTP kliens API kérésekhez
+- **JWT**: JSON Web Token hitelesítéshez
 
-## Project Structure
+## Projekt Struktúra
 
 ```
 webshop_asztali/
-├── dist-electron/       # Compiled Electron code
-├── dist-react/          # Compiled React UI code
-├── src/                 # Source code
-│   ├── electron/        # Electron main process code
-│   │   └── main.ts      # Main Electron entry point
-│   └── ui/              # React UI code
-│       ├── assets/      # Static assets
-│       ├── companents/  # UI components organized by feature
-│       │   ├── common/  # Shared components
-│       │   ├── layout/  # Layout components
-│       │   ├── login/   # Authentication components
-│       │   ├── order/   # Order management components
-│       │   ├── product/ # Product management components
-│       │   ├── profile/ # User profile components
-│       │   ├── setting/ # Settings components
-│       │   └── user/    # User management components
-│       ├── hooks/       # Custom React hooks
-│       ├── misch/       # Miscellaneous utilities
-│       │   ├── store/   # Redux store slices
-│       │   ├── Axios.ts # Axios configuration
-│       │   └── Store.ts # Redux store configuration
-│       ├── pages/       # Page components
-│       │   └── product/ # Product-related pages
-│       ├── router/      # Routing configuration
-│       │   └── index.tsx # Main router setup
-│       └── style/       # Styling files
-├── package.json         # Project dependencies and scripts
-└── vite.config.ts       # Vite configuration
+├── dist-electron/       # Fordított Electron kód
+├── dist-react/          # Fordított React UI kód
+├── src/                 # Forráskód
+│   ├── electron/        # Electron fő folyamat kódja
+│   │   └── main.ts      # Electron fő belépési pont
+│   └── ui/              # React UI kód
+│       ├── assets/      # Statikus erőforrások
+│       ├── companents/  # UI komponensek funkció szerint rendezve
+│       │   ├── common/  # Megosztott komponensek
+│       │   ├── layout/  # Elrendezési komponensek
+│       │   ├── login/   # Hitelesítési komponensek
+│       │   ├── order/   # Rendeléskezelő komponensek
+│       │   ├── product/ # Termékkezelő komponensek
+│       │   ├── profile/ # Felhasználói profil komponensek
+│       │   ├── setting/ # Beállítási komponensek
+│       │   └── user/    # Felhasználókezelő komponensek
+│       ├── hooks/       # Egyedi React hook-ok
+│       ├── misch/       # Egyéb segédeszközök
+│       │   ├── store/   # Redux store szeletek
+│       │   ├── Axios.ts # Axios konfiguráció
+│       │   └── Store.ts # Redux store konfiguráció
+│       ├── pages/       # Oldal komponensek
+│       │   └── product/ # Termékkel kapcsolatos oldalak
+│       ├── router/      # Útválasztási konfiguráció
+│       │   └── index.tsx # Fő router beállítás
+│       └── style/       # Stílusfájlok
+├── package.json         # Projekt függőségek és szkriptek
+└── vite.config.ts       # Vite konfiguráció
 ```
 
-## Architecture
+## Architektúra
 
-### Electron Main Process
-The Electron main process (`src/electron/main.ts`) is responsible for creating the application window and managing the application lifecycle. It configures the window dimensions, appearance, and loads the React UI.
+### Electron Fő Folyamat
+Az Electron fő folyamat (`src/electron/main.ts`) felelős az alkalmazás ablak létrehozásáért és az alkalmazás életciklusának kezeléséért. Konfigurálja az ablak méreteit, megjelenését és betölti a React UI-t.
 
 ### React UI
-The React UI is organized using a feature-based architecture, where components, state, and logic are grouped by feature rather than type. This makes the codebase more maintainable and scalable.
+A React UI funkció-alapú architektúrát használ, ahol a komponensek, állapotok és logika funkció szerint vannak csoportosítva, nem pedig típus szerint. Ez a kódbázist karbantarthatóbbá és skálázhatóbbá teszi.
 
-### State Management
-The application uses Redux Toolkit for state management with the following main slices:
-- **Auth**: Manages authentication state (login, logout, tokens)
-- **Settings**: Handles application settings and preferences
+### Állapotkezelés
+Az alkalmazás Redux Toolkit-et használ az állapotkezeléshez, a következő fő szeletekkel:
+- **Auth**: Hitelesítési állapot kezelése (bejelentkezés, kijelentkezés, tokenek)
+- **Settings**: Alkalmazás beállítások és preferenciák kezelése
 
-### Routing
-The application uses React Router for navigation. Routes are protected by authentication, redirecting unauthorized users to the login page. The main routes include:
-- `/login`: Authentication page
-- `/products`: Product management
-- `/users`: User management
-- `/orders`: Order management
-- `/setting`: Application settings
-- `/profile`: User profile
+### Útválasztás
+Az alkalmazás React Router-t használ a navigációhoz. Az útvonalak hitelesítéssel védettek, nem engedélyezett felhasználókat a bejelentkezési oldalra irányít. A fő útvonalak:
+- `/login`: Hitelesítési oldal
+- `/products`: Termékkezelés
+- `/users`: Felhasználókezelés
+- `/orders`: Rendeléskezelés
+- `/setting`: Alkalmazás beállítások
+- `/profile`: Felhasználói profil
 
-A nested routing structure is implemented for the product creation workflow.
+A termék létrehozási munkafolyamathoz beágyazott útválasztási struktúra van implementálva.
 
-## Database Model
+## Adatbázis Modell
 
-### Database Diagram
-![Database Model Diagram](path/to/database-diagram.png)
+### Adatbázis Diagram
+![Adatbázis Modell Diagram](./database.png)
 
-### Table Descriptions
+### Tábla Leírások
 
 #### Users
-Stores administrator user information.
-- `id` (INT): Primary key, auto-increment
-- `username` (VARCHAR): Unique username, required
-- `password_hash` (VARCHAR): Argon2 hashed password, required
-- `email` (VARCHAR): Unique email address, required
-- `role` (ENUM): User role ('admin', 'manager', 'staff')
-- `created_at` (TIMESTAMP): Account creation time
-- `last_login` (TIMESTAMP): Last login timestamp
+Adminisztrátor felhasználói információk tárolása.
+- `id` (INT): Elsődleges kulcs, automatikusan növekvő
+- `username` (VARCHAR): Egyedi felhasználónév, kötelező
+- `password_hash` (VARCHAR): Argon2 hashelt jelszó, kötelező
+- `email` (VARCHAR): Egyedi email cím, kötelező
+- `role` (ENUM): Felhasználói szerepkör ('admin', 'manager', 'staff')
+- `created_at` (TIMESTAMP): Fiók létrehozásának ideje
+- `last_login` (TIMESTAMP): Utolsó bejelentkezés időpontja
 
 #### Products
-Stores product information for various computer components.
-- `id` (INT): Primary key, auto-increment
-- `name` (VARCHAR): Product name, required
-- `type` (ENUM): Product type ('processor', 'motherboard', 'memory', etc.)
-- `price` (DECIMAL): Product price, required
-- `stock` (INT): Available inventory, minimum 0
-- `description` (TEXT): Product description
-- `image_url` (VARCHAR): Path to product image
+Különböző számítógépes komponensek termékinformációinak tárolása.
+- `id` (INT): Elsődleges kulcs, automatikusan növekvő
+- `name` (VARCHAR): Termék neve, kötelező
+- `type` (ENUM): Termék típusa ('processor', 'motherboard', 'memory', stb.)
+- `price` (DECIMAL): Termék ára, kötelező
+- `stock` (INT): Elérhető készlet, minimum 0
+- `description` (TEXT): Termék leírása
+- `image_url` (VARCHAR): Termék képének elérési útja
 
 #### Orders
-Tracks customer orders.
-- `id` (INT): Primary key, auto-increment
-- `customer_id` (INT): Foreign key to customers table
-- `status` (ENUM): Order status ('pending', 'processing', 'shipped', 'delivered', 'cancelled')
-- `total_amount` (DECIMAL): Total order amount
-- `created_at` (TIMESTAMP): Order creation time
-- `updated_at` (TIMESTAMP): Last update timestamp
+Vásárlói rendelések nyilvántartása.
+- `id` (INT): Elsődleges kulcs, automatikusan növekvő
+- `customer_id` (INT): Külső kulcs a customers táblához
+- `status` (ENUM): Rendelés állapota ('pending', 'processing', 'shipped', 'delivered', 'cancelled')
+- `total_amount` (DECIMAL): Teljes rendelési összeg
+- `created_at` (TIMESTAMP): Rendelés létrehozásának ideje
+- `updated_at` (TIMESTAMP): Utolsó frissítés időpontja
 
 #### OrderItems
-Stores individual items within orders.
-- `id` (INT): Primary key, auto-increment
-- `order_id` (INT): Foreign key to orders table
-- `product_id` (INT): Foreign key to products table
-- `quantity` (INT): Number of items, minimum 1
-- `price` (DECIMAL): Price at time of purchase
+Rendelések egyedi tételeinek tárolása.
+- `id` (INT): Elsődleges kulcs, automatikusan növekvő
+- `order_id` (INT): Külső kulcs az orders táblához
+- `product_id` (INT): Külső kulcs a products táblához
+- `quantity` (INT): Tételek száma, minimum 1
+- `price` (DECIMAL): Vásárláskori ár
 
-## Authentication
+## Hitelesítés
 
-The application implements JWT-based authentication:
-- User credentials are validated against the backend API
-- JWT tokens are stored in localStorage for persistence
-- Protected routes check authentication state before rendering
-- The application automatically attempts to log in using stored credentials
+Az alkalmazás JWT-alapú hitelesítést használ:
+- A felhasználói hitelesítő adatokat a backend API ellenőrzi
+- A JWT tokenek localStorage-ban tárolódnak a perzisztencia érdekében
+- A védett útvonalak ellenőrzik a hitelesítési állapotot a megjelenítés előtt
+- Az alkalmazás automatikusan megpróbál bejelentkezni a tárolt hitelesítő adatokkal
 
-## API Communication
+## API Kommunikáció
 
-API requests are managed through a configured Axios instance (`src/ui/misch/Axios.ts`). The configuration includes:
-- Base URL configuration
-- Request/response interceptors
-- Authorization header management
-- Error handling
+Az API kéréseket egy konfigurált Axios példány (`src/ui/misch/Axios.ts`) kezeli. A konfiguráció tartalmazza:
+- Alap URL konfigurációt
+- Kérés/válasz interceptorokat
+- Engedélyezési fejléc kezelést
+- Hibakezelést
 
-### API Endpoints
+### API Végpontok
 
-#### Authentication
-- `POST /api/auth/login`: Authenticate user and retrieve JWT token
-- `POST /api/auth/logout`: Invalidate session
-- `GET /api/auth/profile`: Get current user profile
+#### Hitelesítés
+- `POST /api/auth/login`: Felhasználó hitelesítése és JWT token lekérése
+- `POST /api/auth/logout`: Munkamenet érvénytelenítése
+- `GET /api/auth/profile`: Aktuális felhasználói profil lekérése
 
-#### Products
-- `GET /api/products`: Get list of products with optional filtering
-- `GET /api/products/:id`: Get specific product details
-- `POST /api/products`: Create new product
-- `PUT /api/products/:id`: Update existing product
-- `DELETE /api/products/:id`: Remove product
+#### Termékek
+- `GET /api/products`: Termékek listázása opcionális szűréssel
+- `GET /api/products/:id`: Konkrét termék részleteinek lekérése
+- `POST /api/products`: Új termék létrehozása
+- `PUT /api/products/:id`: Meglévő termék frissítése
+- `DELETE /api/products/:id`: Termék eltávolítása
 
-#### Users
-- `GET /api/users`: Get list of users
-- `GET /api/users/:id`: Get specific user details
-- `POST /api/users`: Create new user
-- `PUT /api/users/:id`: Update existing user
-- `DELETE /api/users/:id`: Remove user
+#### Felhasználók
+- `GET /api/users`: Felhasználók listázása
+- `GET /api/users/:id`: Konkrét felhasználó részleteinek lekérése
+- `POST /api/users`: Új felhasználó létrehozása
+- `PUT /api/users/:id`: Meglévő felhasználó frissítése
+- `DELETE /api/users/:id`: Felhasználó eltávolítása
 
-#### Orders
-- `GET /api/orders`: Get list of orders
-- `GET /api/orders/:id`: Get specific order details
-- `POST /api/orders`: Create new order
-- `PUT /api/orders/:id`: Update order status
+#### Rendelések
+- `GET /api/orders`: Rendelések listázása
+- `GET /api/orders/:id`: Konkrét rendelés részleteinek lekérése
+- `POST /api/orders`: Új rendelés létrehozása
+- `PUT /api/orders/:id`: Rendelés állapotának frissítése
 
-## Installation Guide
+## Telepítési Útmutató
 
-### Development Environment Setup
+### Fejlesztői Környezet Beállítása
 
-#### Prerequisites
-- Node.js (v16.x or higher)
-- npm (v8.x or higher)
+#### Előfeltételek
+- Node.js (v16.x vagy újabb)
+- npm (v8.x vagy újabb)
 - Git
 
-#### Installation Steps
-1. Clone the repository:
+#### Telepítési Lépések
+1. Klónozza a repository-t:
    ```
    git clone https://github.com/your-username/webshop_asztali.git
    cd webshop_asztali
    ```
 
-2. Install dependencies:
+2. Telepítse a függőségeket:
    ```
    npm install
    ```
 
-3. Transpile Electron TypeScript code:
+3. Fordítsa az Electron TypeScript kódot:
    ```
    npm run transpile:electron
    ```
 
-4. Start the development server:
+4. Indítsa el a fejlesztői szervert:
    ```
    npm run dev
    ```
 
-5. Start Electron:
+5. Indítsa el az Electron-t:
    ```
    npm run dev:electron
    ```
 
-### Production Build
+### telepitő létrehozzása
 
-To create a production build for different platforms:
+Különböző platformokra való termelési build létrehozása:
 
 #### Windows
 ```
 npm run dist:win
 ```
-The command automatically handles transpiling Electron code, building the React UI, and packaging the application for Windows.
+A parancs automatikusan kezeli az Electron kód fordítását, a React UI buildelését és az alkalmazás Windows-ra való csomagolását.
 
 #### macOS
 ```
 npm run dist:mac
 ```
-The command automatically handles transpiling Electron code, building the React UI, and packaging the application for macOS.
+A parancs automatikusan kezeli az Electron kód fordítását, a React UI buildelését és az alkalmazás macOS-re való csomagolását.
 
 #### Linux
 ```
 npm run dist:linux
 ```
-The command automatically handles transpiling Electron code, building the React UI, and packaging the application for Linux.
+A parancs automatikusan kezeli az Electron kód fordítását, a React UI buildelését és az alkalmazás Linux-ra való csomagolását.
 
-The built application will be available in the `dist` directory.
+A buildelt alkalmazás a `dist` könyvtárban lesz elérhető.
 
-## Development Workflow
+## Fejlesztési Munkafolyamat
 
-1. Make changes to the source code
-2. For changes to Electron code, transpile with:
+1. Végezzen módosításokat a forráskódban
+2. Electron kód módosításaihoz fordítsa újra:
    ```
    npm run transpile:electron
    ```
-3. Run the Vite development server:
+3. Futtassa a Vite fejlesztői szervert:
    ```
    npm run dev
    ```
-4. Launch the Electron application:
+4. Indítsa el az Electron alkalmazást:
    ```
    npm run dev:electron
    ```
 
-## Key Features
+## Főbb Funkciók
 
-1. **Product Management**:
-   - Create new computer component products across multiple categories
-   - Edit existing products
-   - View product details
+1. **Termékkezelés**:
+   - Új számítógépes komponens termékek létrehozása több kategóriában
+   - Meglévő termékek szerkesztése
+   - Termék részletek megtekintése
 
-2. **User Management**:
-   - Add and manage admin users
-   - User profile editing
-   - Role-based access control
+2. **Felhasználókezelés**:
+   - Admin felhasználók hozzáadása és kezelése
+   - Felhasználói profil szerkesztése
+   - Szerepkör-alapú hozzáférés-vezérlés
 
-3. **Order Management**:
-   - View order details
-   - Track order status
-   - Process orders
+3. **Rendeléskezelés**:
+   - Rendelés részletek megtekintése
+   - Rendelés állapotának követése
+   - Rendelések feldolgozása
 
-4. **Settings**:
-   - Application configuration
-   - UI preferences 
+4. **Beállítások**:
+   - Alkalmazás konfiguráció
+   - UI preferenciák
 
-## Future Development
-
-Potential future enhancements for the application:
-
-1. **Advanced Analytics**: Implement a dashboard with sales statistics and trend analysis
-2. **Inventory Management**: Add automatic stock level alerts and reordering functionality
-3. **Customer Communication**: Add ability to send order updates and promotional emails
-4. **Multi-language Support**: Internationalization for supporting multiple languages
-5. **Dark Mode**: Implement a dark theme option for the user interface 

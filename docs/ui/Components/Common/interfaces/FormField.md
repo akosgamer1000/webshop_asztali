@@ -6,7 +6,7 @@
 
 # Interface: FormField
 
-Defined in: [src/ui/companents/common/ProductForm.tsx:43](https://github.com/yourusername/webshop_asztali/blob/6cd6b8ff5f7d5531f80a92ddbde9cd7ab8ecd569/src/ui/companents/common/ProductForm.tsx#L43)
+Defined in: [src/ui/companents/common/ProductForm.tsx:43](https://github.com/yourusername/webshop_asztali/blob/db527a672c3f1c86910ae6dbab32f3919e7d7093/src/ui/companents/common/ProductForm.tsx#L43)
 
 Configuration interface for form fields
 Defines the structure and validation rules for each form field
@@ -18,7 +18,7 @@ Defines the structure and validation rules for each form field
 
 > **name**: `string`
 
-Defined in: [src/ui/companents/common/ProductForm.tsx:44](https://github.com/yourusername/webshop_asztali/blob/6cd6b8ff5f7d5531f80a92ddbde9cd7ab8ecd569/src/ui/companents/common/ProductForm.tsx#L44)
+Defined in: [src/ui/companents/common/ProductForm.tsx:44](https://github.com/yourusername/webshop_asztali/blob/db527a672c3f1c86910ae6dbab32f3919e7d7093/src/ui/companents/common/ProductForm.tsx#L44)
 
 Unique identifier for the field
 
@@ -28,7 +28,7 @@ Unique identifier for the field
 
 > **label**: `string`
 
-Defined in: [src/ui/companents/common/ProductForm.tsx:45](https://github.com/yourusername/webshop_asztali/blob/6cd6b8ff5f7d5531f80a92ddbde9cd7ab8ecd569/src/ui/companents/common/ProductForm.tsx#L45)
+Defined in: [src/ui/companents/common/ProductForm.tsx:45](https://github.com/yourusername/webshop_asztali/blob/db527a672c3f1c86910ae6dbab32f3919e7d7093/src/ui/companents/common/ProductForm.tsx#L45)
 
 Display label for the field
 
@@ -38,7 +38,7 @@ Display label for the field
 
 > **type**: `"number"` \| `"checkbox"` \| `"text"` \| `"select"`
 
-Defined in: [src/ui/companents/common/ProductForm.tsx:46](https://github.com/yourusername/webshop_asztali/blob/6cd6b8ff5f7d5531f80a92ddbde9cd7ab8ecd569/src/ui/companents/common/ProductForm.tsx#L46)
+Defined in: [src/ui/companents/common/ProductForm.tsx:46](https://github.com/yourusername/webshop_asztali/blob/db527a672c3f1c86910ae6dbab32f3919e7d7093/src/ui/companents/common/ProductForm.tsx#L46)
 
 Type of input field
 
@@ -48,7 +48,7 @@ Type of input field
 
 > `optional` **required**: `boolean`
 
-Defined in: [src/ui/companents/common/ProductForm.tsx:47](https://github.com/yourusername/webshop_asztali/blob/6cd6b8ff5f7d5531f80a92ddbde9cd7ab8ecd569/src/ui/companents/common/ProductForm.tsx#L47)
+Defined in: [src/ui/companents/common/ProductForm.tsx:47](https://github.com/yourusername/webshop_asztali/blob/db527a672c3f1c86910ae6dbab32f3919e7d7093/src/ui/companents/common/ProductForm.tsx#L47)
 
 Whether the field is required
 
@@ -58,7 +58,7 @@ Whether the field is required
 
 > `optional` **min**: `number`
 
-Defined in: [src/ui/companents/common/ProductForm.tsx:48](https://github.com/yourusername/webshop_asztali/blob/6cd6b8ff5f7d5531f80a92ddbde9cd7ab8ecd569/src/ui/companents/common/ProductForm.tsx#L48)
+Defined in: [src/ui/companents/common/ProductForm.tsx:48](https://github.com/yourusername/webshop_asztali/blob/db527a672c3f1c86910ae6dbab32f3919e7d7093/src/ui/companents/common/ProductForm.tsx#L48)
 
 Minimum value for number fields
 
@@ -68,7 +68,7 @@ Minimum value for number fields
 
 > `optional` **max**: `number`
 
-Defined in: [src/ui/companents/common/ProductForm.tsx:49](https://github.com/yourusername/webshop_asztali/blob/6cd6b8ff5f7d5531f80a92ddbde9cd7ab8ecd569/src/ui/companents/common/ProductForm.tsx#L49)
+Defined in: [src/ui/companents/common/ProductForm.tsx:49](https://github.com/yourusername/webshop_asztali/blob/db527a672c3f1c86910ae6dbab32f3919e7d7093/src/ui/companents/common/ProductForm.tsx#L49)
 
 Maximum value for number fields
 
@@ -78,7 +78,7 @@ Maximum value for number fields
 
 > `optional` **step**: `string`
 
-Defined in: [src/ui/companents/common/ProductForm.tsx:50](https://github.com/yourusername/webshop_asztali/blob/6cd6b8ff5f7d5531f80a92ddbde9cd7ab8ecd569/src/ui/companents/common/ProductForm.tsx#L50)
+Defined in: [src/ui/companents/common/ProductForm.tsx:50](https://github.com/yourusername/webshop_asztali/blob/db527a672c3f1c86910ae6dbab32f3919e7d7093/src/ui/companents/common/ProductForm.tsx#L50)
 
 Step value for number fields
 
@@ -88,7 +88,7 @@ Step value for number fields
 
 > `optional` **options**: `object`[]
 
-Defined in: [src/ui/companents/common/ProductForm.tsx:51](https://github.com/yourusername/webshop_asztali/blob/6cd6b8ff5f7d5531f80a92ddbde9cd7ab8ecd569/src/ui/companents/common/ProductForm.tsx#L51)
+Defined in: [src/ui/companents/common/ProductForm.tsx:51](https://github.com/yourusername/webshop_asztali/blob/db527a672c3f1c86910ae6dbab32f3919e7d7093/src/ui/companents/common/ProductForm.tsx#L51)
 
 Options for select fields
 
@@ -106,6 +106,6 @@ Options for select fields
 
 > `optional` **defaultValue**: `string` \| `number` \| `boolean`
 
-Defined in: [src/ui/companents/common/ProductForm.tsx:52](https://github.com/yourusername/webshop_asztali/blob/6cd6b8ff5f7d5531f80a92ddbde9cd7ab8ecd569/src/ui/companents/common/ProductForm.tsx#L52)
+Defined in: [src/ui/companents/common/ProductForm.tsx:52](https://github.com/yourusername/webshop_asztali/blob/db527a672c3f1c86910ae6dbab32f3919e7d7093/src/ui/companents/common/ProductForm.tsx#L52)
 
 Default value for the field

@@ -8,7 +8,7 @@
 
 > **useGetProductById**\<`T`\>(`productId`): `object`
 
-Defined in: [src/ui/hooks/prod/useGetProductById.tsx:78](https://github.com/yourusername/webshop_asztali/blob/6cd6b8ff5f7d5531f80a92ddbde9cd7ab8ecd569/src/ui/hooks/prod/useGetProductById.tsx#L78)
+Defined in: [src/ui/hooks/prod/useGetProductById.tsx:78](https://github.com/yourusername/webshop_asztali/blob/db527a672c3f1c86910ae6dbab32f3919e7d7093/src/ui/hooks/prod/useGetProductById.tsx#L78)
 
 Custom hook for fetching a product by ID
 

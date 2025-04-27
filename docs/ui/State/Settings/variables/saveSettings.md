@@ -8,4 +8,4 @@
 
 > **saveSettings**: `ActionCreatorWithPayload`\<[`SettingOption`](../interfaces/SettingOption.md)[], `"settings/saveSettings"`\>
 
-Defined in: [src/ui/misch/store/settingsSlice.ts:133](https://github.com/yourusername/webshop_asztali/blob/6cd6b8ff5f7d5531f80a92ddbde9cd7ab8ecd569/src/ui/misch/store/settingsSlice.ts#L133)
+Defined in: [src/ui/misch/store/settingsSlice.ts:133](https://github.com/yourusername/webshop_asztali/blob/db527a672c3f1c86910ae6dbab32f3919e7d7093/src/ui/misch/store/settingsSlice.ts#L133)

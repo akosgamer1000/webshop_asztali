@@ -16,15 +16,13 @@ Main Layout Component
 
 The root layout component that provides the basic structure for all pages.
 It includes:
-- Responsive sidebar navigation
+- Sidebar navigation
 - Top header bar
 - Main content area
-- Mobile-responsive design
-- Sidebar toggle functionality
 
 This component serves as the main container for all pages in the application,
 providing consistent navigation and layout across the entire user interface.
-Uses Tailwind CSS for styling and responsive design.
+Uses Tailwind CSS for styling.
 
 ## Author
 

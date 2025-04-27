@@ -6,9 +6,9 @@
 
 # Variable: Sidebar
 
-> `const` **Sidebar**: `React.FC`\<\{ `toggleSidebar`: () => `void`; `isOpen`: `boolean`; \}\>
+> `const` **Sidebar**: `React.FC`
 
-Defined in: [src/ui/companents/sidebar.tsx:45](https://github.com/yourusername/webshop_asztali/blob/6cd6b8ff5f7d5531f80a92ddbde9cd7ab8ecd569/src/ui/companents/sidebar.tsx#L45)
+Defined in: [src/ui/companents/sidebar.tsx:41](https://github.com/yourusername/webshop_asztali/blob/db527a672c3f1c86910ae6dbab32f3919e7d7093/src/ui/companents/sidebar.tsx#L41)
 
 Sidebar Component
 
@@ -16,21 +16,8 @@ Sidebar Component
 
 ## Description
 
-A functional component that renders a responsive navigation sidebar.
+A functional component that renders a navigation sidebar.
 Displays different navigation options based on user authentication status.
-Collapses on mobile and remains fixed on desktop screens.
-
-## Param
-
-Component properties
-
-## Param
-
-Callback function to toggle sidebar visibility
-
-## Param
-
-Current state of sidebar visibility (true = visible, false = hidden)
 
 ## Returns
 
@@ -39,5 +26,5 @@ A navigation sidebar component
 ## Example
 
 ```ts
-<Sidebar toggleSidebar={() => setIsOpen(!isOpen)} isOpen={isOpen} />
+<Sidebar />
 ```

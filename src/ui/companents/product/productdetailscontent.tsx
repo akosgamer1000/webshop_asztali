@@ -209,9 +209,9 @@ const ProductDetailsContent: React.FC = () => {
     }
     
     if (product) {
-      const newPrice = product.price * (1 + percentageValue / 100);
+      const newPrice =  Math.round( product.price * (1 + percentageValue / 100))-0.01;
       
-      
+  
       if (newPrice <= 0) {
         setError('Price cannot be zero or negative');
         setIsUpdating(false);

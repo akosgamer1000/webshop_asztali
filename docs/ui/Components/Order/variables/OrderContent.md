@@ -8,7 +8,7 @@
 
 > `const` **OrderContent**: `React.FC`
 
-Defined in: [src/ui/companents/order/Ordercontent.tsx:59](https://github.com/yourusername/webshop_asztali/blob/6cd6b8ff5f7d5531f80a92ddbde9cd7ab8ecd569/src/ui/companents/order/Ordercontent.tsx#L59)
+Defined in: [src/ui/companents/order/Ordercontent.tsx:59](https://github.com/yourusername/webshop_asztali/blob/db527a672c3f1c86910ae6dbab32f3919e7d7093/src/ui/companents/order/Ordercontent.tsx#L59)
 
 Component that displays and manages a list of orders
 
