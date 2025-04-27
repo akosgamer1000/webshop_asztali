@@ -171,6 +171,8 @@ webshop_asztali/
 2. Adja meg felhasználónevét és jelszavát
 3. Kattintson a "Bejelentkezés" gombra
 
+**Fontos**: Az alkalmazásba csak admin jogosultsággal rendelkező felhasználók jelentkezhetnek be. Az alkalmazás kizárólag az adminisztrátorok számára készült, a webshop felületének kezelésére.
+
 ### Termékkezelés
 - A "Termékek" menüpont használatával új termékeket hozhat létre és kezelheti a meglévőket
 - Különböző terméktípusok támogatottak: Processzor, Alaplap, Memória, Merevlemez, stb.
