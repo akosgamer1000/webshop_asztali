@@ -39,6 +39,7 @@ import { useNavigate } from 'react-router-dom';
  * @property {string} [step] - Step value for number fields
  * @property {{ value: string; label: string }[]} [options] - Options for select fields
  * @property {string | number | boolean} [defaultValue] - Default value for the field
+ * @property {boolean} [isImageUrl] - Whether the field is expected to be an image URL
  */
 export interface FormField {
   name: string;                                    // Field identifier
@@ -50,6 +51,7 @@ export interface FormField {
   step?: string;                                   // Step value for number fields
   options?: { value: string; label: string }[];    // Options for select fields
   defaultValue?: string | number | boolean;        // Default field value
+  isImageUrl?: boolean;                            // Whether field is an image URL
 }
 
 /**
@@ -120,6 +122,34 @@ const ProductForm: React.FC<ProductFormProps> = ({
   }, [loading]);
 
   /**
+   * Validates image URLs
+   * Requires HTTP/HTTPS protocol and image file extension
+   * @function validateImageUrl
+   * @param {string} url - URL to validate
+   * @returns {boolean} Whether the URL is a valid image URL
+   */
+  const validateImageUrl = (url: string): boolean => {
+    if (!url) return false;
+    
+    // Verify URL has http/https protocol
+    if (!url.startsWith('http://') && !url.startsWith('https://')) {
+      return false;
+    }
+    
+    // Check common image extensions
+    const imageExtensions = ['.jpg', '.jpeg', '.png', '.gif', '.webp', '.svg', '.bmp'];
+    const hasValidExtension = imageExtensions.some(ext => url.toLowerCase().endsWith(ext));
+    
+    // Validate URL format
+    try {
+      new URL(url);
+      return hasValidExtension;
+    } catch {
+      return false;
+    }
+  };
+
+  /**
    * Handle form submission
    * Validates all fields and calls onSubmit with form data
    * @function handleSubmit
@@ -147,6 +177,13 @@ const ProductForm: React.FC<ProductFormProps> = ({
         // Required field validation
         if (field.required && !value) {
           setFormError(`${field.label} is required`);
+          hasError = true;
+          return;
+        }
+        
+        // Image URL validation
+        if (field.isImageUrl && value && !validateImageUrl(value)) {
+          setFormError(`${field.label} must be a valid image URL starting with http:// or https:// and ending with .jpg, .png, etc.`);
           hasError = true;
           return;
         }

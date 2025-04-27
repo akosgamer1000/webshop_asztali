@@ -48,7 +48,7 @@ const AddProcessor: React.FC = () => {
     { name: 'manufacturer', label: 'Manufacturer', type: 'text', required: true },
     { name: 'price', label: 'Price', type: 'number', required: true, min: 0, step: '0.01' },
     { name: 'quantity', label: 'Quantity', type: 'number', required: true, min: 0 },
-    { name: 'imgSrc', label: 'Image URL', type: 'text' },
+    { name: 'imgSrc', label: 'Image URL', type: 'text', isImageUrl: true },
     { name: 'baseFrequency', label: 'Base Frequency (GHz)', type: 'number', min: 0, step: '0.1', required: true },
     { name: 'turboBoostFrequency', label: 'Turbo Boost Frequency (GHz)', type: 'number', min: 0, step: '0.1' },
     { name: 'coreNumber', label: 'Core Number', type: 'number', min: 1, required: true },

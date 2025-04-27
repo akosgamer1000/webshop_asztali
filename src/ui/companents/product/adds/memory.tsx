@@ -49,7 +49,7 @@ const AddMemory: React.FC = () => {
     { name: 'manufacturer', label: 'Manufacturer', type: 'text', required: true },
     { name: 'price', label: 'Price', type: 'number', required: true, min: 0, step: '0.01' },
     { name: 'quantity', label: 'Quantity', type: 'number', required: true, min: 0 },
-    { name: 'imgSrc', label: 'Image URL', type: 'text' },
+    { name: 'imgSrc', label: 'Image URL', type: 'text', isImageUrl: true },
     { name: 'memoryCapacity', label: 'Capacity (GB)', type: 'number', min: 1, required: true },
     { name: 'frequency', label: 'Speed (MHz)', type: 'number', min: 0, required: true },
     { name: 'memoryType', label: 'Type', type: 'select', required: true, options: [

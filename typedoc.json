@@ -13,9 +13,10 @@
     "**/*.spec.tsx",
     "**/*.stories.tsx"
   ],
-  "excludeExternals": true,
+  "excludeExternals": false,
   "excludePrivate": false,
   "excludeProtected": false,
+  "excludeInternal": false,
   "categorizeByGroup": true,
   "categoryOrder": [
     "Main", 
@@ -39,17 +40,11 @@
   "includeVersion": true,
   "theme": "default",
   "plugin": [
-    "typedoc-plugin-markdown",
     "typedoc-plugin-mermaid",
     "typedoc-plugin-rename-defaults"
   ],
   "hideGenerator": true,
   "sort": ["source-order", "required-first", "kind"],
-  "validation": {
-    "invalidLink": true,
-    "notExported": true,
-    "notDocumented": true
-  },
   "navigationLinks": {
     "GitHub": "https://github.com/yourusername/webshop_asztali",
     "API": "globals.html"
@@ -66,5 +61,55 @@
   "cleanOutputDir": true,
   "treatWarningsAsErrors": false,
   "logLevel": "Info",
-  "jsDocCompatibility": true
-} 
+  "jsDocCompatibility": true,
+  "blockTags": [
+    "@file",
+    "@description",
+    "@version",
+    "@component",
+    "@fileoverview",
+    "@constant",
+    "@param",
+    "@returns",
+    "@return",
+    "@property",
+    "@prop",
+    "@example",
+    "@template",
+    "@typeParam",
+    "@throws",
+    "@exception",
+    "@type",
+    "@module",
+    "@author",
+    "@since",
+    "@typedef",
+    "@remarks",
+    "@see",
+    "@link",
+    "@category",
+    "@summary",
+    "@private",
+    "@protected",
+    "@public",
+    "@internal",
+    "@default",
+    "@defaultValue",
+    "@readonly",
+    "@extends",
+    "@implements",
+    "@override",
+    "@deprecated",
+    "@ignore",
+    "@hidden"
+  ],
+  "inlineTags": [
+    "@link",
+    "@inheritDoc",
+    "@label"
+  ],
+  "validation": {
+    "invalidLink": true,
+    "notDocumented": false
+  }
+}

@@ -64,6 +64,8 @@ const usePatchOneProduct = () => {
    * 
    * @param {number} productId - ID of the product to update
    * @param {number} newPrice - New price for the product
+   * @param {number} newQuantity - New quantity for the product 
+   * @param {string} newImgSrc - New image source URL for the product
    * @returns {Promise<any>} Updated product data or null if update failed
    * 
    * Error handling includes:
@@ -74,7 +76,7 @@ const usePatchOneProduct = () => {
    * - Server errors (500)
    * - Other unexpected errors
    */
-  const updateProductPrice = async (productId: number, newPrice?: number,newQuantity?: number) => {
+  const updateProductPrice = async (productId: number, newPrice?: number, newQuantity?: number, newImgSrc?: string) => {
     setLoading(true);
     setError(null);
     setSuccess(false);
@@ -82,7 +84,7 @@ const usePatchOneProduct = () => {
     try {
       const response = await axiosInstance.patch(
         `/products/${productId}`,
-        { price: newPrice, quantity: newQuantity }
+        { price: newPrice, quantity: newQuantity, imgSrc: newImgSrc }
       );
 
       setSuccess(true);
@@ -101,7 +103,7 @@ const usePatchOneProduct = () => {
               setError(`Product with ID ${productId} not found`);
               break;
             case 400:
-              setError('Invalid price value');
+              setError('Invalid data value');
               break;
             case 500:
               setError('Server error');

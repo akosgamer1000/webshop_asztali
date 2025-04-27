@@ -49,7 +49,7 @@ const AddPowerSupply: React.FC = () => {
     { name: 'manufacturer', label: 'Manufacturer', type: 'text', required: true },
     { name: 'price', label: 'Price', type: 'number', required: true, min: 0, step: '0.01' },
     { name: 'quantity', label: 'Quantity', type: 'number', required: true, min: 0 },
-    { name: 'imgSrc', label: 'Image URL', type: 'text' },
+    { name: 'imgSrc', label: 'Image URL', type: 'text', isImageUrl: true },
     { name: 'performance', label: 'Performance (W)', type: 'number', min: 1, required: true },
     { name: 'fourPinConnector', label: 'Has 4-Pin Connector', type: 'checkbox' },
     { name: 'sixPinVGA', label: 'Has 6-Pin VGA Connector', type: 'checkbox' },

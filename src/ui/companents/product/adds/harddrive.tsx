@@ -49,7 +49,7 @@ const AddHardDrive: React.FC = () => {
     { name: 'manufacturer', label: 'Manufacturer', type: 'text', required: true },
     { name: 'price', label: 'Price', type: 'number', required: true, min: 0, step: '0.01' },
     { name: 'quantity', label: 'Quantity', type: 'number', required: true, min: 0 },
-    { name: 'imgSrc', label: 'Image URL', type: 'text' },
+    { name: 'imgSrc', label: 'Image URL', type: 'text', isImageUrl: true },
     { name: 'capacity', label: 'Capacity (GB)', type: 'number', min: 1, required: true },
     { name: 'storageType', label: 'Storage Type', type: 'select', required: true, options: [
       { value: 'SSD', label: 'SSD' },

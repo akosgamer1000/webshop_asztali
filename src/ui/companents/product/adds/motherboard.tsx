@@ -48,7 +48,7 @@ const AddMotherboard: React.FC = () => {
     { name: 'manufacturer', label: 'Manufacturer', type: 'text', required: true },
     { name: 'price', label: 'Price', type: 'number', required: true, min: 0, step: '0.01' },
     { name: 'quantity', label: 'Quantity', type: 'number', required: true, min: 0 },
-    { name: 'imgSrc', label: 'Image URL', type: 'text' },
+    { name: 'imgSrc', label: 'Image URL', type: 'text', isImageUrl: true },
     { name: 'cpuSocket', label: 'CPU Socket', type: 'text', required: true },
     { name: 'chipset', label: 'Chipset', type: 'text', required: true },
     { name: 'sizeStandard', label: 'Form Factor', type: 'select', required: true, options: [

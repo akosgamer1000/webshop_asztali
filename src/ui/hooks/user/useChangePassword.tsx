@@ -25,6 +25,7 @@
 import { useState } from 'react';
 import axios, { AxiosError } from 'axios';
 import axiosInstance from '../../misch/Axios';
+import store from '../../misch/Store';
 
 /**
  * Interface representing the data required for password change
@@ -95,7 +96,12 @@ const useChangePassword = () => {
     console.log('Sending password change request:', JSON.stringify(passwordData));
 
     try {
-      const response = await axiosInstance.patch('/auth/changePassword', passwordData);
+      const userId = store.getState().auth.userId;
+      const payload = {
+        ...passwordData,
+        userId: userId
+      };
+      const response = await axiosInstance.patch('/auth/changePassword', payload);
       setSuccess(true);
       return response.data;
     } catch (err) {
@@ -120,7 +126,9 @@ const useChangePassword = () => {
               break;
             case 400:
               const errorData = error.response.data as { message?: string };
-              if (errorData.message) {
+              if (errorData.message && errorData.message.includes('Validation failed')) {
+                setError("wrong old password");
+              } else if (errorData.message) {
                 setError(`Bad request: ${errorData.message}`);
               } else {
                 setError("Invalid password data");

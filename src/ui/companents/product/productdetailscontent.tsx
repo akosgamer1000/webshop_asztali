@@ -80,10 +80,12 @@ const ProductDetailsContent: React.FC = () => {
   // State management
   const [isEditing, setIsEditing] = useState(false);
   const [isEditingQuantity, setIsEditingQuantity] = useState(false);
+  const [isEditingImage, setIsEditingImage] = useState(false);
   const [currentPrice, setCurrentPrice] = useState<number>(0);
   const [currentQuantity, setCurrentQuantity] = useState<number>(0);
   const [percentage, setPercentage] = useState<string>('');
   const [quantityChange, setQuantityChange] = useState<string>('');
+  const [newImgSrc, setNewImgSrc] = useState<string>('');
   const [isUpdating, setIsUpdating] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
   const [quantityAction, setQuantityAction] = useState<'add' | 'remove'>('add');
@@ -209,7 +211,7 @@ const ProductDetailsContent: React.FC = () => {
     }
     
     if (product) {
-      const newPrice =  Math.round( product.price * (1 + percentageValue / 100))-0.01;
+      const newPrice =  Math.round(  Math.round( product.price) * (1 + percentageValue / 100))-0.01;
       
   
       if (newPrice <= 0) {
@@ -268,6 +270,68 @@ const ProductDetailsContent: React.FC = () => {
     }
   };
 
+  /**
+   * Validates image URLs
+   * Requires HTTP/HTTPS protocol and image file extension
+   * @function validateImageUrl
+   * @param {string} url - URL to validate
+   * @returns {boolean} Whether the URL is a valid image URL
+   */
+  const validateImageUrl = (url: string): boolean => {
+    if (!url) return false;
+    
+    // Verify URL has http/https protocol
+    if (!url.startsWith('http://') && !url.startsWith('https://')) {
+      return false;
+    }
+    
+    // Check common image extensions
+    const imageExtensions = ['.jpg', '.jpeg', '.png', '.gif', '.webp', '.svg', '.bmp'];
+    const hasValidExtension = imageExtensions.some(ext => url.toLowerCase().endsWith(ext));
+    
+    // Validate URL format
+    try {
+      new URL(url);
+      return hasValidExtension;
+    } catch {
+      return false;
+    }
+  };
+
+  /**
+   * Handles the image source update process
+   * @param {string} newImageUrl - New image URL for the product
+   */
+  const handleImageUpdate = async (newImageUrl: string) => {
+    setIsUpdating(true);
+    setError(null);
+    
+    if (!newImageUrl || newImageUrl.trim() === '') {
+      setError('Image URL cannot be empty');
+      setIsUpdating(false);
+      return;
+    }
+    
+    if (!validateImageUrl(newImageUrl)) {
+      setError('Please enter a valid image URL starting with http:// or https:// and ending with .jpg, .png, etc.');
+      setIsUpdating(false);
+      return;
+    }
+    
+    if (product) {
+      try {
+        await patchProduct.updateProductPrice(product.id, undefined, undefined, newImageUrl);
+        await refetch();
+        setIsEditingImage(false);
+      } catch (error) {
+        console.error('Failed to update image:', error);
+        setError('Failed to update image. Please try again.');
+      } finally {
+        setIsUpdating(false);
+      }
+    }
+  };
+
   return (
     <div className="bg-white rounded-lg shadow-md p-6 max-w-4xl mx-auto mt-6">
       {/* Product name */}
@@ -279,6 +343,7 @@ const ProductDetailsContent: React.FC = () => {
         {renderField('Price', `$${currentPrice.toFixed(2)}`)}
         {renderField('Stock', `${currentQuantity || 0} units`)}
         {renderField('Product Type', formatLabel(product.type))}
+        {renderField('Image URL', product.imgSrc)}
       </div>
       
       {/* Technical specifications */}
@@ -386,6 +451,52 @@ const ProductDetailsContent: React.FC = () => {
             className="bg-green-500 text-white px-6 py-2 rounded hover:bg-green-600 transition-colors flex items-center gap-2"
           >
             <span>Modify Quantity</span>
+          </button>
+        )}
+      </div>
+      
+      {/* Image URL modification controls */}
+      <div className="mt-4 text-right flex justify-end items-center gap-4">
+        {isEditingImage ? (
+          <div className="flex flex-col gap-2">
+            <div className="flex items-center gap-2">
+              <input
+                type="text"
+                value={newImgSrc}
+                onChange={(e) => setNewImgSrc(e.target.value)}
+                className={`w-64 px-2 py-1 border rounded ${isUpdating ? 'opacity-50 pointer-events-none' : ''}`}
+                placeholder="New Image URL"
+                disabled={isUpdating}
+              />
+              <button
+                onClick={() => handleImageUpdate(newImgSrc)}
+                disabled={isUpdating}
+                className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition-colors disabled:bg-blue-300"
+              >
+                {isUpdating ? 'Updating...' : 'Update Image'}
+              </button>
+              <button
+                onClick={() => {
+                  setNewImgSrc(product.imgSrc || '');
+                  setIsEditingImage(false);
+                  setError(null);
+                }}
+                className="bg-gray-300 text-gray-700 px-4 py-2 rounded hover:bg-gray-400 transition-colors"
+              >
+                Cancel
+              </button>
+            </div>
+            {error && <div className="text-red-500 text-sm mt-2">{error}</div>}
+          </div>
+        ) : (
+          <button
+            onClick={() => {
+              setNewImgSrc(product.imgSrc || '');
+              setIsEditingImage(true);
+            }}
+            className="bg-purple-500 text-white px-6 py-2 rounded hover:bg-purple-600 transition-colors flex items-center gap-2"
+          >
+            <span>Modify Image</span>
           </button>
         )}
       </div>

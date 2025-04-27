@@ -48,7 +48,7 @@ const AddPowerhouse: React.FC = () => {
     { name: 'manufacturer', label: 'Manufacturer', type: 'text', required: true },
     { name: 'price', label: 'Price', type: 'number', required: true, min: 0, step: '0.01' },
     { name: 'quantity', label: 'Quantity', type: 'number', required: true, min: 0 },
-    { name: 'imgSrc', label: 'Image URL', type: 'text' },
+    { name: 'imgSrc', label: 'Image URL', type: 'text', isImageUrl: true },
     { name: 'motherboardType', label: 'Motherboard Type', type: 'text', required: true },
     { name: 'fans', label: 'Number of Fans', type: 'number', min: 0, required: true },
     { name: 'size', label: 'Size (mm)', type: 'text', required: true }

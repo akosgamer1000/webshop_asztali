@@ -105,8 +105,8 @@ const UserContent: React.FC = () => {
         keyField="id"
         loading={loading}
         error={error}
-        searchPlaceholder="Search by name"
-        searchFields={['name']}
+        searchPlaceholder="Search by name or email"
+        searchFields={['name', 'email']}
         onRowClick={handleUserClick}
         itemsPerPage={5}
       />

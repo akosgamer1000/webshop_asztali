@@ -79,7 +79,7 @@ const ProfileContent: React.FC = () => {
       return "Password must be at least 8 characters long";
     }
 
-    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&/.-])[A-Za-z\d@$!%*?&/.-]{8,}$/;
+    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&#/.\-_])[A-Za-z\d@$!%*?&#/.\-_]{8,}$/;
     if (!passwordRegex.test(password)) {
       return "Password must include lowercase, uppercase, number, and special character";
     }

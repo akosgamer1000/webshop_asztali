@@ -48,7 +48,7 @@ const AddCPUCooler: React.FC = () => {
     { name: 'manufacturer', label: 'Manufacturer', type: 'text', required: true },
     { name: 'price', label: 'Price', type: 'number', required: true, min: 0, step: '0.01' },
     { name: 'quantity', label: 'Quantity', type: 'number', required: true, min: 0 },
-    { name: 'imgSrc', label: 'Image URL', type: 'text' },
+    { name: 'imgSrc', label: 'Image URL', type: 'text', isImageUrl: true },
     { name: 'fanSpeed', label: 'Fan Speed (RPM)', type: 'number', min: 0, required: true },
     { name: 'basetype', label: 'Type', type: 'text', required: true },
     { name: 'airflow', label: 'Airflow (CFM)', type: 'number', min: 0, required: true },
